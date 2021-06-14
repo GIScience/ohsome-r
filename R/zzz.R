@@ -7,7 +7,7 @@
 		packageStartupMessage(paste(
 			"Data:", meta$attribution$text, meta$attribution$url,
 			"\nohsome API version", meta$apiVersion,
-			"\nTemporal extent: from",
+			"\nTemporal extent: ",
 			meta$extractRegion$temporalExtent$fromTimestamp, "to",
 			meta$extractRegion$temporalExtent$toTimestamp
 		))

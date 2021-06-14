@@ -10,11 +10,18 @@ ohsome_get_metadata()
 a list of metadata (see \code{\link{ohsome_metadata}})
 }
 \description{
-Sends a GET request to the metadata endpoint of ohsome API, parses the
-response and assigns it to ohsome_metadata
+\code{ohsome_get_metadata} returns the parsed metadata of ohsome API
+}
+\details{
+\code{ohsome_get_metadata} sends a GET request to the metadata endpoint of
+ohsome API and parses the response. The parsed metadata is returned as well
+assigned to \code{\link{ohsome_metadata}} as a side effect.
 }
 \examples{
 \dontrun{
 ohsome_get_metadata()
 }
+}
+\seealso{
+\url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata}
 }

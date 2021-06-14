@@ -2,14 +2,23 @@ Package: ohsome
 Title: ohsome API client for R
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(
+    	person(
+    		given = "First",
+        	family = "Last",
+        	role = c("aut", "cre"),
+        	email = "first.last@example.com",
+        	comment = c(ORCID = "YOUR-ORCID-ID")),
+        person(
+        	given = "HeiGIT gGmbH",
+        	role = c("cph")
+        )
+	)
 Description: What the package does (one paragraph).
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
+URL:
+BugReports:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

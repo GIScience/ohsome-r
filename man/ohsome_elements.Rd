@@ -13,5 +13,5 @@ ohsome_elements(x)
 
 }
 \description{
-Title
+Short description
 }

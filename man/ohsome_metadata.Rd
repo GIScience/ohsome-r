@@ -26,3 +26,6 @@ package. It contains information such as the current API version, the
 maximum timeout, and the spatial and temporal extent of currently available
 data. Metadata can be refreshed with \code{\link{ohsome_get_metadata}}.
 }
+\seealso{
+\url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata}
+}

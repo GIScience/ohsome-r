@@ -17,4 +17,5 @@
 #'     \code{temporalExtent}: {\code{fromTimestamp} and \code{toTimestamp}}\cr
 #'     \code{replicationSequenceNumber}
 #' }}
+#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata}
 NULL
