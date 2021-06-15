@@ -1,7 +1,11 @@
 # Upon attaching package, request ohsome API metadata and store in ohsome_metadata
 .onAttach <- function(libname, pkgname) {
 
+	url <- "https://api.ohsome.org/v1"
+	assign("ohsome_api_url", url, envir = as.environment("package:ohsome"))
+
 	meta <- ohsome_get_metadata()
+
 
 	if(exists("meta")) {
 		packageStartupMessage(paste(
