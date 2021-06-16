@@ -15,12 +15,17 @@ An \code{ohsome_metadata} object. This is a named list with the
 attributes \code{date} and \code{status_code} (of the GET request) and
 the following list elements:
 \describe{
-\item{attribution}{\code{url} and \code{text} of OSM data attribution}
-\item{apiVersion}{Current version number of ohsome API}
-\item{timeout}{Maximum timeout for ohsome API requests}
+\item{attribution}{\code{url} and \code{text} of OSM data attribution
+(character)}
+\item{apiVersion}{Current version number of ohsome API
+(numeric_version)}
+\item{timeout}{Maximum timeout for ohsome API requests in seconds
+(numeric)}
 \item{extractRegion}{
-\code{spatialExtent}: {\code{type} and \code{coordinates}}\cr
-\code{temporalExtent}: {\code{fromTimestamp} and \code{toTimestamp}}\cr
+\code{spatialExtent}: {spatial extent of available data
+(sfc_POLYGON)}\cr
+\code{temporalExtent}: {temporal extent of available data
+(vector of POSIXct)}\cr
 \code{replicationSequenceNumber}
 }}
 }
@@ -34,7 +39,7 @@ As a side effect, it is also assigned to \code{\link{.ohsome_metadata}}.
 }
 \examples{
 \dontrun{
-    ohsome_get_metadata()
+ohsome_get_metadata()
 }
 }
 \seealso{

@@ -2,7 +2,7 @@ with_mock_api({
 
 	unlockBinding(".ohsome_metadata", as.environment("package:ohsome"))
 
-	# mock response: tests/testthat/api.ohsome.org/v1/metadata.json:
+	# mock response: tests/testthat/api.ohsome.org/v1/metadata.json
 	test_that(
 		"assigns metadata to ohsome_metadata", {
 			ohsome_get_metadata(quiet = T)
@@ -20,17 +20,22 @@ with_mock_api({
 	})
 
 	test_that(
-		"returns message if quiet = F", {
+		"converts spatial and temporal extent", {
+			meta <- ohsome_get_metadata(quiet = T)
+			expect_s3_class(meta$extractRegion$spatialExtent, "sfc_POLYGON")
+			expect_s3_class(meta$extractRegion$temporalExtent, "POSIXct")
+		}
+	)
+
+	test_that(
+		"message if quiet = F", {
 		expect_message(ohsome_get_metadata(quiet = F))
 	})
 
-	# mock response tests/testthat/api.ohsome.org/404/metadata.R:
+	# mock response: tests/testthat/api.ohsome.org/404/metadata.R
 	test_that(
 		"throws error if status code != 200", {
-			old_api_url <- ohsome_api_url
 			ohsome_api_url <- "https://api.ohsome.org/404"
-			on.exit(ohsome_api_url <- old_api_url)
-
 			expect_error(ohsome_get_metadata(quiet = T))
 	})
 })

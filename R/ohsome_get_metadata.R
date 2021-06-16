@@ -23,7 +23,7 @@
 #'             \code{spatialExtent}: {spatial extent of available data
 #'                 (sfc_POLYGON)}\cr
 #'             \code{temporalExtent}: {temporal extent of available data
-#'                 (named vector of POSIXct)}\cr
+#'                 (vector of POSIXct)}\cr
 #'             \code{replicationSequenceNumber}
 #'     }}
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata}
@@ -39,30 +39,18 @@ ohsome_get_metadata <- function(quiet = F) {
 	# TODO add error handling for no connection and status code != 200
 
 	meta <- structure(
-		httr::content(r, as = "parsed", encoding = "utf-8"),
+		convert_content(httr::content(r, as = "parsed", encoding = "utf-8")),
 		status_code = httr::status_code(r),
 		date = httr::headers(r)$date,
-		class = c("ohsome_metadata", "list")
+		class = c("ohsome_metadata")
 	)
-
-	print(meta)
-
-	# convert content
-	meta$apiVersion <- numeric_version(meta$apiVersion)
-	meta$extractRegion$spatialExtent <- convert_spatialExtent(meta$extractRegion$spatialExtent)
-	meta$extractRegion$temporalExtent <- c(
-		from = lubridate::ymd_hms(meta$extractRegion$temporalExtent$fromTimestamp, truncated = 3),
-		to = lubridate::ymd_hms(meta$extractRegion$temporalExtent$toTimestamp, truncated = 3)
-	)
-
-	print(meta)
 
 	if(!quiet) message(paste(
 		"Data:", meta$attribution$text, meta$attribution$url,
 		"\nohsome API version", meta$apiVersion,
 		"\nTemporal extent: ",
-		meta$extractRegion$temporalExtent$fromTimestamp, "to",
-		meta$extractRegion$temporalExtent$toTimestamp
+		meta$extractRegion$temporalExtent[1], "to",
+		meta$extractRegion$temporalExtent[2]
 	))
 
 	assign(".ohsome_metadata", meta, pos = "package:ohsome")
