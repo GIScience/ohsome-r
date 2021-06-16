@@ -4,7 +4,7 @@
 #'     parsed content of a response from the metadata endpoint of ohsome API
 #'
 #' @return An \code{sfc_POLYGON} object
-#' @keywords internal
+#' @keywords Internal
 convert_spatialExtent <- function(spatialExtent) {
 
 	if(spatialExtent$type != "Polygon") return(spatialExtent)
@@ -18,19 +18,23 @@ convert_spatialExtent <- function(spatialExtent) {
 #' @param temporalExtent The \code{$extractRegion$temporalExtent} element of the
 #'     parsed content of a response from the metadata endpoint of ohsome API
 #'
-#' @return A named POSIXct vector
-#' @keywords internal
+#' @return A named \code{POSIXct} vector
+#' @keywords Internal
 convert_temporalExtent <- function(temporalExtent) {
 	lubridate::ymd_hms(unlist(temporalExtent), truncated = 3)
 }
 
 #' Convert ohsome metadata content
 #'
+#' Converts the following elements: \code{apiVersion} to \code{numeric_version},
+#' \code{spatialExtent} to \code{sfc_POLYGON} and \code{temporalExtent} to a
+#' vector of \code{POSIXct}
+#'
 #' @param content The parsed content of a response from the metadata endpoint of
 #'     ohsome API
 #'
-#' @return a list
-#' @keywords internal
+#' @return A list (parsed and converted content of ohsome metadata)
+#' @keywords Internal
 convert_content <- function(content) {
 
 	spex <- content$extractRegion$spatialExtent
