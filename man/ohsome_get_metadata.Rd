@@ -4,22 +4,37 @@
 \alias{ohsome_get_metadata}
 \title{GET metadata from ohsome API}
 \usage{
-ohsome_get_metadata()
+ohsome_get_metadata(quiet = F)
+}
+\arguments{
+\item{quiet}{logical; suppress message on data attribution, API version and
+temporal extent.}
 }
 \value{
-a list of metadata (see \code{\link{ohsome_metadata}})
+An \code{ohsome_metadata} object. This is a named list with the
+attributes \code{date} and \code{status_code} (of the GET request) and
+the following list elements:
+\describe{
+\item{attribution}{\code{url} and \code{text} of OSM data attribution}
+\item{apiVersion}{Current version number of ohsome API}
+\item{timeout}{Maximum timeout for ohsome API requests}
+\item{extractRegion}{
+\code{spatialExtent}: {\code{type} and \code{coordinates}}\cr
+\code{temporalExtent}: {\code{fromTimestamp} and \code{toTimestamp}}\cr
+\code{replicationSequenceNumber}
+}}
 }
 \description{
-\code{ohsome_get_metadata} returns the parsed metadata of ohsome API
+Return parsed metadata from ohsome API
 }
 \details{
 \code{ohsome_get_metadata} sends a GET request to the metadata endpoint of
-ohsome API and parses the response. The parsed metadata is returned as well
-assigned to \code{\link{ohsome_metadata}} as a side effect.
+ohsome API and parses the response. The parsed metadata is silently returned.
+As a side effect, it is also assigned to \code{\link{.ohsome_metadata}}.
 }
 \examples{
 \dontrun{
-ohsome_get_metadata()
+    ohsome_get_metadata()
 }
 }
 \seealso{

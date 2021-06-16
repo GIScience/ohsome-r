@@ -30,7 +30,10 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
-    httr
+    sf,
+    httr,
+    geojsonsf,
+    lubridate
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

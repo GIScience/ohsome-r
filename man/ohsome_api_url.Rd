@@ -3,11 +3,11 @@
 \docType{data}
 \name{ohsome_api_url}
 \alias{ohsome_api_url}
-\title{ohsome API base URL}
+\title{ohsome API URL}
 \format{
 character
 }
 \description{
-The base URL of the ohsome API (with path to current major
-version).
+The base URL of the ohsome API with path to current major
+version.
 }
