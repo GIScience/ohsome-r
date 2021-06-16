@@ -11,9 +11,11 @@ convert_content(content)
 ohsome API}
 }
 \value{
-a list
+A list (parsed and converted content of ohsome metadata)
 }
 \description{
-Convert ohsome metadata content
+Converts the following elements: \code{apiVersion} to \code{numeric_version},
+\code{spatialExtent} to \code{sfc_POLYGON} and \code{temporalExtent} to a
+vector of \code{POSIXct}
 }
 \keyword{Internal}

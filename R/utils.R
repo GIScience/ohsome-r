@@ -13,16 +13,18 @@ convert_spatialExtent <- function(spatialExtent) {
 	sf::st_sfc(sf::st_polygon(coords), crs = 4326)
 }
 
+
 #' Convert temporalExtent of ohsome metadata
 #'
 #' @param temporalExtent The \code{$extractRegion$temporalExtent} element of the
 #'     parsed content of a response from the metadata endpoint of ohsome API
 #'
-#' @return A named \code{POSIXct} vector
+#' @return A \code{POSIXct} vector
 #' @keywords Internal
 convert_temporalExtent <- function(temporalExtent) {
 	lubridate::ymd_hms(unlist(temporalExtent), truncated = 3)
 }
+
 
 #' Convert ohsome metadata content
 #'

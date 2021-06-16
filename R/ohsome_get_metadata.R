@@ -41,7 +41,7 @@ ohsome_get_metadata <- function(quiet = F) {
 	meta <- structure(
 		convert_content(httr::content(r, as = "parsed", encoding = "utf-8")),
 		status_code = httr::status_code(r),
-		date = httr::headers(r)$date,
+		date = lubridate::dmy_hms(httr::headers(r)$date),
 		class = c("ohsome_metadata")
 	)
 
