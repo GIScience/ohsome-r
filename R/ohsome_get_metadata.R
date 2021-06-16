@@ -15,7 +15,7 @@
 #' }
 ohsome_get_metadata <- function() {
 
-	r <- httr::GET(paste(ohsome_api_url, "metadata", sep = "/"))
+	r <- httr::GET(paste(ohsome::ohsome_api_url, "metadata", sep = "/"))
 
 	# TODO add error handling for no connection and status code != 200
 

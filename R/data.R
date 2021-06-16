@@ -1,4 +1,12 @@
 #' @docType data
+#' @name ohsome_api_url
+#' @title ohsome API base URL
+#' @description The base URL of the ohsome API (with path to current major
+#' version).
+#' @format character
+NULL
+
+#' @docType data
 #' @name ohsome_metadata
 #' @title ohsome API metadata
 #' @description Metadata of the underlying OSHDB data

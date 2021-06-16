@@ -3,7 +3,7 @@
 "url": "https://ohsome.org/copyrights",
 "text": "© OpenStreetMap contributors"
 },
-"apiVersion": "1.4.1",
+"apiVersion": "99999",
 "timeout": 600.0,
 "extractRegion": {
 "spatialExtent": {
