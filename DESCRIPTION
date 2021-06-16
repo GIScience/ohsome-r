@@ -15,8 +15,7 @@ Authors@R:
         )
 	)
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: GPL (>= 3)
 URL: 
 BugReports: 
 Encoding: UTF-8
