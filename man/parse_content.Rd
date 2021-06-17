@@ -14,6 +14,6 @@ A list (parsed and converted content of ohsome metadata)
 }
 \description{
 A wrapper around \code{\link{httr::content}} to extract and parse the content
-from an API response.
+from an API response and handle API errors.
 }
 \keyword{Internal}

@@ -4,7 +4,7 @@
 \alias{ohsome_get_metadata}
 \title{GET metadata from ohsome API}
 \usage{
-ohsome_get_metadata(quiet = F)
+ohsome_get_metadata(quiet = FALSE)
 }
 \arguments{
 \item{quiet}{logical; suppress message on data attribution, API version and
