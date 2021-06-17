@@ -32,33 +32,19 @@
 #' \dontrun{
 #' ohsome_get_metadata()
 #' }
-ohsome_get_metadata <- function(quiet = F) {
+ohsome_get_metadata <- function(quiet = FALSE) {
 
-	r <- httr::GET(paste(ohsome::ohsome_api_url, "metadata", sep = "/"))
+	resp <- httr::GET(
+		url = paste(ohsome::ohsome_api_url, "metadata", sep = "/"),
+		httr::user_agent("ohsome-r")
+	)
 
-	if(httr::http_type(r) != "application/json") {
-		stop("ohsome API did not return JSON.", call. = FALSE)
-	}
-
-	parsed <- parse_content(r)
-
-	if(httr::http_error(r)) {
-		stop(
-			sprintf(
-				"ohsome API request failed [%s]\n%s",
-				httr::status_code(r),
-				parsed$error
-			),
-			call. = FALSE
-		)
-	}
-
-	meta <- convert_metadata(parsed)
+	parsed <- parse_content(resp)
 
 	ohsome_metadata <- structure(
-		.Data = meta,
-		status_code = httr::status_code(r),
-		date = lubridate::dmy_hms(httr::headers(r)$date),
+		.Data = convert_metadata(parsed),
+		status_code = httr::status_code(resp),
+		date = lubridate::dmy_hms(httr::headers(resp)$date),
 		class = "ohsome_metadata"
 	)
 

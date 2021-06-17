@@ -52,17 +52,35 @@ convert_metadata <- function(parsed) {
 #' Parse content from a response
 #'
 #' A wrapper around \code{\link{httr::content}} to extract and parse the content
-#' from an API response.
+#' from an API response and handle API errors.
 #'
 #' @param resp A response object
 #'
 #' @return A list (parsed and converted content of ohsome metadata)
 #' @keywords Internal
 parse_content <- function(resp) {
-	jsonlite::fromJSON(
+
+	if(httr::http_type(resp) != "application/json") {
+		stop("ohsome API did not return JSON.", call. = FALSE)
+	}
+
+	parsed <- jsonlite::fromJSON(
 		httr::content(resp, as = "text", encoding = "utf-8"),
 		simplifyVector = TRUE
 	)
+
+	if(httr::http_error(resp)) {
+		stop(
+			sprintf(
+				"ohsome API request failed [%s]\n%s",
+				httr::status_code(resp),
+				parsed$error
+			),
+			call. = FALSE
+		)
+	}
+
+	return(parsed)
 }
 
 #' Create metadata message
