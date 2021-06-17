@@ -38,20 +38,29 @@ ohsome_get_metadata <- function(quiet = F) {
 
 	# TODO add error handling for no connection and status code != 200
 
-	meta <- structure(
-		convert_content(httr::content(r, as = "parsed", encoding = "utf-8")),
-		status_code = httr::status_code(r),
-		date = lubridate::dmy_hms(httr::headers(r)$date),
-		class = c("ohsome_metadata")
+	content <- convert_content(httr::content(
+		r,
+		as = "parsed",
+		encoding = "utf-8",
+		simplifyVector = TRUE
+	))
+
+	message <- paste(
+		"Data:", content$attribution$text, content$attribution$url,
+		"\nohsome API version", content$apiVersion,
+		"\nTemporal extent: ", content$extractRegion$temporalExtent[1],
+		"to", content$extractRegion$temporalExtent[2]
 	)
 
-	if(!quiet) message(paste(
-		"Data:", meta$attribution$text, meta$attribution$url,
-		"\nohsome API version", meta$apiVersion,
-		"\nTemporal extent: ",
-		meta$extractRegion$temporalExtent[1], "to",
-		meta$extractRegion$temporalExtent[2]
-	))
+	meta <- structure(
+		.Data = content,
+		status_code = httr::status_code(r),
+		date = lubridate::dmy_hms(httr::headers(r)$date),
+		message = message,
+		class = "ohsome_metadata"
+	)
+
+	if(!quiet) message(attr(meta, "message"))
 
 	assign(".ohsome_metadata", meta, pos = "package:ohsome")
 	invisible(meta)

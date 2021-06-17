@@ -22,10 +22,16 @@ with_mock_api({
 	test_that(
 		"converts spatial and temporal extent", {
 			meta <- ohsome_get_metadata(quiet = T)
-			expect_s3_class(meta$extractRegion$spatialExtent, "sfc_POLYGON")
 			expect_s3_class(meta$extractRegion$temporalExtent, "POSIXct")
-		}
-	)
+			expect_s3_class(meta$extractRegion$spatialExtent, "sfc_POLYGON")
+			expect_equal(
+				sf::st_bbox(meta$extractRegion$spatialExtent),
+				sf::st_bbox(
+					obj = c(xmin = -180, xmax = 180, ymax = 90, ymin = -90),
+					crs = 4326
+				)
+			)
+	})
 
 	test_that(
 		"message if quiet = F", {
