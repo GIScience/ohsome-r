@@ -1,17 +1,19 @@
 # Upon attaching package, request ohsome API metadata and store in ohsome_metadata
 .onAttach <- function(libname, pkgname) {
 
-	# url <- "https://api.ohsome.org/v1"
-	# assign("ohsome_api_url", url, envir = as.environment("package:ohsome"))
 
-	meta <- ohsome_get_metadata(quiet = T)
 
-	if(attributes(meta)$status_code == 200) {
-		packageStartupMessage(attr(meta, "message"))
-	} else {
-		packageStartupMessage(paste(
-			"Could not retrieve metadata from ohsome API.",
-			"\nCheck your internet connection and run ohsome_get_metadata()"
-		))
-	}
+	tryCatch({
+		ohsome_metadata <- ohsome_get_metadata(quiet = TRUE)
+		packageStartupMessage(create_metadata_message(ohsome_metadata))
+		},
+		error = function(e) {
+			warning(
+				"Could not retrieve metadata from ohsome API.",
+				"\nPlease check your internet connection and try to run ",
+				"ohsome_get_metadata()",
+				call. = FALSE
+			)
+		}
+	)
 }

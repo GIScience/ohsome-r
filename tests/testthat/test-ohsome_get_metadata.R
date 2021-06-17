@@ -1,10 +1,14 @@
+
 with_mock_api({
 
-	unlockBinding(".ohsome_metadata", as.environment("package:ohsome"))
+	# mock response: tests/testthat/200/api.ohsome.org/v1/metadata.json
+	.mockPaths("./200")
 
-	# mock response: tests/testthat/api.ohsome.org/v1/metadata.json
 	test_that(
-		"assigns metadata to ohsome_metadata", {
+		"assigns metadata to .ohsome_metadata", {
+
+			unlockBinding(".ohsome_metadata", as.environment("package:ohsome"))
+
 			ohsome_get_metadata(quiet = T)
 			expect_equal(.ohsome_metadata$apiVersion, "99999")
 			expect_type(.ohsome_metadata, "list")
@@ -35,13 +39,18 @@ with_mock_api({
 
 	test_that(
 		"message if quiet = F", {
-		expect_message(ohsome_get_metadata(quiet = F))
+			expect_message(ohsome_get_metadata(quiet = F))
 	})
+})
 
-	# mock response: tests/testthat/api.ohsome.org/404/metadata.R
+
+with_mock_api({
+
+	# mock response: tests/testthat/404/api.ohsome.org/v1/metadata.R
+	.mockPaths("./404")
+
 	test_that(
-		"throws error if status code != 200", {
-			ohsome_api_url <- "https://api.ohsome.org/404"
+		"throws error on API request fail", {
 			expect_error(ohsome_get_metadata(quiet = T))
 	})
 })

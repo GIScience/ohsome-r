@@ -36,32 +36,34 @@ ohsome_get_metadata <- function(quiet = F) {
 
 	r <- httr::GET(paste(ohsome::ohsome_api_url, "metadata", sep = "/"))
 
-	# TODO add error handling for no connection and status code != 200
+	if(httr::http_type(r) != "application/json") {
+		stop("ohsome API did not return JSON.", call. = FALSE)
+	}
 
-	content <- convert_content(httr::content(
-		r,
-		as = "parsed",
-		encoding = "utf-8",
-		simplifyVector = TRUE
-	))
+	parsed <- parse_content(r)
 
-	message <- paste(
-		"Data:", content$attribution$text, content$attribution$url,
-		"\nohsome API version", content$apiVersion,
-		"\nTemporal extent: ", content$extractRegion$temporalExtent[1],
-		"to", content$extractRegion$temporalExtent[2]
-	)
+	if(httr::http_error(r)) {
+		stop(
+			sprintf(
+				"ohsome API request failed [%s]\n%s",
+				httr::status_code(r),
+				parsed$error
+			),
+			call. = FALSE
+		)
+	}
 
-	meta <- structure(
-		.Data = content,
+	meta <- convert_metadata(parsed)
+
+	ohsome_metadata <- structure(
+		.Data = meta,
 		status_code = httr::status_code(r),
 		date = lubridate::dmy_hms(httr::headers(r)$date),
-		message = message,
 		class = "ohsome_metadata"
 	)
 
-	if(!quiet) message(attr(meta, "message"))
+	if(!quiet) message(create_metadata_message(ohsome_metadata))
 
-	assign(".ohsome_metadata", meta, pos = "package:ohsome")
-	invisible(meta)
+	assign(".ohsome_metadata", ohsome_metadata, pos = "package:ohsome")
+	invisible(ohsome_metadata)
 }

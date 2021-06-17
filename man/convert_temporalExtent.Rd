@@ -11,7 +11,7 @@ convert_temporalExtent(temporalExtent)
 parsed content of a response from the metadata endpoint of ohsome API}
 }
 \value{
-A named \code{POSIXct} vector
+A \code{POSIXct} vector
 }
 \description{
 Convert temporalExtent of ohsome metadata
