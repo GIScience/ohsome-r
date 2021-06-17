@@ -51,23 +51,26 @@ convert_metadata <- function(parsed) {
 
 #' Parse content from a response
 #'
-#' A wrapper around \code{\link{httr::content}} to extract and parse the content
-#' from an API response and handle API errors.
+#' Extract and parse the content from an ohsome API response and handle API
+#' errors.
 #'
 #' @param resp A response object
 #'
-#' @return A list (parsed and converted content of ohsome metadata)
+#' @return A list (if the response is of type "application/json") or an sf
+#'     object (if the response is of type "application/geo+json")
 #' @keywords Internal
 parse_content <- function(resp) {
 
-	if(httr::http_type(resp) != "application/json") {
-		stop("ohsome API did not return JSON.", call. = FALSE)
-	}
+	type <- httr::http_type(resp)
+	content <- httr::content(resp, as = "text", encoding = "utf-8")
 
-	parsed <- jsonlite::fromJSON(
-		httr::content(resp, as = "text", encoding = "utf-8"),
-		simplifyVector = TRUE
-	)
+	if(type == "application/json") {
+		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
+	} else if(type == "application/geo+json") {
+		parsed <- geojsonsf::geojson_sf(content)
+	} else {
+		stop("ohsome API did not return (Geo)JSON.", call. = FALSE)
+	}
 
 	if(httr::http_error(resp)) {
 		stop(

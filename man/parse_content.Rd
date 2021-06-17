@@ -10,10 +10,11 @@ parse_content(resp)
 \item{resp}{A response object}
 }
 \value{
-A list (parsed and converted content of ohsome metadata)
+A list (if the response is of type "application/json") or an sf
+object (if the response is of type "application/geo+json")
 }
 \description{
-A wrapper around \code{\link{httr::content}} to extract and parse the content
-from an API response and handle API errors.
+Extract and parse the content from an ohsome API response and handle API
+errors.
 }
 \keyword{Internal}

@@ -32,7 +32,8 @@ Imports:
     sf,
     httr,
     geojsonsf,
-    lubridate
+    lubridate,
+    jsonlite
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
