@@ -37,7 +37,10 @@
 ohsome_get_metadata <- function(quiet = FALSE) {
 
 	resp <- httr::GET(
-		url = paste(ohsome::ohsome_api_url, "metadata", sep = "/"),
+		url = httr::modify_url(
+			ohsome::ohsome_api_url$base,
+			path = c(ohsome::ohsome_api_url$version, "metadata")
+		),
 		httr::user_agent("ohsome-r")
 	)
 

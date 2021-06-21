@@ -5,7 +5,11 @@
 \alias{ohsome_api_url}
 \title{ohsome API URL}
 \format{
-character
+A list:
+\describe{
+\item{base}{base URL (character)}
+\item{version}{path to current major API version (character)}
+}
 }
 \description{
 The base URL of the ohsome API with path to current major
