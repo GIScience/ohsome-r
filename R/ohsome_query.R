@@ -1,4 +1,4 @@
-#' Create an ohsome query object
+#' Create an ohsome_query object
 #'
 #' @param x
 #'
@@ -6,9 +6,10 @@
 #' @export
 #'
 #' @examples
-ohsome_query <- function(endpoint = NULL, ...) {
+ohsome_query <- function(endpoint, ...) {
 
-	body <- list(time = time, ...)
+	format <- ifelse(any(grepl("(centroid|bbox|geometry)", endpoint)), "json", "csv")
+	body <- list(..., format = format)
 
 	structure(
 		list(
@@ -19,5 +20,4 @@ ohsome_query <- function(endpoint = NULL, ...) {
 		),
 		class = "ohsome_query"
 	)
-
 }
