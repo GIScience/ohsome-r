@@ -2,3 +2,5 @@
 
 export(ohsome_elements)
 export(ohsome_get_metadata)
+export(ohsome_post)
+export(ohsome_query)
