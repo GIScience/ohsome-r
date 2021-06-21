@@ -6,4 +6,8 @@
 #' @export
 #'
 #' @examples
-ohsome_post <- function(ohsome_query) {	do.call(httr::POST, ohsome_query) }
+ohsome_post <- function(ohsome_query) {
+
+	resp <- do.call(httr::POST, ohsome_query)
+	httr::stop_for_status(resp)
+}

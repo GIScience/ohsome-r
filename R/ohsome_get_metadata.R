@@ -41,6 +41,8 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 		httr::user_agent("ohsome-r")
 	)
 
+	httr::stop_for_status(resp)
+
 	parsed <- parse_content(resp)
 
 	ohsome_metadata <- structure(

@@ -64,13 +64,13 @@ convert_metadata <- function(parsed) {
 
 #' Parse content from a response
 #'
-#' Extract and parse the content from an ohsome API response and handle API
-#' errors.
+#' Extract and parse the content from an ohsome API response
 #'
 #' @param resp A response object
 #'
-#' @return A list (if the response is of type "application/json") or an sf
-#'     object (if the response is of type "application/geo+json")
+#' @return A list (if the response is of type "application/json"), an sf
+#'     object (if the response is of type "application/geo+json") or a
+#'     data.frame (if the response is of type "text/csv")
 #' @keywords Internal
 parse_content <- function(resp) {
 
@@ -78,21 +78,23 @@ parse_content <- function(resp) {
 	content <- httr::content(resp, as = "text", encoding = "utf-8")
 
 	if(type == "application/json") {
-		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
-	} else if(type == "application/geo+json") {
-		parsed <- geojsonsf::geojson_sf(content)
-	} else {
-		stop("ohsome API did not return (Geo)JSON.", call. = FALSE)
-	}
 
-	if(httr::http_error(resp)) {
-		stop(
-			sprintf(
-				"ohsome API request failed [%s]\n%s",
-				httr::status_code(resp),
-				parsed$error
-			),
-			call. = FALSE
+		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
+
+	} else if(type == "application/geo+json") {
+
+		parsed <- geojsonsf::geojson_sf(content)
+
+		# TODO: does not parse bbox!
+
+
+	} else if(type == "text/csv") {
+
+		parsed <- read.csv2(
+			textConnection(content),
+			comment.char = "#",
+			header = TRUE,
+			stringsAsFactors = FALSE
 		)
 	}
 

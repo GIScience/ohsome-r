@@ -8,8 +8,10 @@
 #' @examples
 ohsome_query <- function(endpoint, ...) {
 
-	format <- ifelse(any(grepl("(centroid|bbox|geometry)", endpoint)), "json", "csv")
-	body <- list(..., format = format)
+	body <- list(...)
+	if(!any(grepl("(centroid|bbox|geometry)", endpoint))) {
+		body <- c(body, format = "csv")
+	}
 
 	structure(
 		list(
