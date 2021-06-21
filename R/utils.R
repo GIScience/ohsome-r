@@ -1,3 +1,16 @@
+#' Build URL to an ohsome API endpoint
+#'
+#' @param endpoint character (atomic or vector)
+#'
+#' @return character
+#' @keywords Internal
+build_endpoint_url <- function(endpoint) {
+	httr::modify_url(
+		ohsome::ohsome_api_url$base,
+		path = c(ohsome::ohsome_api_url$version, endpoint)
+	)
+}
+
 #' Convert spatialExtent of ohsome metadata
 #'
 #' @param spatialExtent The \code{$extractRegion$spatialExtent} element of the
