@@ -2,9 +2,9 @@
 % Please edit documentation in R/ohsome_query.R
 \name{ohsome_query}
 \alias{ohsome_query}
-\title{Create an ohsome query object}
+\title{Create an ohsome_query object}
 \usage{
-ohsome_query(endpoint = NULL, ...)
+ohsome_query(endpoint, ...)
 }
 \arguments{
 \item{x}{}
@@ -13,5 +13,5 @@ ohsome_query(endpoint = NULL, ...)
 
 }
 \description{
-Create an ohsome query object
+Create an ohsome_query object
 }

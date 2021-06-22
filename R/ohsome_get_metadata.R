@@ -38,7 +38,7 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 
 	resp <- httr::GET(
 		url = build_endpoint_url("metadata"),
-		httr::user_agent("ohsome-r")
+		httr::user_agent(paste("ohsome-r", packageVersion("ohsome"), sep = "/"))
 	)
 
 	httr::stop_for_status(resp)

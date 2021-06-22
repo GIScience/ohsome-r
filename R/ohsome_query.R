@@ -18,7 +18,7 @@ ohsome_query <- function(endpoint, ...) {
 			url = build_endpoint_url(endpoint),
 			encode = "form",
 			body = body,
-			httr::user_agent("ohsome-r")
+			httr::user_agent(paste("ohsome-r", packageVersion("ohsome"), sep = "/"))
 		),
 		class = "ohsome_query"
 	)
