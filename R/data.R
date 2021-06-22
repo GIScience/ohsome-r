@@ -9,3 +9,10 @@
 #'     \item{version}{path to current major API version (character)}
 #' }
 NULL
+
+#' @docType data
+#' @name ohsome_endpoints
+#' @title ohsome API endpoints
+#' @description Available ohsome API endpoints with their parameters
+#' @format A list of ohsome API endpoints.
+NULL

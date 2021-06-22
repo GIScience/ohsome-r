@@ -3,17 +3,18 @@ Title: ohsome API client for R
 Version: 0.0.0.9000
 Authors@R: 
     c(
-    	person(
-    		given = "First",
+      person(
+    		  given = "First",
         	family = "Last",
         	role = c("aut", "cre"),
         	email = "first.last@example.com",
-        	comment = c(ORCID = "YOUR-ORCID-ID")),
-        person(
-        	given = "HeiGIT gGmbH",
+        	comment = c(ORCID = "YOUR-ORCID-ID")
+      ),
+      person(
+        	given = "Heidelberg Institute for Geoinformation Technology (HeiGIT) gGmbH",
         	role = c("cph")
-        )
-	)
+      )
+	  )
 Description: What the package does (one paragraph).
 License: GPL (>= 3)
 URL: 
@@ -23,8 +24,10 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
+    data.table,
     httptest,
     knitr,
+    rapiclient,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

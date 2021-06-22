@@ -10,11 +10,11 @@ parse_content(resp)
 \item{resp}{A response object}
 }
 \value{
-A list (if the response is of type "application/json") or an sf
-object (if the response is of type "application/geo+json")
+A list (if the response is of type "application/json"), an sf
+object (if the response is of type "application/geo+json") or a
+data.frame (if the response is of type "text/csv")
 }
 \description{
-Extract and parse the content from an ohsome API response and handle API
-errors.
+Extract and parse the content from an ohsome API response
 }
 \keyword{Internal}
