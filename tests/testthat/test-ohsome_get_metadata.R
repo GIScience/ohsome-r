@@ -1,4 +1,3 @@
-
 with_mock_api({
 
 	# mock response: tests/testthat/200/api.ohsome.org/v1/metadata.json
