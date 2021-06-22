@@ -6,8 +6,19 @@
 #' @export
 #'
 #' @examples
-ohsome_post <- function(ohsome_query) {
+ohsome_post <- function(ohsome_query, add_user_agent = "") {
 
-	resp <- do.call(httr::POST, ohsome_query)
+	user_agent <- trimws(sprintf(
+		"%s %s/%s",
+		add_user_agent,	"ohsome-r",	packageVersion("ohsome")
+	))
+
+	resp <- httr::POST(
+		url = ohsome_query$url,
+		body = ohsome_query$body,
+		encode = ohsome_query$encode,
+		httr::user_agent(user_agent)
+	)
+
 	httr::stop_for_status(resp)
 }
