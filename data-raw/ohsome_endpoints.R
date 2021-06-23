@@ -10,7 +10,7 @@ extract_endpoint <- function(endpoint, paths) {
 	invisible(list(
 		summary = paths[[endpoint]]$post$summary,
 		produces = paths[[endpoint]]$post$produces,
-		parameters = as.data.frame(params[!deprecated, c("name", "description")])
+		parameters = as.data.frame(params[!deprecated,]) # c("name", "description")])
 	))
 }
 
@@ -27,11 +27,7 @@ extract_spec <- function(spec) {
 	invisible(out)
 }
 
-specs <- c(
-	"group=Data Aggregation",
-	"group=Data Extraction"
-)
-
+specs <- c("group=Data Aggregation", "group=Data Extraction")
 ohsome_endpoints <- unlist(lapply(specs, extract_spec), recursive = FALSE)
 
 usethis::use_data(ohsome_endpoints)

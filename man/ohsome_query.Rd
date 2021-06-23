@@ -7,11 +7,19 @@
 ohsome_query(endpoint, ...)
 }
 \arguments{
-\item{x}{}
+\item{endpoint}{The path to the ohsome API endpoint. Either a single string
+(e.g. \code{"elements/count"}) or a character vector in the right order
+(e.g. \code{c("elements", "count")})}
+
+\item{...}{Parameters of the request to the ohsome API endpoint}
 }
 \value{
-
+An \code{ohsome_query} object
 }
 \description{
-Create an ohsome_query object
+Creates an ohsome_query object specifying the ohsome API endpoint and the
+request parameters.
+}
+\seealso{
+\url{https://docs.ohsome.org/ohsome-api/v1/}
 }

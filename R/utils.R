@@ -77,16 +77,17 @@ parse_content <- function(resp) {
 	type <- httr::http_type(resp)
 	content <- httr::content(resp, as = "text", encoding = "utf-8")
 
-	if(type == "application/json") {
-
-		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
-
-	} else if(type == "application/geo+json") {
-
+	if(
+		type == "application/json" & grepl("boundary", resp$url) |
+		type == "application/geo+json"
+	) {
 		parsed <- geojsonsf::geojson_sf(content)
 
-		# TODO: does not parse bbox!
+		# TODO: does not parse bbox correctly!
 
+	} else if(type == "application/json") {
+
+		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
 
 	} else if(type == "text/csv") {
 

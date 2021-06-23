@@ -1,5 +1,8 @@
 #' Send POST request to ohsome API
 #'
+#' Sends an ohsome_query object as a POST request to the ohsome API and silently
+#' returns the unparsed response.
+#'
 #' @param ohsome_query an ohsome_query object constructed with ohsome_query()
 #'     or any of its wrapper functions
 #' @param additional_identifiers optional user agent identifiers in addition to
@@ -8,7 +11,6 @@
 #' @return an ohsome API response
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
-#'
 #' @examples
 ohsome_post <- function(ohsome_query, additional_identifiers = NULL) {
 

@@ -17,7 +17,8 @@ or any of its wrapper functions}
 an ohsome API response
 }
 \description{
-Send POST request to ohsome API
+Sends an ohsome_query object as a POST request to the ohsome API and silently
+returns the unparsed response.
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}

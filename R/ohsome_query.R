@@ -1,15 +1,23 @@
 #' Create an ohsome_query object
 #'
-#' @param x
+#' Creates an ohsome_query object specifying the ohsome API endpoint and the
+#' request parameters.
 #'
-#' @return
+#' @param endpoint The path to the ohsome API endpoint. Either a single string
+#' (e.g. \code{"elements/count"}) or a character vector in the right order
+#' (e.g. \code{c("elements", "count")})
+#' @param ... Parameters of the request to the ohsome API endpoint
+#'
+#' @return An \code{ohsome_query} object
+#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
-#'
 #' @examples
 ohsome_query <- function(endpoint, ...) {
 
 	body <- list(...)
-	if(!any(grepl("(centroid|bbox|geometry)", endpoint))) {
+	if(any(grepl("(centroid|bbox|geometry|boundary)", endpoint))) {
+		body <- c(body, format = "geojson")
+	} else {
 		body <- c(body, format = "csv")
 	}
 
