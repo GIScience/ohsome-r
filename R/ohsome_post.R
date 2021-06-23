@@ -29,5 +29,8 @@ ohsome_post <- function(ohsome_query, additional_identifiers = NULL) {
 		httr::user_agent(user_agent)
 	)
 
+	attr(resp, "request_body") <- ohsome_query$body
+	attr(resp, "class") <- c("ohsome_response", "response")
+
 	httr::stop_for_status(resp)
 }

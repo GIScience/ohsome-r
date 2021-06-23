@@ -15,10 +15,16 @@
 ohsome_query <- function(endpoint, ...) {
 
 	body <- list(...)
-	if(any(grepl("(centroid|bbox|geometry|boundary)", endpoint))) {
-		body <- c(body, format = "geojson")
-	} else {
-		body <- c(body, format = "csv")
+
+	if(
+		is.null(body[["format"]]) &
+		!any(grepl("(centroid|bbox|geometry)", endpoint))
+	) {
+		if(any(grepl("boundary", endpoint))) {
+			body[["format"]] = "geojson"
+		} else {
+			body[["format"]] = "csv"
+		}
 	}
 
 	structure(

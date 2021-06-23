@@ -75,10 +75,12 @@ convert_metadata <- function(parsed) {
 parse_content <- function(resp) {
 
 	type <- httr::http_type(resp)
+	req_format <- attributes(resp)$request_body$format
 	content <- httr::content(resp, as = "text", encoding = "utf-8")
 
 	if(
-		type == "application/json" & grepl("boundary", resp$url) |
+		type == "application/json" &
+		(!is.null(req_format) && req_format == "geojson") |
 		type == "application/geo+json"
 	) {
 		parsed <- geojsonsf::geojson_sf(content)
