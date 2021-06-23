@@ -10,13 +10,15 @@ extract_endpoint <- function(endpoint, paths) {
 	invisible(list(
 		summary = paths[[endpoint]]$post$summary,
 		produces = paths[[endpoint]]$post$produces,
-		parameters = as.data.frame(params[!deprecated,]) # c("name", "description")])
+		parameters = as.data.frame(
+			params[!deprecated, c("name", "description", "required")]
+		)
 	))
 }
 
 extract_spec <- function(spec) {
-	api <- "https://api.ohsome.org/" |>
-		modify_url(path = c("v1", "docs"), query = spec) |>
+	api <- "https://api.ohsome.org/stable/docs" |>
+		modify_url(query = spec) |>
 		get_api()
 
 	paths <- api$paths
