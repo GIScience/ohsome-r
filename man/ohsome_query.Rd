@@ -4,7 +4,7 @@
 \alias{ohsome_query}
 \title{Create an ohsome_query object}
 \usage{
-ohsome_query(endpoint, ...)
+ohsome_query(endpoint, ..., validate = FALSE)
 }
 \arguments{
 \item{endpoint}{The path to the ohsome API endpoint. Either a single string

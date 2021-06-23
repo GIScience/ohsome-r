@@ -12,12 +12,12 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_query <- function(endpoint, ...) {
+ohsome_query <- function(endpoint, ..., validate = FALSE) {
 
 	body <- list(...)
 
 	if(
-		is.null(body[["format"]]) &
+		is.null(body[["format"]]) &&
 		!any(grepl("(centroid|bbox|geometry)", endpoint))
 	) {
 		if(any(grepl("boundary", endpoint))) {
@@ -27,7 +27,7 @@ ohsome_query <- function(endpoint, ...) {
 		}
 	}
 
-	structure(
+	q <- structure(
 		list(
 			url = build_endpoint_url(endpoint),
 			encode = "form",
@@ -35,4 +35,8 @@ ohsome_query <- function(endpoint, ...) {
 		),
 		class = "ohsome_query"
 	)
+
+	if(validate) validate_query(q)
+
+	return(q)
 }

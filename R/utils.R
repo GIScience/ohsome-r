@@ -79,8 +79,8 @@ parse_content <- function(resp) {
 	content <- httr::content(resp, as = "text", encoding = "utf-8")
 
 	if(
-		type == "application/json" &
-		(!is.null(req_format) && req_format == "geojson") |
+		type == "application/json" &&
+		(!is.null(req_format) && req_format == "geojson") ||
 		type == "application/geo+json"
 	) {
 		parsed <- geojsonsf::geojson_sf(content)
@@ -121,4 +121,85 @@ create_metadata_message  <- function(meta) {
 		meta$extractRegion$temporalExtent[1],
 		meta$extractRegion$temporalExtent[2]
 	)
+}
+
+#' Validate endpoint
+#'
+#' Checks if the specified endpoint is in the list of known ohsome API endpoints
+#' and issues a warning if not. Silently returns a logical that indicates the
+#' validity of the endpoint.
+#'
+#' @param endpoint The path to the ohsome API endpoint as a single string
+#'      (e.g. \code{"elements/count"})
+#' @return logical
+#' @keywords Internal
+validate_endpoint <- function(endpoint) {
+
+	if(endpoint %in% names(ohsome::ohsome_endpoints)) {
+		invisible(TRUE)
+	} else {
+		warning(
+			"ohsome does not know endpoint ", endpoint,
+			"\nSee ",
+			"https://docs.ohsome.org/ohsome-api/v1/endpoint-visualisation.html",
+			" for available endpoints.",
+			call. = FALSE
+		)
+		invisible(FALSE)
+	}
+
+}
+
+#' Validate parameters
+#'
+#' Checks if the specified parameters in a request body are valid and issues a
+#' warning if not. Silently returns a logical that indicates the validity of the
+#' parameters.
+#'
+#' @param endpoint The path to the ohsome API endpoint as a single string
+#'     (e.g. \code{"elements/count"})
+#' @param body A list of named parameters to the ohsome API request
+#' @return logical
+#' @keywords Internal
+validate_parameters <- function(endpoint, body) {
+
+	params <- ohsome::ohsome_endpoints[[endpoint]]$parameters$name
+	diff <- setdiff(names(body), params)
+
+	if(length(diff) == 0) {
+		invisible(TRUE)
+	} else {
+		warning(
+			paste(diff, collapse = ", "),
+			ifelse(
+				length(diff) > 1,
+				" are not known parameters of ",
+				" is not a known parameter of "
+			),
+			"endpoint ", endpoint,
+			"\nSee https://docs.ohsome.org/ohsome-api/v1/",
+			call. = FALSE
+		)
+		invisible(FALSE)
+	}
+
+}
+
+#' Validate ohsome_query
+#'
+#' Validates an ohsome_query object by checking against ohsome_endpoints.
+#'
+#' @param ohsome_query an ohsome_query object constructed with ohsome_query()
+#'     or any of its wrapper functions
+#' @return logical
+#' @keywords Internal
+validate_query <- function(ohsome_query) {
+
+	endpoint <- gsub("^.*?/", "", httr::parse_url(ohsome_query$url)$path)
+
+	if(validate_endpoint(endpoint)) {
+		invisible(validate_parameters(endpoint, ohsome_query$body))
+	} else {
+		invisible(FALSE)
+	}
 }
