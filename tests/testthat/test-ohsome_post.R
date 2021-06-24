@@ -40,7 +40,8 @@ with_mock_api({
 			q <- ohsome_query(
 				c("elements", "amount"),
 				filter = "shop=convenience",
-				bcircles = "13.45,52.5,1000"
+				bcircles = "13.45,52.5,1000",
+				validate = FALSE
 			)
 
 			expect_error(ohsome_post(q))
