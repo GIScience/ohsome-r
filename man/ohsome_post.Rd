@@ -16,8 +16,11 @@ or any of its wrapper functions}
 "ohsome-r/version" (a vector coercible to character)}
 }
 \value{
-an ohsome API response, or if parsed = TRUE: a data.frame or sf
-object
+\describe{
+\item{an sf object}{if parse = TRUE and ohsome API response is GeoJSON}
+\item{a data.frame}{if parse = TRUE and ohsome API response is not GeoJSON}
+\item{an ohsome_response object}{if parse = FALSE}
+}
 }
 \description{
 Sends an ohsome_query object as a POST request to the ohsome API and silently

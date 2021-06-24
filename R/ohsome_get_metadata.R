@@ -43,7 +43,7 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 
 	httr::stop_for_status(response)
 
-	parsed <- ohsome_parse(response)
+	parsed <- ohsome_parse(response, return_class = "list")
 
 	ohsome_metadata <- structure(
 		.Data = convert_metadata(parsed),

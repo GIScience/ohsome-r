@@ -9,8 +9,11 @@
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
 #'
-#' @return an ohsome API response, or if parsed = TRUE: a data.frame or sf
-#' object
+#' @return \describe{
+#'    \item{an sf object}{if parse = TRUE and ohsome API response is GeoJSON}
+#'    \item{a data.frame}{if parse = TRUE and ohsome API response is not GeoJSON}
+#'    \item{an ohsome_response object}{if parse = FALSE}
+#' }
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples

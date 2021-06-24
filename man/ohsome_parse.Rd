@@ -4,10 +4,25 @@
 \alias{ohsome_parse}
 \title{Parse content from an ohsome API response}
 \usage{
-ohsome_parse(response)
+ohsome_parse(
+  response,
+  return_class = c("default", "sf", "data.frame", "list", "character")
+)
 }
 \arguments{
 \item{response}{A response object}
+
+\item{return_class}{One of the following:
+\describe{
+\item{default}{returns sf if ohsome API response is GeoJSON,
+else a data.frame}
+\item{sf}{returns sf if ohsome API response is GeoJSON,
+else issues a warning and returns a data.frame}
+\item{data.frame}{returns a data.frame}
+\item{list}{returns a list}
+\item{character}{returns the ohsome API response as text (JSON or
+semicolon-separated values)}
+}}
 }
 \value{
 A list (if the response is of type "application/json"), an sf
