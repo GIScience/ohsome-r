@@ -162,6 +162,7 @@ validate_query <- function(query) {
 	}
 }
 
-#' Validate ohsome_query
+#' Null coalesce operator
+#'
 #' @keywords Internal
 `%||%` <- function(a, b) if (is.null(a)) b else a

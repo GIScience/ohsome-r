@@ -2,11 +2,11 @@
 % Please edit documentation in R/utils.R
 \name{\%||\%}
 \alias{\%||\%}
-\title{Validate ohsome_query}
+\title{Null coalesce operator}
 \usage{
 a \%||\% b
 }
 \description{
-Validate ohsome_query
+Null coalesce operator
 }
 \keyword{Internal}
