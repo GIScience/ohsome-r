@@ -4,17 +4,20 @@
 \alias{ohsome_post}
 \title{Send POST request to ohsome API}
 \usage{
-ohsome_post(ohsome_query, additional_identifiers = NULL)
+ohsome_post(ohsome_query, parse = TRUE, additional_identifiers = NULL)
 }
 \arguments{
 \item{ohsome_query}{an ohsome_query object constructed with ohsome_query()
 or any of its wrapper functions}
 
+\item{parse}{logical parse the ohsome API response?}
+
 \item{additional_identifiers}{optional user agent identifiers in addition to
 "ohsome-r/version" (a vector coercible to character)}
 }
 \value{
-an ohsome API response
+an ohsome API response, or if parsed = TRUE: a data.frame or sf
+object
 }
 \description{
 Sends an ohsome_query object as a POST request to the ohsome API and silently

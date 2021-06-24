@@ -36,19 +36,19 @@
 #' }
 ohsome_get_metadata <- function(quiet = FALSE) {
 
-	resp <- httr::GET(
+	response <- httr::GET(
 		url = build_endpoint_url("metadata"),
 		httr::user_agent(paste("ohsome-r", packageVersion("ohsome"), sep = "/"))
 	)
 
-	httr::stop_for_status(resp)
+	httr::stop_for_status(response)
 
-	parsed <- parse_content(resp)
+	parsed <- ohsome_parse(response)
 
 	ohsome_metadata <- structure(
 		.Data = convert_metadata(parsed),
-		status_code = httr::status_code(resp),
-		date = lubridate::dmy_hms(httr::headers(resp)$date),
+		status_code = httr::status_code(response),
+		date = lubridate::dmy_hms(httr::headers(response)$date),
 		class = "ohsome_metadata"
 	)
 

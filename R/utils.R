@@ -62,48 +62,6 @@ convert_metadata <- function(parsed) {
 	return(parsed)
 }
 
-#' Parse content from a response
-#'
-#' Extract and parse the content from an ohsome API response
-#'
-#' @param resp A response object
-#'
-#' @return A list (if the response is of type "application/json"), an sf
-#'     object (if the response is of type "application/geo+json") or a
-#'     data.frame (if the response is of type "text/csv")
-#' @keywords Internal
-parse_content <- function(resp) {
-
-	type <- httr::http_type(resp)
-	req_format <- attributes(resp)$request_body$format
-	content <- httr::content(resp, as = "text", encoding = "utf-8")
-
-	if(
-		type == "application/json" &&
-		(!is.null(req_format) && req_format == "geojson") ||
-		type == "application/geo+json"
-	) {
-		parsed <- geojsonsf::geojson_sf(content)
-
-		# TODO: does not parse bbox correctly!
-
-	} else if(type == "application/json") {
-
-		parsed <- jsonlite::fromJSON(content, simplifyVector = TRUE)
-
-	} else if(type == "text/csv") {
-
-		parsed <- read.csv2(
-			textConnection(content),
-			comment.char = "#",
-			header = TRUE,
-			stringsAsFactors = FALSE
-		)
-	}
-
-	return(parsed)
-}
-
 #' Create metadata message
 #'
 #' Creates a message text from a \code{ohsome_metadata} object.

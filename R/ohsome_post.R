@@ -5,14 +5,16 @@
 #'
 #' @param ohsome_query an ohsome_query object constructed with ohsome_query()
 #'     or any of its wrapper functions
+#' @param parse logical parse the ohsome API response?
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
 #'
-#' @return an ohsome API response
+#' @return an ohsome API response, or if parsed = TRUE: a data.frame or sf
+#' object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_post <- function(ohsome_query, additional_identifiers = NULL) {
+ohsome_post <- function(ohsome_query, parse = TRUE, additional_identifiers = NULL) {
 
 	if(is.null(additional_identifiers)) additional_identifiers <- ""
 
@@ -22,15 +24,17 @@ ohsome_post <- function(ohsome_query, additional_identifiers = NULL) {
 		"ohsome-r", packageVersion("ohsome")
 	))
 
-	resp <- httr::POST(
+	response <- httr::POST(
 		url = ohsome_query$url,
 		body = ohsome_query$body,
 		encode = ohsome_query$encode,
 		httr::user_agent(user_agent)
 	)
 
-	attr(resp, "request_body") <- ohsome_query$body
-	attr(resp, "class") <- c("ohsome_response", "response")
+	attr(response, "request_body") <- ohsome_query$body
+	attr(response, "class") <- c("ohsome_response", "response")
 
-	httr::stop_for_status(resp)
+	httr::stop_for_status(response)
+
+	if(parse) { return(ohsome_parse(response)) } else { return(response) }
 }

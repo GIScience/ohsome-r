@@ -1,7 +1,7 @@
 with_mock_api({
 
-	# mock response: tests/testthat/200/api.ohsome.org/v1/metadata.json
-	.mockPaths("./200")
+	# mock response: tests/testthat/mock_api/200/api.ohsome.org/v1/metadata.json
+	.mockPaths("./mock_api/200")
 
 	test_that(
 		"assigns metadata to .ohsome_metadata", {
@@ -45,8 +45,8 @@ with_mock_api({
 
 with_mock_api({
 
-	# mock response: tests/testthat/404/api.ohsome.org/v1/metadata.R
-	.mockPaths("./404")
+	# mock response: tests/testthat/mock_api/404/api.ohsome.org/v1/metadata.R
+	.mockPaths("./mock_api/404")
 
 	test_that(
 		"throws error on API request fail", {
