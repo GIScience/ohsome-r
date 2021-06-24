@@ -2,7 +2,7 @@ require(usethis)
 
 ohsome_api_url <- list(
 	base = "https://api.ohsome.org",
-	version = "stable"
+	version = "v1"
 )
 
-usethis::use_data(ohsome_api_url)
+usethis::use_data(ohsome_api_url, overwrite = TRUE)
