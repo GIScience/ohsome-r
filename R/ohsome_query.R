@@ -12,9 +12,9 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_query <- function(endpoint, ..., validate = FALSE) {
+ohsome_query <- function(endpoint, ..., validate = TRUE) {
 
-	body <- list(...)
+	body <- lapply(list(...), paste, collapse=",")
 
 	if(
 		is.null(body[["format"]]) &&
@@ -27,7 +27,7 @@ ohsome_query <- function(endpoint, ..., validate = FALSE) {
 		}
 	}
 
-	q <- structure(
+	query <- structure(
 		list(
 			url = build_endpoint_url(endpoint),
 			encode = "form",
@@ -36,7 +36,7 @@ ohsome_query <- function(endpoint, ..., validate = FALSE) {
 		class = "ohsome_query"
 	)
 
-	if(validate) validate_query(q)
+	if(validate) validate_query(query)
 
-	return(q)
+	return(query)
 }
