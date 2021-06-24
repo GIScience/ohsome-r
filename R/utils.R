@@ -147,17 +147,21 @@ validate_parameters <- function(endpoint, body) {
 #'
 #' Validates an ohsome_query object by checking against ohsome_endpoints.
 #'
-#' @param ohsome_query an ohsome_query object constructed with ohsome_query()
+#' @param query an ohsome_query object constructed with ohsome_query()
 #'     or any of its wrapper functions
 #' @return logical
 #' @keywords Internal
-validate_query <- function(ohsome_query) {
+validate_query <- function(query) {
 
-	endpoint <- gsub("^.*?/", "", httr::parse_url(ohsome_query$url)$path)
+	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
 
 	if(validate_endpoint(endpoint)) {
-		invisible(validate_parameters(endpoint, ohsome_query$body))
+		invisible(validate_parameters(endpoint, query$body))
 	} else {
 		invisible(FALSE)
 	}
 }
+
+#' Validate ohsome_query
+#' @keywords Internal
+`%||%` <- function(a, b) if (is.null(a)) b else a
