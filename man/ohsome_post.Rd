@@ -4,10 +4,10 @@
 \alias{ohsome_post}
 \title{Send POST request to ohsome API}
 \usage{
-ohsome_post(ohsome_query, parse = TRUE, additional_identifiers = NULL)
+ohsome_post(query, parse = TRUE, additional_identifiers = NULL)
 }
 \arguments{
-\item{ohsome_query}{an ohsome_query object constructed with ohsome_query()
+\item{query}{an ohsome_query object constructed with ohsome_query()
 or any of its wrapper functions}
 
 \item{parse}{logical parse the ohsome API response?}

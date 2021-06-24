@@ -4,10 +4,10 @@
 \alias{validate_query}
 \title{Validate ohsome_query}
 \usage{
-validate_query(ohsome_query)
+validate_query(query)
 }
 \arguments{
-\item{ohsome_query}{an ohsome_query object constructed with ohsome_query()
+\item{query}{an ohsome_query object constructed with ohsome_query()
 or any of its wrapper functions}
 }
 \value{
