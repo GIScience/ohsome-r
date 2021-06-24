@@ -2,12 +2,18 @@
 % Please edit documentation in R/ohsome_parse.R
 \name{ohsome_parse}
 \alias{ohsome_parse}
+\alias{ohsome_sf}
+\alias{ohsome_df}
 \title{Parse content from an ohsome API response}
 \usage{
 ohsome_parse(
   response,
   return_class = c("default", "sf", "data.frame", "list", "character")
 )
+
+ohsome_sf(response)
+
+ohsome_df(response)
 }
 \arguments{
 \item{response}{A response object}
@@ -32,3 +38,10 @@ data.frame (if the response is of type "text/csv")
 \description{
 Extract and parse the content from an ohsome API response
 }
+\details{
+\code{ohsome_parse()} parses an \code{ohsome_response} object into the
+an object of the specified class. By default, this is an \code{sf} object if
+the ohsome API response contains GeoJSON data or a \code{data.frame} if it
+does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
+}
+\concept{Extract and parse the content from an ohsome API response}
