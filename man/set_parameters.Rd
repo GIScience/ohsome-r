@@ -7,6 +7,7 @@
 \alias{set_groupByKeys}
 \alias{set_groupByKey}
 \alias{set_groupByValues}
+\alias{set_properties}
 \title{Set parameters}
 \usage{
 set_parameters(query, ...)
@@ -20,6 +21,8 @@ set_groupByKeys(query, groupByKeys = NULL)
 set_groupByKey(query, groupByKey = NULL)
 
 set_groupByValues(query, groupByValues = NULL)
+
+set_properties(query, properties = NULL)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
@@ -36,9 +39,10 @@ Set or modify parameters of an existing \code{ohsome_query} object
 \code{set_parameters()} takes an \code{ohsome_query} object and an arbitrary
 number of named parameters as an input. It sets or modifies these parameters
 in the \code{ohsome_query} and returns the modified object. \code{set_time()},
-\code{set_filter}, \code{set_groupByKey}, \code{set_groupByKey} and
-\code{set_groupByValues} are wrapper functions to set specific parameters. By
-default, an unmodified \code{ohsome_query} object is returned.
+\code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
+\code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
+to set specific parameters. By default, an unmodified \code{ohsome_query}
+object is returned.
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}

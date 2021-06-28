@@ -47,8 +47,6 @@ ohsome_parse <- function(
 	) {
 		p <- geojsonsf::geojson_sf(content)
 
-		# TODO: does not parse bbox correctly!
-
 		if(return_class == "data.frame") {
 			return(sf::st_drop_geometry(p))
 		} else if(return_class == "list") {
@@ -56,7 +54,6 @@ ohsome_parse <- function(
 		} else {
 			return(p)
 		}
-
 
 	} else if(type == "application/json") {
 
@@ -108,3 +105,5 @@ ohsome_sf <- function(response) {ohsome_parse(response, return_class = "sf")}
 #' @export
 #' @rdname ohsome_parse
 ohsome_df <- function(response) {ohsome_parse(response, return_class = "data.frame")}
+
+# TODO: type_convert data.frame columns
