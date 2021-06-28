@@ -2,6 +2,9 @@
 % Please edit documentation in R/set_boundary.R
 \name{set_boundary}
 \alias{set_boundary}
+\alias{set_bpolys}
+\alias{set_bboxes}
+\alias{set_bcircles}
 \title{Set boundary}
 \usage{
 set_boundary(
@@ -9,6 +12,12 @@ set_boundary(
   boundary,
   boundary_type = c("bpolys", "bboxes", "bcircles")
 )
+
+set_bpolys(query, boundary)
+
+set_bboxes(query, boundary)
+
+set_bcircles(query, boundary)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
@@ -27,3 +36,4 @@ can be defined as dne or more polygons, bounding boxes or bounding circles.
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
 }
+\concept{Set boundary}

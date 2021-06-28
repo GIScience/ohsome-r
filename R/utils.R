@@ -62,6 +62,47 @@ convert_metadata <- function(parsed) {
 	return(parsed)
 }
 
+#' Convert boundary
+#'
+#' @param boundary
+#' @param boundary_type
+#' @return
+#' @keywords Internal
+convert_boundary <- function(boundary, boundary_type) {
+
+	switch(
+		boundary_type,
+		bpolys = convert_bpolys(boundary),
+		bboxes = convert_bboxes(boundary),
+		bcircles = convert_bcircles(boundary),
+		stop("Unknown boundary type.")
+	)
+
+}
+
+#' Convert boundary polygons
+#'
+#' @param bpolys
+#' @return
+#' @keywords Internal
+convert_bpolys <- function(bpolys) {
+
+	if("character" %in% class(bpolys)) {
+
+		return(bpolys)
+
+	} else if("sf" %in% class(bpolys)) {
+
+		return(geojsonsf::sf_geojson(bpolys))
+
+	} else {
+
+		stop("Boundary polygons need to be character or sf objects.")
+	}
+
+}
+
+
 #' Create metadata message
 #'
 #' Creates a message text from a \code{ohsome_metadata} object.
