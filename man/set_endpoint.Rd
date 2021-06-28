@@ -4,7 +4,7 @@
 \alias{set_endpoint}
 \title{Set endpoint}
 \usage{
-set_endpoint(query, endpoint, append = FALSE)
+set_endpoint(query, endpoint, append = FALSE, reset_format = TRUE)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
@@ -14,8 +14,12 @@ set_endpoint(query, endpoint, append = FALSE)
 (e.g. \code{c("elements", "count")})}
 
 \item{append}{If true, the provided endpoint string is appended to  the
-existing endpoint definition instead of replacing it. This is particularly
-useful if you wish to add a groupBy to an existing aggregation query.}
+existing endpoint definition instead of replacing it. This is
+particularly useful if you wish to add a groupBy to an existing
+aggregation query.}
+
+\item{reset_format}{If true, the format parameter of the query will be
+automatically determined depending on the new endpoint.}
 }
 \value{
 An \code{ohsome_query} object

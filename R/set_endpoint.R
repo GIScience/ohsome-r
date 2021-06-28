@@ -7,16 +7,19 @@
 #'
 #' @param query An \code{ohsome_query} object
 #' @param endpoint The path to the ohsome API endpoint. Either a single string
-#' (e.g. \code{"elements/count"}) or a character vector in the right order
-#' (e.g. \code{c("elements", "count")})
+#'     (e.g. \code{"elements/count"}) or a character vector in the right order
+#'     (e.g. \code{c("elements", "count")})
 #' @param append If true, the provided endpoint string is appended to  the
-#' existing endpoint definition instead of replacing it. This is particularly
-#' useful if you wish to add a groupBy to an existing aggregation query.
+#'     existing endpoint definition instead of replacing it. This is
+#'     particularly useful if you wish to add a groupBy to an existing
+#'     aggregation query.
+#' @param reset_format If true, the format parameter of the query will be
+#'     automatically determined depending on the new endpoint.
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-set_endpoint <- function(query, endpoint, append = FALSE) {
+set_endpoint <- function(query,	endpoint, append = FALSE, reset_format = TRUE) {
 
 	if(append) {
 		old <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
@@ -24,6 +27,7 @@ set_endpoint <- function(query, endpoint, append = FALSE) {
 	}
 
 	body <- query$body
+	if(reset_format) body$format <- NULL
 
 	return(do.call(ohsome_query, c(endpoint, body)))
 }
