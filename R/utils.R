@@ -142,6 +142,20 @@ validate_parameters <- function(endpoint, body) {
 		invisible(FALSE)
 	}
 
+	if(!("time" %in% names(body))) {
+		warning(
+			"Time parameter is not defined and will default to latest ",
+			"available timestamp within the underlying OSHDB. ",
+			"You can use set_time() to set the time parameter."
+		)
+	}
+
+	if(!("filter" %in% names(body))) {
+		warning(
+			"Filter parameter is not defined. ",
+			"You can use set_filter() to set the filter parameter."
+		)
+	}
 }
 
 #' Validate ohsome_query
