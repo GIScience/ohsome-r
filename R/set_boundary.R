@@ -9,7 +9,7 @@
 #' @param query An \code{ohsome_query} object
 #' @param boundary
 #' @param boundary_type
-#' @family Set boundary
+#'
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
@@ -20,14 +20,14 @@ set_boundary <- function(
 	boundary_type = c("bpolys", "bboxes", "bcircles")
 
 ) {
-	choices <- c("bpolys", "bboxes", "bcircles")
-	boundary_type <- match.arg(boundary_type)
-	boundary <- convert_boundary(boundary, boundary_type)
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
 	body <- query$body
+	btypes <- c("bpolys", "bboxes", "bcircles")
+	boundary_type <- match.arg(boundary_type)
+	boundary <- convert_boundary(boundary, boundary_type)
 
 	body[[boundary_type]] <- boundary
-	body[choices[choices != boundary_type]] <- NULL
+	body[btypes[btypes != boundary_type]] <- NULL
 
 	return(do.call(ohsome_query, c(endpoint, body)))
 }

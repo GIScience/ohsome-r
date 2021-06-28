@@ -18,8 +18,8 @@ existing endpoint definition instead of replacing it. This is
 particularly useful if you wish to add a groupBy to an existing
 aggregation query.}
 
-\item{reset_format}{If true, the format parameter of the query will be
-automatically determined depending on the new endpoint.}
+\item{reset_format}{If true, the format parameter of the query is updated
+depending on the new endpoint.}
 }
 \value{
 An \code{ohsome_query} object

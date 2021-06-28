@@ -13,8 +13,8 @@
 #'     existing endpoint definition instead of replacing it. This is
 #'     particularly useful if you wish to add a groupBy to an existing
 #'     aggregation query.
-#' @param reset_format If true, the format parameter of the query will be
-#'     automatically determined depending on the new endpoint.
+#' @param reset_format If true, the format parameter of the query is updated
+#'     depending on the new endpoint.
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export

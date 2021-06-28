@@ -12,7 +12,7 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_query <- function(endpoint, ..., validate = TRUE) {
+ohsome_query <- function(endpoint, ...,	validate = TRUE) {
 
 	body <- lapply(list(...), paste, collapse=",")
 

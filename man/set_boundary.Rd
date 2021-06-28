@@ -21,6 +21,8 @@ set_bcircles(query, boundary)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
+
+\item{boundary_type}{}
 }
 \value{
 An \code{ohsome_query} object
@@ -36,4 +38,3 @@ can be defined as dne or more polygons, bounding boxes or bounding circles.
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
 }
-\concept{Set boundary}
