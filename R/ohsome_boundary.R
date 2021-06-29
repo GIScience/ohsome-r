@@ -53,9 +53,10 @@ ohsome_boundary.sf <- function(x, digits = 6, ...) {
 	if(!all(types %in% c("POLYGON", "MULTIPOLYGON"))) {
 		warning(
 			"At least one of the bounding geometries is not of type ",
-			"(MULTI)POLYGON and was ommitted.",
+			"(MULTI)POLYGON and was omitted.",
 			call. = FALSE
 		)
+		x <- x[types %in% c("POLYGON", "MULTIPOLYGON"),]
 	}
 
 	geojson <- geojsonsf::sf_geojson(x, digits = digits, simplify = FALSE)
