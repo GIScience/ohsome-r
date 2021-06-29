@@ -2,14 +2,25 @@
 % Please edit documentation in R/ohsome_aggregate_elements.R
 \name{ohsome_aggregate_elements}
 \alias{ohsome_aggregate_elements}
+\alias{ohsome_elements_count}
+\alias{ohsome_elements_length}
+\alias{ohsome_elements_perimeter}
+\alias{ohsome_elements_area}
 \title{Aggregate elements}
 \usage{
 ohsome_aggregate_elements(
   boundary,
   aggregation = c("count", "length", "perimeter", "area"),
-  groupBy = c("none", "boundary", "key", "tag", "type"),
   ...
 )
+
+ohsome_elements_count(boundary, ...)
+
+ohsome_elements_length(boundary, ...)
+
+ohsome_elements_perimeter(boundary, ...)
+
+ohsome_elements_area(boundary, ...)
 }
 \arguments{
 \item{...}{}
@@ -23,3 +34,4 @@ Create an \code{ohsome_query} object for OSM element aggregation
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation}
 }
+\concept{Aggregate elements}

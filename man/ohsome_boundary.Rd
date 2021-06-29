@@ -5,7 +5,10 @@
 \alias{ohsome_boundary.ohsome_boundary}
 \alias{ohsome_boundary.character}
 \alias{ohsome_boundary.sf}
+\alias{ohsome_boundary.sfc}
+\alias{ohsome_boundary.sfg}
 \alias{ohsome_boundary.bbox}
+\alias{ohsome_boundary.matrix}
 \title{Create \code{ohsome_boundary} object}
 \usage{
 ohsome_boundary(x, ...)
@@ -16,7 +19,13 @@ ohsome_boundary(x, ...)
 
 \method{ohsome_boundary}{sf}(x, digits = 6, ...)
 
-\method{ohsome_boundary}{bbox}(x, digits = 6, ...)
+\method{ohsome_boundary}{sfc}(x, ...)
+
+\method{ohsome_boundary}{sfg}(x, ...)
+
+\method{ohsome_boundary}{bbox}(x, ...)
+
+\method{ohsome_boundary}{matrix}(x, ...)
 }
 \arguments{
 \item{boundary}{}

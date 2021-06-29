@@ -67,13 +67,23 @@ ohsome_boundary.sf <- function(x, digits = 6, ...) {
 
 #' @name ohsome_boundary
 #' @export
-ohsome_boundary.bbox <- function(x, digits = 6, ...) {
+ohsome_boundary.sfc <- function(x, ...) ohsome_boundary(st_as_sf(x), ...)
 
-	sf <- sf::st_as_sf(sf::st_as_sfc(x))
-	if(attributes(x)$crs$input != "EPSG:4326") sf <- st_transform(sf, 4326)
+#' @name ohsome_boundary
+#' @export
+ohsome_boundary.sfg <- function(x, ...) ohsome_boundary(st_sfc(x, crs = 4326), ...)
 
-	geojson <- geojsonsf::sf_geojson(sf, digits = digits, simplify = FALSE)
-	type <- "bpolys"
+#' @name ohsome_boundary
+#' @export
+ohsome_boundary.bbox <- function(x, ...) {
 
-	structure(list(boundary = geojson, type = type), class = "ohsome_boundary")
+	if(attributes(x)$crs$input != "EPSG:4326") {
+		x <- st_bbox(st_transform(st_as_sfc(x), 4326))
+	}
+
+	ohsome_boundary(paste(x, collapse = ","))
 }
+
+#' @name ohsome_boundary
+#' @export
+ohsome_boundary.matrix <- function(x, ...) ohsome_boundary(paste(x, collapse = ","))
