@@ -7,12 +7,13 @@
 #' (e.g. \code{"elements/count"}) or a character vector in the right order
 #' (e.g. \code{c("elements", "count")})
 #' @param ... Parameters of the request to the ohsome API endpoint
-#'
+#' @param validate logical If true, issues warning for invalid endpoint or
+#'      invalid/missing query parameters
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_query <- function(endpoint, ...,	validate = TRUE) {
+ohsome_query <- function(endpoint, ...,	validate = FALSE) {
 
 	body <- lapply(list(...), paste, collapse=",")
 

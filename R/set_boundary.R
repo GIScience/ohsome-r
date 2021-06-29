@@ -14,38 +14,17 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-set_boundary <- function(
-	query,
-	boundary,
-	boundary_type = c("bpolys", "bboxes", "bcircles")
+set_boundary <- function(query,	boundary, ...) {
 
-) {
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
 	body <- query$body
-	btypes <- c("bpolys", "bboxes", "bcircles")
-	boundary_type <- match.arg(boundary_type)
-	boundary <- convert_boundary(boundary, boundary_type)
 
-	body[[boundary_type]] <- boundary
-	body[btypes[btypes != boundary_type]] <- NULL
+	btypes <- c("bpolys", "bboxes", "bcircles")
+
+	boundary <- ohsome_boundary(boundary, ...)
+
+	body[[boundary$type]] <- boundary$boundary
+	body[btypes[btypes != boundary$type]] <- NULL
 
 	return(do.call(ohsome_query, c(endpoint, body)))
-}
-
-#' @export
-#' @rdname set_boundary
-set_bpolys <- function(query, boundary) {
-	set_boundary(query, boundary, boundary_type = "bpolys")
-}
-
-#' @export
-#' @rdname set_boundary
-set_bboxes <- function(query, boundary) {
-	set_boundary(query, boundary, boundary_type = "bboxes")
-}
-
-#' @export
-#' @rdname set_boundary
-set_bcircles <- function(query, boundary) {
-	set_boundary(query, boundary, boundary_type = "bcircles")
 }

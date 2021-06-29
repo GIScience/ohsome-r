@@ -6,6 +6,8 @@
 #' @param query an ohsome_query object constructed with ohsome_query()
 #'     or any of its wrapper functions
 #' @param parse logical parse the ohsome API response?
+#' @param validate logical If true, issues warning for invalid endpoint or
+#'      invalid/missing query parameters
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
 #'
@@ -17,10 +19,17 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-ohsome_post <- function(query, parse = TRUE, additional_identifiers = NULL) {
+ohsome_post <- function(
+	query,
+	parse = TRUE,
+	validate = TRUE,
+	additional_identifiers = NULL
+
+) {
+
+	if(validate) validate_query(query)
 
 	if(is.null(additional_identifiers)) additional_identifiers <- ""
-
 	user_agent <- trimws(sprintf(
 		"%s %s/%s",
 		paste(as.character(additional_identifiers), collapse = " "),

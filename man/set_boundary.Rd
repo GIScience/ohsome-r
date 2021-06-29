@@ -2,22 +2,9 @@
 % Please edit documentation in R/set_boundary.R
 \name{set_boundary}
 \alias{set_boundary}
-\alias{set_bpolys}
-\alias{set_bboxes}
-\alias{set_bcircles}
 \title{Set boundary}
 \usage{
-set_boundary(
-  query,
-  boundary,
-  boundary_type = c("bpolys", "bboxes", "bcircles")
-)
-
-set_bpolys(query, boundary)
-
-set_bboxes(query, boundary)
-
-set_bcircles(query, boundary)
+set_boundary(query, boundary, ...)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}

@@ -95,7 +95,7 @@ create_metadata_message  <- function(meta) {
 validate_endpoint <- function(endpoint) {
 
 	if(endpoint %in% names(ohsome::ohsome_endpoints)) {
-		invisible(TRUE)
+		return(TRUE)
 	} else {
 		warning(
 			"ohsome does not know endpoint ", endpoint,
@@ -104,7 +104,7 @@ validate_endpoint <- function(endpoint) {
 			" for available endpoints.",
 			call. = FALSE
 		)
-		invisible(FALSE)
+	return(FALSE)
 	}
 
 }
@@ -125,9 +125,7 @@ validate_parameters <- function(endpoint, body) {
 	params <- ohsome::ohsome_endpoints[[endpoint]]$parameters$name
 	diff <- setdiff(names(body), params)
 
-	if(length(diff) == 0) {
-		invisible(TRUE)
-	} else {
+	if(length(diff) > 0) {
 		warning(
 			paste(diff, collapse = ", "),
 			ifelse(
@@ -139,21 +137,31 @@ validate_parameters <- function(endpoint, body) {
 			"\nSee https://docs.ohsome.org/ohsome-api/v1/",
 			call. = FALSE
 		)
-		invisible(FALSE)
+	}
+
+	if(length(intersect(names(body), c("bpolys", "bboxes", "bcircles"))) != 1) {
+		warning(
+			"One (and only one) of the following parameters should be set: ",
+			"bpolys, bboxes, or bcircles. ",
+			"You can use set_boundary() to set a bounding geometry parameter.",
+			call. = FALSE
+		)
 	}
 
 	if(!("time" %in% names(body))) {
 		warning(
-			"Time parameter is not defined and will default to latest ",
+			"Time parameter is not defined and defaults to latest ",
 			"available timestamp within the underlying OSHDB. ",
-			"You can use set_time() to set the time parameter."
+			"You can use set_time() to set the time parameter.",
+			call. = FALSE
 		)
 	}
 
 	if(!("filter" %in% names(body))) {
 		warning(
 			"Filter parameter is not defined. ",
-			"You can use set_filter() to set the filter parameter."
+			"You can use set_filter() to set the filter parameter.",
+			call. = FALSE
 		)
 	}
 }
@@ -169,12 +177,7 @@ validate_parameters <- function(endpoint, body) {
 validate_query <- function(query) {
 
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
-
-	if(validate_endpoint(endpoint)) {
-		invisible(validate_parameters(endpoint, query$body))
-	} else {
-		invisible(FALSE)
-	}
+	if(validate_endpoint(endpoint)) validate_parameters(endpoint, query$body)
 }
 
 #' Null coalesce operator

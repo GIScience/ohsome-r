@@ -4,7 +4,7 @@
 \alias{ohsome_query}
 \title{Create an ohsome_query object}
 \usage{
-ohsome_query(endpoint, ..., validate = TRUE)
+ohsome_query(endpoint, ..., validate = FALSE)
 }
 \arguments{
 \item{endpoint}{The path to the ohsome API endpoint. Either a single string
@@ -12,6 +12,9 @@ ohsome_query(endpoint, ..., validate = TRUE)
 (e.g. \code{c("elements", "count")})}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
+
+\item{validate}{logical If true, issues warning for invalid endpoint or
+invalid/missing query parameters}
 }
 \value{
 An \code{ohsome_query} object

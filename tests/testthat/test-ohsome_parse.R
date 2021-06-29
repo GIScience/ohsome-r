@@ -9,7 +9,7 @@ with_mock_api({
 		bcircles = "13.45,52.5,1000",
 		format = "csv"
 	)
-	r <- ohsome_post(q, parse = FALSE)
+	r <- ohsome_post(q, parse = FALSE, validate = FALSE)
 
 	test_that(
 		'returns data.frame by default when content CSV', {
@@ -43,7 +43,7 @@ with_mock_api({
 		filter = "shop=convenience",
 		bcircles = "13.45,52.5,1000"
 	)
-	r <- ohsome_post(q, parse = FALSE)
+	r <- ohsome_post(q, parse = FALSE, validate = FALSE)
 
 	test_that(
 		'returns sf by default when content GeoJSON', {

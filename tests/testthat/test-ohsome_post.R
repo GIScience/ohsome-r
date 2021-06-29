@@ -12,7 +12,7 @@ with_mock_api({
 				bcircles = "13.45,52.5,1000"
 			)
 
-			expect_s3_class(ohsome_post(q, parse = FALSE), "response")
+			expect_s3_class(ohsome_post(q, parse = FALSE, validate = FALSE), "response")
 	})
 
 	test_that(
@@ -24,7 +24,7 @@ with_mock_api({
 				bcircles = "13.45,52.5,1000"
 			)
 
-			expect_s3_class(ohsome_post(q, parse = TRUE), "data.frame")
+			expect_s3_class(ohsome_post(q, parse = TRUE, validate = FALSE), "data.frame")
 		})
 })
 
@@ -40,10 +40,9 @@ with_mock_api({
 			q <- ohsome_query(
 				c("elements", "amount"),
 				filter = "shop=convenience",
-				bcircles = "13.45,52.5,1000",
-				validate = FALSE
+				bcircles = "13.45,52.5,1000"
 			)
 
-			expect_error(ohsome_post(q))
+			expect_error(ohsome_post(q, validate = FALSE))
 		})
 })

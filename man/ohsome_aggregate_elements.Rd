@@ -6,11 +6,8 @@
 \usage{
 ohsome_aggregate_elements(
   boundary,
-  boundary_type = c("bpolys", "bboxes", "bcircles"),
   aggregation = c("count", "length", "perimeter", "area"),
   groupBy = c("none", "boundary", "key", "tag", "type"),
-  density = FALSE,
-  ratio = FALSE,
   ...
 )
 }

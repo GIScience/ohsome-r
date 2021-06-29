@@ -4,13 +4,21 @@
 \alias{ohsome_post}
 \title{Send POST request to ohsome API}
 \usage{
-ohsome_post(query, parse = TRUE, additional_identifiers = NULL)
+ohsome_post(
+  query,
+  parse = TRUE,
+  validate = TRUE,
+  additional_identifiers = NULL
+)
 }
 \arguments{
 \item{query}{an ohsome_query object constructed with ohsome_query()
 or any of its wrapper functions}
 
 \item{parse}{logical parse the ohsome API response?}
+
+\item{validate}{logical If true, issues warning for invalid endpoint or
+invalid/missing query parameters}
 
 \item{additional_identifiers}{optional user agent identifiers in addition to
 "ohsome-r/version" (a vector coercible to character)}
