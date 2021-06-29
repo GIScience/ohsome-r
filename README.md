@@ -10,48 +10,80 @@ The goal of ohsome is to …
 
 ## Installation
 
-You can install the released version of ohsome from
-[CRAN](https://CRAN.R-project.org) with:
+If you have access to the repository and a
+<a href="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html" target="blank">personal access token</a>,
+you can install the development version of ohsome from gitlab:
 
 ``` r
-install.packages("ohsome")
+remotes::install_gitlab(
+    repo = "giscience/big-data/ohsome/libs/ohsome-r@develop",
+    host = "https://gitlab.gistools.geog.uni-heidelberg.de",
+    auth_token = personal_access_token
+)
 ```
 
-## Example
+## Getting started
 
-This is a basic example which shows you how to solve a common problem:
+Upon attaching the *ohsome* package, a metadata request is sent to the
+*ohsome* API. The package message provides some essential metadata
+information, such as the current temporal extent of the underlying
+OSHDB:
 
 ``` r
 library(ohsome)
-#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights 
-#> ohsome API version 1.4.1 
-#> Temporal extent:  2007-10-08T00:00:00Z to 2021-06-06T20:00Z
-## basic example code
+#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
+#> ohsome API version: 1.5.0
+#> Temporal extent: 2007-10-08 to 2021-06-20 20:00:00
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+The metadata is stored in *.ohsome\_metadata*. You can print it to the
+console to get more details:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+.ohsome_metadata
+#> $attribution
+#> $attribution$url
+#> [1] "https://ohsome.org/copyrights"
+#> 
+#> $attribution$text
+#> [1] "© OpenStreetMap contributors"
+#> 
+#> 
+#> $apiVersion
+#> [1] "1.5.0"
+#> 
+#> $timeout
+#> [1] 600
+#> 
+#> $extractRegion
+#> $extractRegion$spatialExtent
+#> Geometry set for 1 feature 
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -180 ymin: -90 xmax: 180 ymax: 90
+#> Geodetic CRS:  WGS 84
+#> POLYGON ((-180 -90, 180 -90, 180 90, -180 90, -...
+#> 
+#> $extractRegion$temporalExtent
+#> [1] "2007-10-08 00:00:00 UTC" "2021-06-20 20:00:00 UTC"
+#> 
+#> $extractRegion$replicationSequenceNumber
+#> [1] 76885
+#> 
+#> 
+#> $apiversion
+#> [1] '1.5.0'
+#> 
+#> attr(,"status_code")
+#> [1] 200
+#> attr(,"date")
+#> [1] "2021-06-29 13:42:53 UTC"
+#> attr(,"class")
+#> [1] "ohsome_metadata"
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
+### Aggregate OpenStreetMap elements
 
-You can also embed plots, for example:
+### Other queries
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+### Bounding geometries
