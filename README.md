@@ -102,7 +102,7 @@ q |>
     geom_col()
 ```
 
-<img src="man/figures/README-pipe-1.svg" width="800" />
+<img src="man/figures/README-pipe-1.svg" width="900" />
 
 This is how to query the total number of breweries in all of Franconia.
 But what if we want to aggregate the amount per district? The
@@ -161,7 +161,7 @@ q |>
     mapview(zcol = "value", layer.name = "Breweries per sqkm")
 ```
 
-<img src="man/figures/README-density-1.png" width="800" />
+<img src="man/figures/README-density-1.png" width="900" />
 
 ### Other queries
 
@@ -191,14 +191,14 @@ q <- ohsome_query(
 One of the downsides of this approach is that you cannot just pass `sf`
 objects as bounding polygons into the query. You would need to textually
 define the bounding geometries (`bpolys`, `bboxes` or `bcircles`) as
-parameters to the query just as described in the \[ohsome API
-documentation\](<https://docs.ohsome.org/ohsome-api/stable/boundaries.html%7Btarget=blank%7D>.
+parameters to the query just as described in the
+<a href="https://docs.ohsome.org/ohsome-api/stable/boundaries.html" target="blank">ohsome API documentation</a>.
 
 As a workaround, you can just add bounding geometries with
 `set_boundary()` to any existing `ohsome_query` object:
 
 ``` r
-schweinfurt <- subset(franconia, NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
+schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
 
 q <- set_boundary(q, schweinfurt)
 ```
@@ -219,10 +219,10 @@ m <- q |>
     top_n(-1, wt = year) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 
-m@map %>% leaflet::setView(10.23, 50.04, zoom = 14)
+m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
 
-<img src="man/figures/README-buildings-1.png" width="800" />
+<img src="man/figures/README-buildings-1.png" width="900" />
 
 You may find using `clean_names()` from the `janitor` package helpful in
 order to remove special characters from column names in the parsed

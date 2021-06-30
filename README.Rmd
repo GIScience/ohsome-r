@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-", 
-  out.width = 800
+  out.width = 900
 )
 ```
 
@@ -177,13 +177,13 @@ One of the downsides of this approach is that you cannot just pass `sf` objects
 as bounding polygons into the query. You would need to textually define the 
 bounding geometries (`bpolys`, `bboxes` or `bcircles`) as parameters to the 
 query just as described in the 
-[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html{target=blank}.
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}.
 
 As a workaround, you can just add bounding geometries with `set_boundary()` to 
 any existing `ohsome_query` object:
 
 ```{r set_boundary, message = FALSE}
-schweinfurt <- subset(franconia, NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
+schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
 
 q <- set_boundary(q, schweinfurt)
 ```
@@ -204,7 +204,7 @@ m <- q |>
     top_n(-1, wt = year) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 
-m@map %>% leaflet::setView(10.23, 50.04, zoom = 14)
+m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
 
 You may find using `clean_names()` from the `janitor` package helpful in order
