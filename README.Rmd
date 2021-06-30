@@ -9,8 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-", 
-  out.width = 1200, 
-  out.height = 800
+  out.width = 800
 )
 ```
 
@@ -195,7 +194,7 @@ earliest version of each feature (by OSM id) that still exists in 2020 and
 visualise all building features with their year of creation:
 
 ```{r buildings}
-q |> 
+m <- q |> 
 	set_time("2007-12-31T23:59:59/2020-12-31T23:59:59/P1Y") |>
 	ohsome_post() |>
 	janitor:: clean_names() |>
@@ -204,6 +203,8 @@ q |>
     filter(any(year == 2020)) |>
     top_n(-1, wt = year) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+
+m@map %>% leaflet::setView(10.23, 50.04, zoom = 14)
 ```
 
 You may find using `clean_names()` from the `janitor` package helpful in order

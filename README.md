@@ -35,7 +35,7 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.5.0
-#> Temporal extent: 2007-10-08 to 2021-06-20 20:00:00
+#> Temporal extent: 2007-10-08 to 2021-06-28 09:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
@@ -70,7 +70,7 @@ ohsome_post(q)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-06-20 20:00:00   125
+#> 1 2021-06-28 09:00:00   125
 ```
 
 `ohsome_post()` has issued a warning that the time parameter of the
@@ -102,7 +102,7 @@ q |>
     geom_col()
 ```
 
-<img src="man/figures/README-pipe-1.svg" width="1200" height="800" />
+<img src="man/figures/README-pipe-1.svg" width="800" />
 
 This is how to query the total number of breweries in all of Franconia.
 But what if we want to aggregate the amount per district? The
@@ -161,7 +161,7 @@ q |>
     mapview(zcol = "value", layer.name = "Breweries per sqkm")
 ```
 
-<img src="man/figures/README-density-1.png" width="1200" height="800" />
+<img src="man/figures/README-density-1.png" width="800" />
 
 ### Other queries
 
@@ -209,7 +209,7 @@ version of each feature (by OSM id) that still exists in 2020 and
 visualise all building features with their year of creation:
 
 ``` r
-q |> 
+m <- q |> 
     set_time("2007-12-31T23:59:59/2020-12-31T23:59:59/P1Y") |>
     ohsome_post() |>
     janitor:: clean_names() |>
@@ -218,9 +218,11 @@ q |>
     filter(any(year == 2020)) |>
     top_n(-1, wt = year) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+
+m@map %>% leaflet::setView(10.23, 50.04, zoom = 14)
 ```
 
-<img src="man/figures/README-buildings-1.png" width="1200" height="800" />
+<img src="man/figures/README-buildings-1.png" width="800" />
 
 You may find using `clean_names()` from the `janitor` package helpful in
 order to remove special characters from column names in the parsed
