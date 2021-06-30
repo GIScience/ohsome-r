@@ -28,10 +28,11 @@ If you have access to the repository and a
 you can install the development version of *ohsome* from GitLab:
 
 ```{r, eval = FALSE}
+Sys.setenv(GITLAB_PAT = your_personal_access_token)
+
 remotes::install_gitlab(
 	repo = "giscience/big-data/ohsome/libs/ohsome-r@develop",
-	host = "https://gitlab.gistools.geog.uni-heidelberg.de",
-	auth_token = personal_access_token
+	host = "https://gitlab.gistools.geog.uni-heidelberg.de"
 )
 
 ```
@@ -102,10 +103,44 @@ q |>
 	set_time("2010/2020/P1Y") |>
 	ohsome_post() |>
 	ggplot(aes(x = timestamp, y = value)) +
-	geom_bar()
+	geom_col()
+```
+
+What if we want to know not the total number of breweries in all of Franconia, 
+but rather per each district of Franconia? The *set_endpoint()* function can
+be used to change or append to the endpoint path of an API request. In this case, 
+we would want to append `/groupBy/boundary` to the `elements/count` endpoint. 
+The endpoint path can either be given as a single string (`/groupBy/boundary`) or
+as a character vector^[The order of the elements in the character vector is 
+critical!] as in this example:
+
+```{r groupBy_boundary}
+q <- set_time(q, "2021-06-01")
+
+q |>
+	set_endpoint(c("groupBy", "boundary"), append = TRUE) |>
+	ohsome_post()
+```
+
+By default, *ohsome_post()* returns an *sf* object whenever the *ohsome* API 
+is capable of delivering GeoJSON data -- which is the case for elements 
+extraction queries as well as for aggregations grouped by boundaries.
+
+It is thus possible to easily create a choropleth map from the query results. As
+it makes more sense to visualise amounts normalised by area rather than absolute
+amounts on such a map, "density" can be added to the endpoint path to query for 
+the amount of breweries per square kilometer:
+
+```{r density}
+q |>
+	set_endpoint(c("density", "groupBy", "boundary"), append = TRUE) |>
+	ohsome_post() |>
+	mapview(zcol = "value")
 ```
 
 
 ### Other queries
+
+
 
 ### Bounding geometries
