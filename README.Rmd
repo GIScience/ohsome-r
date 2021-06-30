@@ -8,8 +8,9 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.path = "man/figures/README-", 
+  out.width = 1200, 
+  out.height = 800
 )
 ```
 
@@ -18,14 +19,14 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This *ohsome* R package grants access to the power of the *ohsome* API from R.
-ohsome is ... OSHDB ... 
+This ohsome R package grants access to the power of the ohsome API from R.
+ohsome is ... OSHDB ... OSM ...
 
 ## Installation
 
 If you have access to the repository and a 
 [personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html){target=blank},
-you can install the development version of *ohsome* from GitLab:
+you can install the development version of ohsome from GitLab:
 
 ```{r, eval = FALSE}
 Sys.setenv(GITLAB_PAT = your_personal_access_token)
@@ -39,7 +40,7 @@ remotes::install_gitlab(
 
 ## Getting started
 
-Upon attaching the *ohsome* package, a metadata request is sent to the *ohsome* 
+Upon attaching the ohsome package, a metadata request is sent to the ohsome 
 API. The package message provides some essential metadata information, such as
 the current temporal extent of the underlying OSHDB:
 
@@ -47,20 +48,20 @@ the current temporal extent of the underlying OSHDB:
 library(ohsome)
 ```
 
-The metadata is stored in *.ohsome_metadata*. You can print it to the console
+The metadata is stored in `.ohsome_metadata`. You can print it to the console
 to get more details.
 
 ### Aggregate OpenStreetMap elements
 
-This early version of the *ohsome* R package provides wrapper functions for the
+This early version of the ohsome R package provides wrapper functions for the
 elements aggregation endpoints only. With these functions you can query the 
-*ohsome* API for the aggregated amount, length, area or perimeter of 
+ohsome API for the aggregated amount, length, area or perimeter of 
 OpenStreetMap elements with given properties, within given boundaries and at 
 given points in time.
 
 Here, we create a query for the total amount of breweries on OSM in the German 
-region of Franconia. The first argument to *ohsome_elements_count()* is the *sf* 
-object *franconia* that is included in the *mapview* package:
+region of Franconia. The first argument to `ohsome_elements_count()` is the `sf` 
+object `franconia` that is included in the `mapview` package:
 
 ```{r elements_count}
 library(mapview)
@@ -68,8 +69,8 @@ library(mapview)
 q <- ohsome_elements_count(franconia, filter = "craft=brewery")
 ```
 
-The resulting *ohsome_query* object can be sent to the *ohsome* API with 
-*ohsome_post()*. By default, *ohsome_post()* returns the parsed API response
+The resulting `ohsome_query` object can be sent to the ohsome API with 
+`ohsome_post()`. By default, `ohsome_post()` returns the parsed API response
 which is a simple data.frame in this case.
 
 ```{r post}
@@ -77,12 +78,12 @@ ohsome_post(q)
 ``` 
 
 We now know that there were 125 breweries in Franconia on OSM at a certain point
-in time. However, *ohsome_post()* has issued a warning that the time parameter
-of the query was not defined. Thus, the *ohsome* API returned the number of 
+in time. However, `ohsome_post()` has issued a warning that the time parameter
+of the query was not defined. Thus, the `ohsome` API returned the number of 
 elements at the latest available timestamp.
 
 The [time parameter](https://docs.ohsome.org/ohsome-api/stable/time.html){target=blank}
-allows to access the OSM history through the *ohsome* API. This would create a 
+allows to access the OSM history through the ohsome API. This would create a 
 query of the number of breweries at January 1st of each year between 2010 and 
 2020:
 
@@ -92,9 +93,9 @@ franconia |>
 	ohsome_elements_count(filter = "craft=brewery", time = "2010/2020/P1Y")
 ```
 
-Alternatively, we can update the existing *ohsome_query* object *q* with the 
-*set_time()* function, pipe the modified query directly into 
-*ohsome_post()* and make a quick visualisation with *ggplot2*:
+Alternatively, we can update the existing `ohsome_query` object `q` with the 
+`set_time()` function, pipe the modified query directly into `ohsome_post()` 
+and make a quick visualisation with `ggplot2`:
 
 ```{r pipe}
 library(ggplot2)
@@ -106,13 +107,13 @@ q |>
 	geom_col()
 ```
 
-What if we want to know not the total number of breweries in all of Franconia, 
-but rather per each district of Franconia? The *set_endpoint()* function can
-be used to change or append to the endpoint path of an API request. In this case, 
-we would want to append `/groupBy/boundary` to the `elements/count` endpoint. 
-The endpoint path can either be given as a single string (`/groupBy/boundary`) or
-as a character vector^[The order of the elements in the character vector is 
-critical!] as in this example:
+This is how to query the total number of breweries in all of Franconia. But
+what if we actually want to know the amount per each district? The 
+`set_endpoint()` function can be used to change or append to the endpoint path 
+of an API request. In this case, we would want to append `/groupBy/boundary` to 
+the `elements/count` endpoint. The endpoint path can either be given as a single
+string (`/groupBy/boundary`) or as a character 
+vector^[The order of the elements in the character vector is critical!]:
 
 ```{r groupBy_boundary}
 q <- set_time(q, "2021-06-01")
@@ -122,25 +123,139 @@ q |>
 	ohsome_post()
 ```
 
-By default, *ohsome_post()* returns an *sf* object whenever the *ohsome* API 
+By default, `ohsome_post()` returns an `sf` object whenever the ohsome API 
 is capable of delivering GeoJSON data -- which is the case for elements 
 extraction queries as well as for aggregations grouped by boundaries.
 
-It is thus possible to easily create a choropleth map from the query results. As
-it makes more sense to visualise amounts normalised by area rather than absolute
-amounts on such a map, "density" can be added to the endpoint path to query for 
-the amount of breweries per square kilometer:
+It is thus possible to easily create a choropleth map from the query results.
+In addition, `density` can be added to the endpoint path in order to query for
+breweries per area:
 
 ```{r density}
 q |>
 	set_endpoint(c("density", "groupBy", "boundary"), append = TRUE) |>
 	ohsome_post() |>
-	mapview(zcol = "value")
+	mapview(zcol = "value", layer.name = "Breweries per sqkm")
 ```
 
 
 ### Other queries
 
+The ohsome API has endpoints not only for the aggregation of OSM elements, but 
+also for the aggregation of users and contributions, and even for the 
+extraction of elements, of their full history and of contributions. Up to now, 
+this ohsome R package provides wrapper functions for element aggregation. 
 
+
+However, you can create any ohsome API query using the more generic 
+`ohsome_query()` function. It takes the endpoint path and any query parameters
+as an input. For information on all available endpoints with their parameters,
+consult the 
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html){target=blank} 
+or have a look at `ohsome_endpoints`.
+
+
+Here's a query to extract the geometries of building polygons:
+
+```{r extract}
+q <- ohsome_query(
+	c("elements", "geometry"), 
+	filter = "building=* and geometry:polygon", 
+	clipGeometry = "false"
+)
+```
+
+One of the downsides of this approach is that you cannot just pass `sf` objects
+as bounding polygons into the query. You would need to define the bounding
+geometries (`bpolys`, `bboxes` or `bcircles`) as parameters to the query just as
+described in the 
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html{target=blank}.
+
+However, you can also just add bounding geometries with `set_boundary()` to 
+any existing `ohsome_query` object:
+
+```{r set_boundary, message = FALSE}
+schweinfurt <- subset(franconia, NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
+
+q <- set_boundary(q, schweinfurt)
+```
+
+In the following, we request OSM building geometries for the district of 
+Schweinfurt City at the end of each year from 2007 to 2020, filter for the 
+earliest version of each feature that still exists in 2020 (by OSM id) and 
+visualise all buildings features with their year of creation:
+
+```{r buildings}
+library(dplyr)
+
+q |> 
+	set_time("2007-12-31T23:59:59/2020-12-31T23:59:59/P1Y") |>
+	ohsome_post() |>
+	janitor:: clean_names() |>
+    mutate(year = format(snapshot_timestamp, "%Y")) |>
+    group_by(osm_id) |>
+    filter(any(year == 2020)) |>
+    top_n(-1, wt = year) |>
+    mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+```
+
+You may find using `clean_names()` from the `janitor` package helpful in order
+to remove special characters from column names in the parsed ohsome API 
+response -- just as in the example above.
 
 ### Bounding geometries
+
+The ohsome API requires bounding geometries either as bounding polygons 
+(`bpolys`), bounding boxes (`bboxes`) or bounding circles (`bcircles`) 
+parameters to the query in a textual form. The ohsome R package uses the 
+generic function `ohsome_boundary()` under the hood to make your life easier 
+and accept a wider range of input geometry formats, while guessing the right
+type of bounding geometry.
+
+As seen above, `sf` objects can be passed into any of the wrapper functions of 
+`ohsome_query()` (though not `ohsome_query()` itself) or into `set_boundary()`. 
+The `sf` will be converted into GeoJSON and passed into the `bpolys` parameter 
+of the query.
+
+There are also the following methods of `ohsome_boundary()` for other classes
+of input geometry objects.
+
+1. There is a method for `bbox` objects created with `st_bbox` that converts the 
+object into a textual `bboxes` parameter to the query:
+
+```{r bbox}
+ohsome_query("users/count") |>
+	set_boundary(sf::st_bbox(franconia))
+```
+
+2. `matrix` objects created with `sp::bbox()`, `raster::bbox` or `terra::bbox`
+are also converted into a textual `bboxes` parameter. This even applies for
+matrices created with `osmdata::getbb`, so that you can comfortably acquire
+bounding boxes for many places in the world:
+
+```{r getbb}
+osmdata::getbb("Kigali") |> 
+	ohsome_elements_length(time = "2018/2018-12/P1M", filter = "route=bus") |>
+	ohsome_post()
+```
+
+3. You can pass any `character` object with text in the 
+[format allowed by the ohsome API](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}
+to `ohsome_boundary()` -- even GeoJSON FeatureCollections. It will automatically 
+detect whether you have passed the definition of `bpolys`, `bboxes` or 
+`bcircles`.
+
+It is also possible to use `character` vectors where each element represents one 
+geometry:
+
+```{r circles}
+c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
+	ohsome_elements_count(filter = "amenity=*", time = 2021) |>
+	set_endpoint("groupBy/boundary", append = TRUE) |>
+	ohsome_post()
+```
+
+
+`r emo::ji("warning")` While `sf` and `bbox` objects will be automatically 
+transformed to WGS 84 if in a different coordinate reference system, coordinates
+in `character` and `matrix` objects always need to be provided as WGS 84.
