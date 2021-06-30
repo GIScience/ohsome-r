@@ -48,11 +48,11 @@ ohsome_parse <- function(
 		p <- geojsonsf::geojson_sf(content)
 
 		if(return_class == "data.frame") {
-			return(sf::st_drop_geometry(p))
+			return(convert_quietly(sf::st_drop_geometry(p)))
 		} else if(return_class == "list") {
-			return(as.list(p))
+			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
-			return(p)
+			return(sf::st_sf(convert_quietly(as.data.frame(p))))
 		}
 
 	} else if(type == "application/json") {
@@ -69,7 +69,7 @@ ohsome_parse <- function(
 				)
 			}
 
-			return(as.data.frame(p))
+			return(as.data.frame(convert_quietly(p)))
 		}
 
 	} else if(type == "text/csv") {
@@ -82,7 +82,7 @@ ohsome_parse <- function(
 		)
 
 		if(return_class == "list") {
-			return(as.list(p))
+			return(as.list(convert_quietly(p)))
 		} else {
 			if(return_class == "sf") {
 				warning(
@@ -91,7 +91,7 @@ ohsome_parse <- function(
 				)
 			}
 
-			return(p)
+			return(convert_quietly(p))
 		}
 	} else {
 		stop("ohsome API response content is neither of type (Geo)JSON nor CSV.")

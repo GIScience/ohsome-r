@@ -180,6 +180,17 @@ validate_query <- function(query) {
 	if(validate_endpoint(endpoint)) validate_parameters(endpoint, query$body)
 }
 
+#' Type convert without message
+#'
+#' Converts type of data.frame columns with \code{readr::type_convert()} while
+#' suppressing messages
+#'
+#' @param df data.frame
+#'
+#' @return data.frame
+#' @keywords Internal
+convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
+
 #' Null coalesce operator
 #'
 #' @keywords Internal
