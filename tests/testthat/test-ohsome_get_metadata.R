@@ -4,20 +4,9 @@ with_mock_api({
 	.mockPaths("./mock_api/200")
 
 	test_that(
-		"assigns metadata to .ohsome_metadata", {
-
-			unlockBinding(".ohsome_metadata", as.environment("package:ohsome"))
-
-			ohsome_get_metadata(quiet = T)
-			expect_equal(.ohsome_metadata$apiVersion, "99999")
-			expect_type(.ohsome_metadata, "list")
-			expect_s3_class(.ohsome_metadata, "ohsome_metadata")
-	})
-
-	test_that(
 		"returns metadata", {
 			meta <- ohsome_get_metadata(quiet = T)
-			expect_equal(meta$apiVersion, "99999")
+			expect_equal(meta$apiVersion, numeric_version("99999"))
 			expect_type(meta, "list")
 			expect_s3_class(meta, "ohsome_metadata")
 	})

@@ -18,13 +18,14 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of ohsome is to ...
+This *ohsome* R package grants access to the power of the *ohsome* API from R.
+ohsome is ... OSHDB ... 
 
 ## Installation
 
 If you have access to the repository and a 
 [personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html){target=blank},
-you can install the development version of ohsome from gitlab:
+you can install the development version of *ohsome* from GitLab:
 
 ```{r, eval = FALSE}
 remotes::install_gitlab(
@@ -46,13 +47,64 @@ library(ohsome)
 ```
 
 The metadata is stored in *.ohsome_metadata*. You can print it to the console
-to get more details:
-
-```{r metadata}
-.ohsome_metadata
-```
+to get more details.
 
 ### Aggregate OpenStreetMap elements
+
+This early version of the *ohsome* R package provides wrapper functions for the
+elements aggregation endpoints only. With these functions you can query the 
+*ohsome* API for the aggregated amount, length, area or perimeter of 
+OpenStreetMap elements with given properties, within given boundaries and at 
+given points in time.
+
+Here, we create a query for the total amount of breweries on OSM in the German 
+region of Franconia. The first argument to *ohsome_elements_count()* is the *sf* 
+object *franconia* that is included in the *mapview* package:
+
+```{r elements_count}
+library(mapview)
+
+q <- ohsome_elements_count(franconia, filter = "craft=brewery")
+```
+
+The resulting *ohsome_query* object can be sent to the *ohsome* API with 
+*ohsome_post()*. By default, *ohsome_post()* returns the parsed API response
+which is a simple data.frame in this case.
+
+```{r post}
+ohsome_post(q)
+``` 
+
+We now know that there were 125 breweries in Franconia on OSM at a certain point
+in time. However, *ohsome_post()* has issued a warning that the time parameter
+of the query was not defined. Thus, the *ohsome* API returned the number of 
+elements at the latest available timestamp.
+
+The [time parameter](https://docs.ohsome.org/ohsome-api/stable/time.html){target=blank}
+allows to access the OSM history through the *ohsome* API. This would create a 
+query of the number of breweries at January 1st of each year between 2010 and 
+2020:
+
+
+```{r time, eval = FALSE}
+franconia |> 
+	ohsome_elements_count(filter = "craft=brewery", time = "2010/2020/P1Y")
+```
+
+Alternatively, we can update the existing *ohsome_query* object *q* with the 
+*set_time()* function, pipe the modified query directly into 
+*ohsome_post()* and make a quick visualisation with *ggplot2*:
+
+```{r pipe}
+library(ggplot2)
+
+q |> 
+	set_time("2010/2020/P1Y") |>
+	ohsome_post() |>
+	ggplot(aes(x = timestamp, y = value)) +
+	geom_bar()
+```
+
 
 ### Other queries
 
