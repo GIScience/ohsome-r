@@ -4,7 +4,6 @@
 #'
 #' \code{ohsome_get_metadata} sends a GET request to the metadata endpoint of
 #' ohsome API and parses the response. The parsed metadata is silently returned.
-#' As a side effect, it is also assigned to \code{\link{.ohsome_metadata}}.
 #'
 #' @param quiet logical; suppress message on data attribution, API version and
 #'     temporal extent.
@@ -53,7 +52,5 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 	)
 
 	if(!quiet) message(create_metadata_message(ohsome_metadata))
-
-	assign(".ohsome_metadata", ohsome_metadata, pos = "package:ohsome")
 	invisible(ohsome_metadata)
 }

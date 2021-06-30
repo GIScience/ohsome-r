@@ -37,7 +37,6 @@ Return parsed metadata from ohsome API
 \details{
 \code{ohsome_get_metadata} sends a GET request to the metadata endpoint of
 ohsome API and parses the response. The parsed metadata is silently returned.
-As a side effect, it is also assigned to \code{\link{.ohsome_metadata}}.
 }
 \examples{
 \dontrun{
