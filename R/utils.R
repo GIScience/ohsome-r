@@ -55,7 +55,7 @@ convert_metadata <- function(parsed) {
 	spex <- parsed$extractRegion$spatialExtent
 	tex <- parsed$extractRegion$temporalExtent
 
-	parsed$apiversion <- numeric_version(parsed$apiVersion)
+	parsed$apiVersion <- numeric_version(parsed$apiVersion)
 	parsed$extractRegion$spatialExtent <- convert_spatialExtent(spex)
 	parsed$extractRegion$temporalExtent <- convert_temporalExtent(tex)
 
