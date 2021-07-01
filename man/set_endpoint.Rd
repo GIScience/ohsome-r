@@ -31,6 +31,13 @@ Modify the endpoint of an existing \code{ohsome_query} object
 \code{set_endpoint()} takes an \code{ohsome_query} object and modifies the
 ohsome API endpoint.
 }
+\examples{
+q <- ohsome_elements_count(mapview::franconia, filter = "highway=*")
+
+set_endpoint(q, "elements/length")
+set_endpoint(q, "groupBy/boundary", append = TRUE)
+set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
+}
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
 }
