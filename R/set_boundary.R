@@ -32,6 +32,7 @@
 #' @export
 #' @examples
 #' q <- ohsome_query("elements/count/groupBy/boundary", ilter = "building=*")
+#'
 #' set_boundary(q, mapview::franconia)
 #' set_boundary(q, sf::st_bbox(mapview::franconia))
 #' set_boundary(q, osmdata::getbb("Kigali"))

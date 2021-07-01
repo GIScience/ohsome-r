@@ -44,6 +44,7 @@ can be defined as one or more polygons, bounding boxes or bounding circles.
 }
 \examples{
 q <- ohsome_query("elements/count/groupBy/boundary", ilter = "building=*")
+
 set_boundary(q, mapview::franconia)
 set_boundary(q, sf::st_bbox(mapview::franconia))
 set_boundary(q, osmdata::getbb("Kigali"))

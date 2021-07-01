@@ -28,11 +28,40 @@ ohsome_boundary(x, ...)
 \method{ohsome_boundary}{matrix}(x, ...)
 }
 \arguments{
-\item{boundary}{}
+\item{...}{Additional arguments passed to \code{\link[geojsonsf]{sf_geojson}}
+for boundaries of class \code{sf}. \code{digits} defines the number of
+decimal places of coordinates in the resulting GeoJSON (defaults to 6).
+Other arguments are ignored.}
+
+\item{boundary}{Bounding geometries that are passed to
+\code{\link{ohsome_boundary}}. Bounding geometries can be of class:
+\describe{
+\item{sf}{with (MULTI)POLYGON geometries}
+\item{sfc}{with (MULTI)POLYGON geometries}
+\item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
+\item{bbox}{created with \code{\link[sf]{st_bbox}}}
+\item{matrix}{created with
+\code{\link[sp]{bbox}},
+\code{\link[terra]{bbox}}, or
+\code{\link[osmdata]{getbb}}
+}
+\item{character}{a textual definition of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+}}
 }
 \value{
-
+an \code{ohsome_boundary} object
 }
 \description{
-Create \code{ohsome_boundary} object
+Creates an \code{ohsome_boundary} object from input geometries of various
+classes. The \code{ohsome_boundary} object is used by
+\code{\link{ohsome_boundary}} to set the \code{bpolys}, \code{bboxes} or
+\code{bcircles} parameters of an \code{ohsome_query} object.
+}
+\examples{
+ohsome_boundary("Circle 1:8.6528,49.3683,1000|Circle 2:8.7294,49.4376,1000")
+ohsome_boundary(mapview::franconia, digits = 4)
+ohsome_boundary(osmdata::getbb("Berlin"))
+ohsome_boundary(sf::st_bbox(mapview::franconia))
 }
