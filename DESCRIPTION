@@ -15,7 +15,11 @@ Authors@R:
         	comment = c(ORCID = "0000-0001-6324-7295")
       )
 	  )
-Description: ohsome 
+Description: This ohsome R package grants access to the power of the ohsome API 
+    from R. It lets you analyze the rich data source of the OpenStreetMap (OSM)
+    history. You can retrieve the geometry of OSM data at specific points in 
+    time, and you can get aggregated statistics on the evolution of OSM elements
+    and specify your own temporal, spatial and/or thematic filters.
 License: GPL (>= 3)
 URL: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
 BugReports: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r/-/issues
