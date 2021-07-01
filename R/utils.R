@@ -122,7 +122,7 @@ validate_endpoint <- function(endpoint) {
 #' @keywords Internal
 validate_parameters <- function(endpoint, body) {
 
-	params <- ohsome::ohsome_endpoints[[endpoint]]$parameters$name
+	params <- ohsome::ohsome_endpoints[[gsub("/$", "", endpoint)]]$parameters$name
 	diff <- setdiff(names(body), params)
 
 	if(length(diff) > 0) {
