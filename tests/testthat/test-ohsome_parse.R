@@ -7,7 +7,7 @@
 # )
 # r <- ohsome_post(q, parse = FALSE, validate = FALSE)
 
-r <- readRDS(here::here("tests/testthat/data/elements-count-shop-convenience-bcircles-csv.rds"))
+r <- readRDS("data/elements-count-shop-convenience-bcircles-csv.rds")
 
 test_that(
 	'returns data.frame by default when content CSV', {
@@ -46,7 +46,7 @@ test_that(
 # )
 # r <- ohsome_post(q, parse = FALSE, validate = FALSE)
 
-r <- readRDS(here::here("tests/testthat/data/elements-centroid-shop-convenience-bcircles.rds"))
+r <- readRDS("data/elements-centroid-shop-convenience-bcircles.rds")
 
 test_that(
 	'returns sf by default when content GeoJSON', {
@@ -68,3 +68,18 @@ test_that(
 	'returns list if return_class = "list" and content GeoJSON', {
 		expect_type(ohsome_parse(r, return_class = "list"), "list")
 })
+
+# original query:
+# q <- franconia |>
+# 	mutate(id  = NUTS_ID) |>
+# 	ohsome_elements_count(filter = "building=*", time = "2015/2020", format = "csv") |>
+# 	set_endpoint("groupBy/boundary/groupBy/tag", reset_format = FALSE, append = TRUE) |>
+# 	set_groupByKey("building:levels")
+# r <- ohsome_post(q, parse = FALSE, validate = FALSE)
+
+r <- readRDS("data/elements-count-buildings-groupby-boundary-groupby-tag-csv.rds")
+
+test_that(
+	'succesfully parses csv response of groupBy/boundary/groupBy/tag query', {
+		expect_s3_class(ohsome_parse(r), "data.frame")
+	})

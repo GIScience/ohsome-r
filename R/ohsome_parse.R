@@ -69,7 +69,7 @@ ohsome_parse <- function(
 				)
 			}
 
-			return(as.data.frame(convert_quietly(p)))
+			return(convert_quietly(as.data.frame(p)))
 		}
 
 	} else if(type == "text/csv") {
