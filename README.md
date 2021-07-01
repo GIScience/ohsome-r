@@ -14,18 +14,18 @@ API from R. ohsome lets you analyze the rich data source of the
 <a href="https://github.com/GIScience/oshdb" target="blank">OpenStreetMap History Database</a>
 (OSHDB).
 
-ohsome allows you to…
+With ohsome, you can …
 
--   get aggregated statistics on the evolution of OpenStreetMap elements
-    and specify your own temporal, spatial and/or thematic filters. The
-    data aggregation endpoint allows you to access functions, e.g., to
-    calculate the area of buildings or the length of streets at any
-    given timestamp.
+-   Get **aggregated statistics** on the evolution of OpenStreetMap
+    elements and specify your own temporal, spatial and/or thematic
+    filters. The data aggregation endpoint allows you to access
+    functions, e.g., to calculate the area of buildings or the length of
+    streets at any given timestamp.
 
--   retrieve the geometry of the historical OpenStreetMap data, e.g., to
-    visualize the evolution of certain OpenStreetMap elements over time.
-    You can get the geometries for specific points in time or all
-    changes within a timespan (full-history).
+-   Retrieve the **geometry** of the historical OpenStreetMap data,
+    e.g., to visualize the evolution of certain OpenStreetMap elements
+    over time. You can get the geometries for specific points in time or
+    all changes within a timespan (full-history).
 
 ## Installation
 
@@ -356,7 +356,7 @@ q |>
 ### Dealing with complex API responses
 
 The ohsome API allows grouping aggregate values for various timestamps
-by boundary and tag at the same time.The parsed content of the response
+by boundary and tag at the same time. The parsed content of the response
 can be rather complex. In the following case, building feature counts
 for the districts of Franconia at two different timestamps are requested
 – additionally grouped by the building:levels tag. To avoid lots of

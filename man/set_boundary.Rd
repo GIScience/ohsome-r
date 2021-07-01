@@ -9,18 +9,45 @@ set_boundary(query, boundary, ...)
 \arguments{
 \item{query}{An \code{ohsome_query} object}
 
-\item{boundary_type}{}
+\item{boundary}{Bounding geometries that are passed to
+\code{\link{ohsome_boundary}}. Bounding geometries can be of class:
+\describe{
+\item{sf}{with (MULTI)POLYGON geometries}
+\item{sfc}{with (MULTI)POLYGON geometries}
+\item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
+\item{bbox}{created with \code{\link[sf]{st_bbox}}}
+\item{matrix}{created with
+\code{\link[sp]{bbox}},
+\code{\link[terra]{bbox}}, or
+\code{\link[osmdata]{getbb}}
+}
+\item{character}{a textual definition of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+}}
+
+\item{...}{Additional arguments passed to \code{\link{ohsome_boundary}}. For
+boundaries of class \code{sf}, \code{digits} defines the number of
+decimal places of coordinates in the resulting GeoJSON (defaults to 6).
+Other arguments are ignored.}
 }
 \value{
 An \code{ohsome_query} object
 }
 \description{
-Modify the spatial filter of an existing \code{ohsome_query} object
+Set or modify the spatial filter of an existing \code{ohsome_query} object
 }
 \details{
-\code{set_boundary()} adds or modifies aspatial filter of an
+\code{set_boundary()} adds or modifies a spatial filter of an
 \code{ohsome_query} object. The spatial filter of a query to the ohsome API
-can be defined as dne or more polygons, bounding boxes or bounding circles.
+can be defined as one or more polygons, bounding boxes or bounding circles.
+}
+\examples{
+q <- ohsome_query("elements/count/groupBy/boundary", ilter = "building=*")
+set_boundary(q, mapview::franconia)
+set_boundary(q, sf::st_bbox(mapview::franconia))
+set_boundary(q, osmdata::getbb("Kigali"))
+set_boundary(q, c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
