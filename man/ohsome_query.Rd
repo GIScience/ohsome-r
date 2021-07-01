@@ -2,7 +2,7 @@
 % Please edit documentation in R/ohsome_query.R
 \name{ohsome_query}
 \alias{ohsome_query}
-\title{Create an ohsome_query object}
+\title{Create an \code{ohsome_query} object}
 \usage{
 ohsome_query(endpoint, ..., validate = FALSE)
 }
@@ -13,15 +13,18 @@ ohsome_query(endpoint, ..., validate = FALSE)
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 
-\item{validate}{logical If true, issues warning for invalid endpoint or
+\item{validate}{logical If TRUE, issues warning for invalid endpoint or
 invalid/missing query parameters}
 }
 \value{
 An \code{ohsome_query} object
 }
 \description{
-Creates an ohsome_query object specifying the ohsome API endpoint and the
-request parameters.
+Creates an \code{ohsome_query} object specifying the ohsome API endpoint and
+the request parameters.
+}
+\examples{
+ohsome_query("elements/geometry", bbox = "8.5992,49.3567,8.7499,49.4371", filter = "building=*")
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}

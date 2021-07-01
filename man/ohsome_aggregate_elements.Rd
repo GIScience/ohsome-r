@@ -6,7 +6,7 @@
 \alias{ohsome_elements_length}
 \alias{ohsome_elements_perimeter}
 \alias{ohsome_elements_area}
-\title{Aggregate elements}
+\title{Aggregate OSM elements}
 \usage{
 ohsome_aggregate_elements(
   boundary,
@@ -23,13 +23,33 @@ ohsome_elements_perimeter(boundary, ...)
 ohsome_elements_area(boundary, ...)
 }
 \arguments{
-\item{...}{}
+\item{boundary}{Boundary object that can be interpreted by
+\code{\link{ohsome_boundary}}}
+
+\item{aggregation}{Aggregation operation}
+
+\item{...}{Parameters of the request to the ohsome API endpoint}
 }
 \value{
 An \code{ohsome_query} object
 }
 \description{
 Create an \code{ohsome_query} object for OSM element aggregation
+}
+\details{
+\code{ohsome_aggregate_elements} creates an \code{ohsome_query} object for
+OSM element aggregation. \code{ohsome_elements_count},
+\code{ohsome_elements_length}, \code{ohsome_elements_perimeter} and
+\code{ohsome_elements_area} are wrapper functions for specific aggregation
+endpoints. Boundary objects are passed via \code{\link{set_boundary}} into
+\code{\link{ohsome_boundary}}.
+}
+\examples{
+
+ohsome_aggregate_elements(mapview::franconia, "count", filter = "craft=brewery")
+ohsome_elements_count(mapview::franconia, filter = "craft=brewery")
+ohsome_elements_length(mapview::franconia, filter = "highway=*")
+
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation}
