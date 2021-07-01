@@ -94,7 +94,7 @@ create_metadata_message  <- function(meta) {
 #' @keywords Internal
 validate_endpoint <- function(endpoint) {
 
-	if(endpoint %in% names(ohsome::ohsome_endpoints)) {
+	if(gsub("/$", "", endpoint) %in% names(ohsome::ohsome_endpoints)) {
 		return(TRUE)
 	} else {
 		warning(
