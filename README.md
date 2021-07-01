@@ -6,8 +6,26 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-This ohsome R package grants access to the power of the ohsome API from
-R. ohsome is … OSHDB … OSM …
+This ohsome R package grants access to the power of the
+<a href="https://heigit.org/de/big-spatial-data-analytics/ohsome-3/" target="blank">ohsome</a>
+API from R. ohsome lets you analyze the rich data source of the
+<a href="https://www.openstreetmap.org/" target="blank">OpenStreetMap</a>
+(OSM) history. It aims to leverage the tools of the
+<a href="https://github.com/GIScience/oshdb" target="blank">OpenStreetMap History Database</a>
+(OSHDB).
+
+ohsome allows you to…
+
+-   get aggregated statistics on the evolution of OpenStreetMap elements
+    and specify your own temporal, spatial and/or thematic filters. The
+    data aggregation endpoint allows you to access functions, e.g., to
+    calculate the area of buildings or the length of streets at any
+    given timestamp.
+
+-   retrieve the geometry of the historical OpenStreetMap data, e.g., to
+    visualize the evolution of certain OpenStreetMap elements over time.
+    You can get the geometries for specific points in time or all
+    changes within a timespan (full-history).
 
 ## Installation
 
@@ -333,6 +351,56 @@ q |>
 #> 4 2016-01-01 25849    798 0.030872
 #> 5 2018-01-01 29397   1223 0.041603
 #> 6 2020-01-01 31495   1456 0.046230
+```
+
+### Dealing with complex API responses
+
+The ohsome API allows grouping aggregate values for various timestamps
+by boundary and tag at the same time.The parsed content of the response
+can be rather complex. In the following case, building feature counts
+for the districts of Franconia at two different timestamps are requested
+– additionally grouped by the building:levels tag. To avoid lots of
+redundant geometries, comma-separated values (instead of GeoJSON) are
+explicitly requested as the response format:
+
+``` r
+building_levels <- franconia |>
+    mutate(id  = NUTS_ID) |>
+    ohsome_elements_count(filter = "building=*", time = "2015/2020", format = "csv") |>
+    set_endpoint("groupBy/boundary/groupBy/tag", reset_format = F, append = T) |>
+    set_groupByKey("building:levels") |>
+    ohsome_post()
+
+dim(building_levels)
+#> [1]    2 1999
+```
+
+The query results in a very confusing data.frame with 1999 columns and 2
+rows! This happens because there is a building count column for each
+combination of boundary polygon and number of levels, while the two
+requested timestamps are in the rows. Fortunately, there is the `tidyr`
+package to do its magic and pivot this table into a long format with one
+value per row:
+
+``` r
+library(tidyr)
+
+building_levels |>
+    pivot_longer(-timestamp, names_to = c("id", "levels"), names_sep = "_")
+#> # A tibble: 3,996 x 4
+#>    timestamp           id    levels            value
+#>    <dttm>              <chr> <chr>             <dbl>
+#>  1 2015-01-01 00:00:00 DE241 remainder          4311
+#>  2 2015-01-01 00:00:00 DE241 building.levels.1  6347
+#>  3 2015-01-01 00:00:00 DE241 building.levels.2  6727
+#>  4 2015-01-01 00:00:00 DE241 building.levels.3  2787
+#>  5 2015-01-01 00:00:00 DE241 building.levels.4   745
+#>  6 2015-01-01 00:00:00 DE241 building.levels.5    96
+#>  7 2015-01-01 00:00:00 DE241 building.levels.6    38
+#>  8 2015-01-01 00:00:00 DE241 building.levels.9     7
+#>  9 2015-01-01 00:00:00 DE241 building.levels.0     0
+#> 10 2015-01-01 00:00:00 DE241 building.levels.7    32
+#> # ... with 3,986 more rows
 ```
 
 [1] Instead of the new R native pipe `|>` you may choose to use
