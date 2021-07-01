@@ -50,3 +50,20 @@ test_that("returns ohsome_boundary object", {
 	)
 	expect_s3_class(ohsome_boundary(bpolys), "ohsome_boundary")
 })
+
+test_that("returns ohsome_boundary object with type = bpolys for sf boundaries", {
+	expect_equal(ohsome_boundary(mapview::franconia)$type, "bpolys")
+})
+
+test_that("returns ohsome_boundary object with type = bpolys for bbox boundaries", {
+	expect_equal(ohsome_boundary(sf::st_bbox(mapview::franconia))$type, "bboxes")
+})
+
+test_that("throws error on sf with point geometries only", {
+	expect_error(ohsome_boundary(mapview::breweries))
+})
+
+test_that("issues warning for sf boundaries that contain polygon and other geoms", {
+	mixed <- dplyr::bind_rows(mapview::franconia, mapview::breweries)
+	expect_warning(ohsome_boundary(mixed))
+})
