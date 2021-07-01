@@ -1,24 +1,24 @@
 Package: ohsome
-Title: ohsome API client for R
-Version: 0.0.0.9000
+Title: An ohsome API client for R
+Version: 0.0.1
 Authors@R: 
     c(
       person(
-    		  given = "First",
-        	family = "Last",
-        	role = c("aut", "cre"),
-        	email = "first.last@example.com",
-        	comment = c(ORCID = "YOUR-ORCID-ID")
-      ),
-      person(
         	given = "Heidelberg Institute for Geoinformation Technology (HeiGIT) gGmbH",
         	role = c("cph")
+      ),
+      person(
+    		  given = "Oliver",
+        	family = "Fritz",
+        	role = c("aut", "cre"),
+        	email = "oliver.fritz@heigit.org",
+        	comment = c(ORCID = "0000-0001-6324-7295")
       )
 	  )
-Description: What the package does (one paragraph).
+Description: ohsome 
 License: GPL (>= 3)
-URL: 
-BugReports: 
+URL: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
+BugReports: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r/-/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
