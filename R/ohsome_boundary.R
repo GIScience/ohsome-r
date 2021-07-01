@@ -20,6 +20,10 @@
 #'     circles as allowed by the ohsome API (see
 #'     \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
 #'     }
+#'     \item{list}{a list of \code{bbox} objects, \code{matrix} or
+#'         \code{character}. Bounding geometry types of all list elements must
+#'         be the same. Does not work with GeoJSON FeatureCollections.
+#'     }
 #' @param ... Additional arguments other than \code{digits} are ignored.
 #' @param digits Number of decimal places of coordinates in the resulting
 #'     GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).
@@ -112,3 +116,9 @@ ohsome_boundary.bbox <- function(x, ...) {
 #' @name ohsome_boundary
 #' @export
 ohsome_boundary.matrix <- function(x, ...) ohsome_boundary(paste(x, collapse = ","))
+
+#' @name ohsome_boundary
+#' @export
+ohsome_boundary.list <- function(x, ...) {
+	ohsome_boundary(paste(sapply(x, ohsome_boundary)[1,], collapse = "|"))
+}

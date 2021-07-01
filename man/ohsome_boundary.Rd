@@ -9,6 +9,7 @@
 \alias{ohsome_boundary.sfg}
 \alias{ohsome_boundary.bbox}
 \alias{ohsome_boundary.matrix}
+\alias{ohsome_boundary.list}
 \title{Create \code{ohsome_boundary} object}
 \usage{
 ohsome_boundary(x, ...)
@@ -26,6 +27,8 @@ ohsome_boundary(x, ...)
 \method{ohsome_boundary}{bbox}(x, ...)
 
 \method{ohsome_boundary}{matrix}(x, ...)
+
+\method{ohsome_boundary}{list}(x, ...)
 }
 \arguments{
 \item{x}{Bounding geometries that are passed to
@@ -42,6 +45,10 @@ ohsome_boundary(x, ...)
 \item{character}{a textual definition of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
 \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+}
+\item{list}{a list of \code{bbox} objects, \code{matrix} or
+\code{character}. Bounding geometry types of all list elements must
+be the same. Does not work with GeoJSON FeatureCollections.
 }}
 
 \item{...}{Additional arguments other than \code{digits} are ignored.}

@@ -2,6 +2,7 @@
 
 S3method(ohsome_boundary,bbox)
 S3method(ohsome_boundary,character)
+S3method(ohsome_boundary,list)
 S3method(ohsome_boundary,matrix)
 S3method(ohsome_boundary,ohsome_boundary)
 S3method(ohsome_boundary,sf)

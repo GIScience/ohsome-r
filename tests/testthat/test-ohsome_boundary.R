@@ -67,3 +67,16 @@ test_that("issues warning for sf boundaries that contain polygon and other geoms
 	mixed <- dplyr::bind_rows(mapview::franconia, mapview::breweries)
 	expect_warning(ohsome_boundary(mixed))
 })
+
+test_that("creates ohsome_boundary object from list of bboxes of various classes", {
+
+	bboxes1 <- c(
+		"8.5992,49.3567,8.7499,49.4371",
+		"9.1638,49.113,9.2672,49.1766"
+	)
+	bboxes2 <- osmdata::getbb("Berlin")
+	bboxes3 <- sf::st_bbox(mapview::breweries)
+
+	b <- ohsome_boundary(list(bboxes1, bboxes2, bboxes3))
+	expect_s3_class(b, "ohsome_boundary")
+})
