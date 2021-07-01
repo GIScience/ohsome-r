@@ -6,6 +6,11 @@
 \usage{
 a \%||\% b
 }
+\arguments{
+\item{a}{left-side argument}
+
+\item{b}{right-side argument}
+}
 \description{
 Null coalesce operator
 }

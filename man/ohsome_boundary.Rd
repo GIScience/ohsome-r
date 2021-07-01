@@ -13,9 +13,9 @@
 \usage{
 ohsome_boundary(x, ...)
 
-\method{ohsome_boundary}{ohsome_boundary}(x)
+\method{ohsome_boundary}{ohsome_boundary}(x, ...)
 
-\method{ohsome_boundary}{character}(x)
+\method{ohsome_boundary}{character}(x, ...)
 
 \method{ohsome_boundary}{sf}(x, digits = 6, ...)
 
@@ -28,12 +28,7 @@ ohsome_boundary(x, ...)
 \method{ohsome_boundary}{matrix}(x, ...)
 }
 \arguments{
-\item{...}{Additional arguments passed to \code{\link[geojsonsf]{sf_geojson}}
-for boundaries of class \code{sf}. \code{digits} defines the number of
-decimal places of coordinates in the resulting GeoJSON (defaults to 6).
-Other arguments are ignored.}
-
-\item{boundary}{Bounding geometries that are passed to
+\item{x}{Bounding geometries that are passed to
 \code{\link{ohsome_boundary}}. Bounding geometries can be of class:
 \describe{
 \item{sf}{with (MULTI)POLYGON geometries}
@@ -41,14 +36,18 @@ Other arguments are ignored.}
 \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
 \item{bbox}{created with \code{\link[sf]{st_bbox}}}
 \item{matrix}{created with
-\code{\link[sp]{bbox}},
-\code{\link[terra]{bbox}}, or
+\code{\link[sp]{bbox}} or
 \code{\link[osmdata]{getbb}}
 }
 \item{character}{a textual definition of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
 \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
 }}
+
+\item{...}{Additional arguments other than \code{digits} are ignored.}
+
+\item{digits}{Number of decimal places of coordinates in the resulting
+GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).}
 }
 \value{
 an \code{ohsome_boundary} object

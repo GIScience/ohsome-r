@@ -29,8 +29,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     data.table,
+    dplyr,
     httptest,
     knitr,
+    mapview,
+    osmdata,
     rapiclient,
     rmarkdown,
     testthat (>= 3.0.0)

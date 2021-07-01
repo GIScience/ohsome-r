@@ -193,5 +193,7 @@ convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
 
 #' Null coalesce operator
 #'
+#' @param a left-side argument
+#' @param b right-side argument
 #' @keywords Internal
 `%||%` <- function(a, b) if (is.null(a)) b else a

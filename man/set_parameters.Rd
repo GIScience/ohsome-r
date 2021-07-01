@@ -28,6 +28,20 @@ set_properties(query, properties = NULL)
 \item{query}{An \code{ohsome_query} object}
 
 \item{...}{named parameters (e.g. \code{time = "2020-01-01"})}
+
+\item{time}{time parameter of the query}
+
+\item{filter}{filter parameter of the query}
+
+\item{filter2}{filter2 parameter of a ratio query}
+
+\item{groupByKeys}{groupByKeys parameter of a groupBy/key query}
+
+\item{groupByKey}{groupByKey parameter of a groupBy/tag query}
+
+\item{groupByValues}{groupByValues parameter of a groupBy/tag query}
+
+\item{properties}{properties parameter of an extraction query}
 }
 \value{
 An \code{ohsome_query} object
@@ -48,7 +62,7 @@ object is returned.
 q <- ohsome_query("elements/count/ratio/groupBy/boundary")
 
 q |>
-    set_boundary("Heidelberg:8.5992,49.3567,8.7499,49.4371|Heilbronn:9.1638,49.113,9.2672,49.1766") |>
+    set_boundary("HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766") |>
     set_time("2021") |>
     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
     set_parameters(format = "csv")

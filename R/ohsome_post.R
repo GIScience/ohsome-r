@@ -36,7 +36,7 @@ ohsome_post <- function(
 	user_agent <- trimws(sprintf(
 		"%s %s/%s",
 		paste(as.character(additional_identifiers), collapse = " "),
-		"ohsome-r", packageVersion("ohsome")
+		"ohsome-r", utils::packageVersion("ohsome")
 	))
 
 	response <- httr::POST(

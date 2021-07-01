@@ -25,7 +25,7 @@
 #'             \code{replicationSequenceNumber}: {Precise state of the OSM data
 #'                 contained in the underlying OSHDB, expressed as the id of the
 #'                 last applied (hourly) diff file from
-#'                 \link{planet.openstreetmap.org} (numeric)}
+#'                 \url{planet.openstreetmap.org} (numeric)}
 #'     }}
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata}
 #' @export
@@ -37,7 +37,7 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 
 	response <- httr::GET(
 		url = build_endpoint_url("metadata"),
-		httr::user_agent(paste("ohsome-r", packageVersion("ohsome"), sep = "/"))
+		httr::user_agent(paste("ohsome-r", utils::packageVersion("ohsome"), sep = "/"))
 	)
 
 	httr::stop_for_status(response)

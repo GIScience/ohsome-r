@@ -17,8 +17,7 @@ set_boundary(query, boundary, ...)
 \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
 \item{bbox}{created with \code{\link[sf]{st_bbox}}}
 \item{matrix}{created with
-\code{\link[sp]{bbox}},
-\code{\link[terra]{bbox}}, or
+\code{\link[sp]{bbox}} or
 \code{\link[osmdata]{getbb}}
 }
 \item{character}{a textual definition of bounding polygons, boxes or

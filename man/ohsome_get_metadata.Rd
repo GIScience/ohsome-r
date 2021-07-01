@@ -28,7 +28,7 @@ underlying OSHDB data (vector of POSIXct)}\cr
 \code{replicationSequenceNumber}: {Precise state of the OSM data
 contained in the underlying OSHDB, expressed as the id of the
 last applied (hourly) diff file from
-\link{planet.openstreetmap.org} (numeric)}
+\url{planet.openstreetmap.org} (numeric)}
 }}
 }
 \description{

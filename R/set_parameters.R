@@ -12,6 +12,13 @@
 #'
 #' @param query An \code{ohsome_query} object
 #' @param ... named parameters (e.g. \code{time = "2020-01-01"})
+#' @param time time parameter of the query
+#' @param filter filter parameter of the query
+#' @param filter2 filter2 parameter of a ratio query
+#' @param groupByKeys groupByKeys parameter of a groupBy/key query
+#' @param groupByKey groupByKey parameter of a groupBy/tag query
+#' @param groupByValues groupByValues parameter of a groupBy/tag query
+#' @param properties properties parameter of an extraction query
 #' @family Set parameters
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
@@ -20,7 +27,7 @@
 #' q <- ohsome_query("elements/count/ratio/groupBy/boundary")
 #'
 #' q |>
-#'     set_boundary("Heidelberg:8.5992,49.3567,8.7499,49.4371|Heilbronn:9.1638,49.113,9.2672,49.1766") |>
+#'     set_boundary("HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766") |>
 #'     set_time("2021") |>
 #'     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
 #'     set_parameters(format = "csv")

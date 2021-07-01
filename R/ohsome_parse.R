@@ -81,7 +81,7 @@ ohsome_parse <- function(
 
 	} else if(type == "text/csv") {
 
-		p <- read.csv2(
+		p <- utils::read.csv2(
 			textConnection(content),
 			comment.char = "#",
 			header = TRUE,
