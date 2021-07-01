@@ -12,7 +12,7 @@ ohsome_post(
 )
 }
 \arguments{
-\item{query}{an ohsome_query object constructed with ohsome_query()
+\item{query}{an ohsome_query object constructed with \code{\link{ohsome_query}}
 or any of its wrapper functions}
 
 \item{parse}{logical parse the ohsome API response?}
@@ -25,14 +25,19 @@ invalid/missing query parameters}
 }
 \value{
 \describe{
-\item{an sf object}{if parse = TRUE and ohsome API response is GeoJSON}
-\item{a data.frame}{if parse = TRUE and ohsome API response is not GeoJSON}
-\item{an ohsome_response object}{if parse = FALSE}
+\item{an \code{sf} object}{if parse = TRUE and ohsome API response is GeoJSON}
+\item{a \code{data.frame}}{if parse = TRUE and ohsome API response is not GeoJSON}
+\item{an \code{ohsome_response} object}{if parse = FALSE}
 }
 }
 \description{
 Sends an ohsome_query object as a POST request to the ohsome API and silently
 returns the unparsed response.
+}
+\examples{
+q <- ohsome_elements_count(osmdata::getbb("Berlin"), filter = "amenity=cinema")
+
+ohsome_post(q)
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}

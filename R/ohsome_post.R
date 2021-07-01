@@ -3,7 +3,7 @@
 #' Sends an ohsome_query object as a POST request to the ohsome API and silently
 #' returns the unparsed response.
 #'
-#' @param query an ohsome_query object constructed with ohsome_query()
+#' @param query an ohsome_query object constructed with \code{\link{ohsome_query}}
 #'     or any of its wrapper functions
 #' @param parse logical parse the ohsome API response?
 #' @param validate logical If true, issues warning for invalid endpoint or
@@ -12,13 +12,16 @@
 #'     "ohsome-r/version" (a vector coercible to character)
 #'
 #' @return \describe{
-#'    \item{an sf object}{if parse = TRUE and ohsome API response is GeoJSON}
-#'    \item{a data.frame}{if parse = TRUE and ohsome API response is not GeoJSON}
-#'    \item{an ohsome_response object}{if parse = FALSE}
+#'    \item{an \code{sf} object}{if parse = TRUE and ohsome API response is GeoJSON}
+#'    \item{a \code{data.frame}}{if parse = TRUE and ohsome API response is not GeoJSON}
+#'    \item{an \code{ohsome_response} object}{if parse = FALSE}
 #' }
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
+#' q <- ohsome_elements_count(osmdata::getbb("Berlin"), filter = "amenity=cinema")
+#'
+#' ohsome_post(q)
 ohsome_post <- function(
 	query,
 	parse = TRUE,
