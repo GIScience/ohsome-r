@@ -70,4 +70,5 @@ ohsome_boundary("Circle 1:8.6528,49.3683,1000|Circle 2:8.7294,49.4376,1000")
 ohsome_boundary(mapview::franconia, digits = 4)
 ohsome_boundary(osmdata::getbb("Berlin"))
 ohsome_boundary(sf::st_bbox(mapview::franconia))
+ohsome_boundary(list(osmdata::getbb("Berlin"), sf::st_bbox(mapview::franconia)))
 }

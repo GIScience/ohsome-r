@@ -35,6 +35,7 @@
 #' ohsome_boundary(mapview::franconia, digits = 4)
 #' ohsome_boundary(osmdata::getbb("Berlin"))
 #' ohsome_boundary(sf::st_bbox(mapview::franconia))
+#' ohsome_boundary(list(osmdata::getbb("Berlin"), sf::st_bbox(mapview::franconia)))
 ohsome_boundary <- function(x, ...) UseMethod("ohsome_boundary")
 
 #' @name ohsome_boundary
