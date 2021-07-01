@@ -8,9 +8,333 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/", 
+  out.width = "100%"
+)
 ```
 
-```{r setup}
+This ohsome R package grants access to the power of the [ohsome](https://heigit.org/de/big-spatial-data-analytics/ohsome-3/){target=blank}
+API from R. ohsome lets you analyze the rich data source of the 
+[OpenStreetMap](https://www.openstreetmap.org/){target=blank} 
+(OSM) history. It aims to leverage the tools of the 
+[OpenStreetMap History Database](https://github.com/GIScience/oshdb){target=blank}
+(OSHDB).
+
+With ohsome, you can ...
+
+- Get **aggregated statistics** on the evolution of OpenStreetMap elements and
+specify your own temporal, spatial and/or thematic filters. The data aggregation 
+endpoint allows you to access functions, e.g., to calculate the area of 
+buildings or the length of streets at any given timestamp.
+
+- Retrieve the **geometry** of the historical OpenStreetMap data, e.g., to
+visualize the evolution of certain OpenStreetMap elements over time. You can get
+the geometries for specific points in time or all changes within a timespan 
+(full-history).
+
+ 
+## Installation
+
+If you have access to the repository and a 
+[personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html){target=blank},
+you can install the development version of ohsome from GitLab:
+
+```{r, eval = FALSE}
+Sys.setenv(GITLAB_PAT = your_personal_access_token)
+
+remotes::install_gitlab(
+	repo = "giscience/big-data/ohsome/libs/ohsome-r@develop",
+	host = "https://gitlab.gistools.geog.uni-heidelberg.de"
+)
+
+```
+
+## Getting started
+
+Upon attaching the ohsome package, a metadata request is sent to the ohsome 
+API. The package message provides some essential metadata information, such as
+the current temporal extent of the underlying OSHDB:
+
+```{r library}
 library(ohsome)
+```
+
+The metadata is stored in `.ohsome_metadata`. You can print it to the console
+to get more details.
+
+### Aggregate OpenStreetMap elements
+
+This early version of the ohsome R package provides wrapper functions for the
+elements aggregation endpoints only. With these functions you can query the 
+ohsome API for the aggregated amount, length, area or perimeter of 
+OpenStreetMap elements with given properties, within given boundaries and at 
+given points in time.
+
+Let us create a query for the total amount of breweries on OSM in the region of 
+Franconia. The first argument to `ohsome_elements_count()` is the `sf` object 
+`franconia` that is included in the `mapview` package and contains boundary 
+polygons of the `r nrow(mapview::franconia)` districts of the region:
+
+```{r elements_count}
+library(mapview)
+
+q <- ohsome_elements_count(franconia, filter = "craft=brewery")
+```
+
+The resulting `ohsome_query` object can be sent to the ohsome API with
+`ohsome_post()`. By default, `ohsome_post()` returns the parsed API
+response. In this case, this is a simple `data.frame` of only one row.
+
+```{r post}
+ohsome_post(q)
+``` 
+
+`ohsome_post()` has issued a warning that the time parameter of the query was 
+not defined. The `ohsome` API returns the number of elements at the latest 
+available timestamp by default.
+
+Defining the `time` parameter unlocks the full power of ohsome API by giving 
+access to the OSM history. The `time` parameter requires one or more 
+[ISO-8601 conform timestring(s)](https://docs.ohsome.org/ohsome-api/stable/time.html){target=blank}.
+Here is how to create a query of the number of breweries at January 1st of each 
+year between 2010 and 2020:
+
+```{r time, eval = FALSE}
+ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1Y")
+```
+
+Alternatively, we can update the existing `ohsome_query` object `q` with the 
+`set_time()` function, 
+pipe ^[Instead of the new R native pipe `|>` you may choose to use `magrittr`'s `%>%`.]
+the modified query directly into `ohsome_post()` 
+and make a quick visualisation with `ggplot2`:
+
+```{r pipe, dev = "svg"}
+library(ggplot2)
+
+q |> 
+	set_time("2010/2020/P1Y") |>
+	ohsome_post() |>
+	ggplot(aes(x = timestamp, y = value)) +
+	geom_col()
+```
+
+This is how to query the total number of breweries in all of Franconia. But
+what if we want to aggregate the amount per district? The `set_endpoint()` 
+function is used to change or append the endpoint path of an API request. 
+In this case, we would want to append `groupBy/boundary` to the `elements/count`
+endpoint. The endpoint path can either be given as a single string 
+(`/groupBy/boundary`) or as a character 
+vector ^[The order of the elements in the character vector is critical!]:
+
+```{r groupBy_boundary, message = FALSE}
+library(dplyr)
+
+q <- franconia |> 
+	mutate(id = NAME_ASCI) |>
+	ohsome_elements_count(filter = "craft=brewery", time = "2021-06-01")
+
+q |>
+	set_endpoint(c("groupBy", "boundary"), append = TRUE) |>
+	ohsome_post()
+```
+
+If you want your own identifiers for the geometries returned by ohsome, your 
+input `sf` object needs a column explicitly named `id`. You can use `mutate()` 
+or `rename()` from the `dplyr` to create such a column as in the example above.
+
+By default, `ohsome_post()` returns an `sf` object whenever the ohsome API 
+is capable of delivering GeoJSON data. This is the case for elements 
+extraction queries as well as for aggregations grouped by boundaries.
+
+Thus, you can easily create a choropleth map from the query results.
+In addition, `density` can be added to the endpoint path in order to query for
+breweries per area:
+
+```{r density}
+q |>
+	set_endpoint(c("density", "groupBy", "boundary"), append = TRUE) |>
+	ohsome_post() |>
+	mapview(zcol = "value", layer.name = "Breweries per sqkm")
+```
+
+
+### Other queries
+
+The ohsome API has endpoints not only for the aggregation of OSM elements, but 
+also for the aggregation of users and contributions, and even for the 
+extraction of elements, of their full history and of contributions. Up to now, 
+this ohsome R package provides wrapper functions for element aggregation. 
+
+
+However, you can create any ohsome API query using the more generic 
+`ohsome_query()` function. It takes the endpoint path and any query parameters
+as inputs. For information on all available endpoints with their parameters,
+consult the 
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html){target=blank} 
+or have a look at `ohsome_endpoints`.
+
+
+Here's a query to extract the geometries of building polygons:
+
+```{r extract}
+q <- ohsome_query(
+	c("elements", "geometry"), 
+	filter = "building=* and geometry:polygon", 
+	clipGeometry = "false"
+)
+```
+
+One of the downsides of this approach is that you cannot just pass `sf` objects
+as bounding polygons into the query. You would need to textually define the 
+bounding geometries (`bpolys`, `bboxes` or `bcircles`) as parameters to the 
+query just as described in the 
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}.
+
+As a workaround, you can just add bounding geometries with `set_boundary()` to 
+any existing `ohsome_query` object:
+
+```{r set_boundary, message = FALSE}
+schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
+
+q <- set_boundary(q, schweinfurt)
+```
+
+Here, we request OSM building geometries for the district of 
+Schweinfurt City at the end of each year from 2007 to 2020, filter for the 
+earliest version of each feature (by OSM id) that still exists in 2020 and 
+visualise all building features with their year of creation:
+
+```{r buildings}
+m <- q |> 
+	set_time("2007-12-31T23:59:59/2020-12-31T23:59:59/P1Y") |>
+	ohsome_post() |>
+	janitor:: clean_names() |>
+    mutate(year = format(snapshot_timestamp, "%Y")) |>
+    group_by(osm_id) |>
+    filter(any(year == 2020)) |>
+    top_n(-1, wt = year) |>
+    mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+
+m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
+```
+
+You may find using `clean_names()` from the `janitor` package helpful in order
+to remove special characters from column names in the parsed ohsome API 
+response -- just as in the example above.
+
+### Bounding geometries
+
+The ohsome API requires bounding geometries either as bounding polygons 
+(`bpolys`), bounding boxes (`bboxes`) or bounding circles (`bcircles`) 
+parameters to the query in a textual form. The ohsome R package uses the 
+generic function `ohsome_boundary()` under the hood to make your life easier. 
+It accepts a wider range of input geometry formats, while guessing the right
+type of bounding geometry.
+
+As seen above, `sf` objects can be passed into any of the wrapper functions of 
+`ohsome_query()` (though not `ohsome_query()` itself) or into `set_boundary()`. 
+The `sf` object will be converted into GeoJSON and passed into the `bpolys` 
+parameter of the query.
+
+There are also the following methods of `ohsome_boundary()` for other classes
+of input geometry objects:
+
+1. `bbox` objects created with `st_bbox` are converted into a textual `bboxes` 
+parameter to the query:
+
+```{r bbox}
+q <- ohsome_query("users/count") |>
+	set_boundary(sf::st_bbox(franconia))
+
+q$body$bboxes
+```
+
+2. `matrix` objects created with `sp::bbox()`, `raster::bbox()` or 
+`terra::bbox()` are also converted into a textual `bboxes` parameter. This even 
+applies for matrices created with `osmdata::getbb()`, so that you can 
+comfortably acquire bounding boxes for many places in the world:
+
+```{r getbb}
+osmdata::getbb("Kigali") |> 
+	ohsome_elements_length(time = "2018/2018-12/P1M", filter = "route=bus") |>
+	ohsome_post()
+```
+
+3. You can pass any `character` object with text in the 
+[format allowed by the ohsome API](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}
+to `ohsome_boundary()` -- even GeoJSON FeatureCollections. It will automatically 
+detect whether you have passed the definition of `bpolys`, `bboxes` or 
+`bcircles`. It is possible to use `character` vectors where each element represents one 
+geometry:
+
+```{r circles}
+c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
+	ohsome_elements_count(filter = "amenity=*", time = 2021) |>
+	set_endpoint("groupBy/boundary", append = TRUE) |>
+	ohsome_post()
+```
+
+`r emo::ji("warning")` While `sf` and `bbox` objects will be automatically 
+transformed to WGS 84 if in a different coordinate reference system, coordinates
+in `character` and `matrix` objects always need to be provided as WGS 84.
+
+### Modifying queries
+
+As seen above, existing `ohsome_query` objects can be modified by 
+`set_endpoint()`, `set_boundary()` or `set_time()`. The latter and other 
+functions such as `set_filter()` are just wrappers around the more generic
+`set_parameters()`. This can be used to modify the parameters of a query in any
+possible way:
+
+```{r set_parameters}
+q <- ohsome_elements_count("8.5992,49.3567,8.7499,49.4371")
+
+q |>
+	set_endpoint("ratio", append = TRUE) |>
+	set_parameters(
+		filter = "building=*", 
+		filter2 = "building=* and building:levels=*",
+		time = "2010/2020/P2Y"
+	) |>
+	ohsome_post()
+
+```
+
+### Dealing with complex API responses
+
+The ohsome API allows grouping aggregate values for various timestamps by 
+boundary and tag at the same time. The parsed content of the response can be 
+rather complex. In the following case, building feature counts for the districts 
+of Franconia at two different timestamps are requested -- additionally grouped 
+by the building:levels tag. To avoid lots of redundant geometries, 
+comma-separated values (instead of GeoJSON) are explicitly requested as the 
+response format:
+
+```{r groupby_boundary_groupby_tag}
+building_levels <- franconia |>
+	mutate(id  = NUTS_ID) |>
+	ohsome_elements_count(filter = "building=*", time = "2015/2020", format = "csv") |>
+	set_endpoint("groupBy/boundary/groupBy/tag", reset_format = F, append = T) |>
+	set_groupByKey("building:levels") |>
+	ohsome_post()
+
+dim(building_levels)
+```
+
+The query results in a very confusing data.frame with `r ncol(building_levels)` 
+columns and `r nrow(building_levels)` rows! This happens because there is a 
+building count column for each combination of boundary polygon and number of 
+levels, while the two requested timestamps are in the rows. Fortunately, there 
+is the `tidyr` package to do its magic and pivot this table into a long format 
+with one value per row:
+
+```{r tidy}
+library(tidyr)
+
+building_levels |>
+	pivot_longer(-timestamp, names_to = c("id", "levels"), names_sep = "_")
 ```
