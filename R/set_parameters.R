@@ -17,6 +17,14 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
+#' q <- ohsome_query("elements/count/ratio/groupBy/boundary")
+#'
+#' q |>
+#'     set_boundary("Heidelberg:8.5992,49.3567,8.7499,49.4371|Heilbronn:9.1638,49.113,9.2672,49.1766") |>
+#'     set_time("2021") |>
+#'     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
+#'     set_parameters(format = "csv")
+#'
 set_parameters <- function(query, ...) {
 
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)

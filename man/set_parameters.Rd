@@ -44,6 +44,16 @@ in the \code{ohsome_query} and returns the modified object. \code{set_time()},
 to set specific parameters. By default, an unmodified \code{ohsome_query}
 object is returned.
 }
+\examples{
+q <- ohsome_query("elements/count/ratio/groupBy/boundary")
+
+q |>
+    set_boundary("Heidelberg:8.5992,49.3567,8.7499,49.4371|Heilbronn:9.1638,49.113,9.2672,49.1766") |>
+    set_time("2021") |>
+    set_filter("building=*", filter2 = "building=* and building:levels=3") |>
+    set_parameters(format = "csv")
+
+}
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
 }

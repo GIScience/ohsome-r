@@ -2,7 +2,7 @@
 #'
 #' Extract and parse the content from an ohsome API response
 #'
-#' \code{ohsome_parse()} parses an \code{ohsome_response} object into the
+#' \code{ohsome_parse()} parses an \code{ohsome_response} object into
 #' an object of the specified class. By default, this is an \code{sf} object if
 #' the ohsome API response contains GeoJSON data or a \code{data.frame} if it
 #' does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
@@ -10,12 +10,12 @@
 #' @param response A response object
 #' @param return_class One of the following:
 #'     \describe{
-#'         \item{default}{returns sf if ohsome API response is GeoJSON,
-#'             else a data.frame}
-#'         \item{sf}{returns sf if ohsome API response is GeoJSON,
-#'             else issues a warning and returns a data.frame}
-#'         \item{data.frame}{returns a data.frame}
-#'         \item{list}{returns a list}
+#'         \item{default}{returns \code{sf} if ohsome API response is GeoJSON,
+#'             else a \code{data.frame}}
+#'         \item{sf}{returns \code{sf} if ohsome API response is GeoJSON,
+#'             else issues a warning and returns a \code{data.frame}}
+#'         \item{data.frame}{returns a \code{data.frame}}
+#'         \item{list}{returns a \code{list}}
 #'         \item{character}{returns the ohsome API response as text (JSON or
 #'             semicolon-separated values)}
 #'     }
@@ -25,6 +25,13 @@
 #'     data.frame (if the response is of type "text/csv")
 #' @export
 #' @examples
+#' r <- ohsome_query("elements/centroid", filter = "amenity=*", properties = "tags") |>
+#'     set_boundary(osmdata::getbb("Heidelberg")) |>
+#'     ohsome_post(parse = FALSE)
+#'
+#' ohsome_parse(r)
+#' ohsome_df(r)
+#' ohsome_sf(r)
 ohsome_parse <- function(
 	response,
 	return_class = c("default", "sf", "data.frame", "list", "character")
@@ -105,5 +112,3 @@ ohsome_sf <- function(response) {ohsome_parse(response, return_class = "sf")}
 #' @export
 #' @rdname ohsome_parse
 ohsome_df <- function(response) {ohsome_parse(response, return_class = "data.frame")}
-
-# TODO: type_convert data.frame columns
