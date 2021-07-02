@@ -1,14 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ohsome
+# ohsome-r
 
 <!-- badges: start -->
+
+[![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
+[![status:
+experimental](https://github.com/GIScience/badges/raw/master/status/experimental.svg)](https://github.com/GIScience/badges#experimental)
 <!-- badges: end -->
 
 This ohsome R package grants access to the power of the
-<a href="https://heigit.org/de/big-spatial-data-analytics/ohsome-3/" target="blank">ohsome</a>
-API from R. ohsome lets you analyze the rich data source of the
+<a href="https://api.ohsome.org" target="blank">ohsome API</a> from R.
+ohsome lets you analyze the rich data source of the
 <a href="https://www.openstreetmap.org/" target="blank">OpenStreetMap</a>
 (OSM) history. It aims to leverage the tools of the
 <a href="https://github.com/GIScience/oshdb" target="blank">OpenStreetMap History Database</a>
@@ -29,17 +33,11 @@ With ohsome, you can …
 
 ## Installation
 
-If you have access to the repository and a
-<a href="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html" target="blank">personal access token</a>,
-you can install the development version of ohsome from GitLab:
+You can install ohsome from
+<a href="https://github.com/GIScience/ohsome-r" target="blank">Github</a>:
 
 ``` r
-Sys.setenv(GITLAB_PAT = your_personal_access_token)
-
-remotes::install_gitlab(
-    repo = "giscience/big-data/ohsome/libs/ohsome-r@develop",
-    host = "https://gitlab.gistools.geog.uni-heidelberg.de"
-)
+remotes::install_github("giscience/ohsome-r")
 ```
 
 ## Getting started
@@ -99,8 +97,8 @@ Defining the `time` parameter unlocks the full power of ohsome API by
 giving access to the OSM history. The `time` parameter requires one or
 more
 <a href="https://docs.ohsome.org/ohsome-api/stable/time.html" target="blank">ISO-8601 conform timestring(s)</a>.
-Here is how to create a query of the number of breweries at January 1st
-of each year between 2010 and 2020:
+Here is how to create a query for the number of breweries at the first
+of each month between 2010 and 2020:
 
 ``` r
 ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1Y")
@@ -114,10 +112,10 @@ the `set_time()` function, pipe [1] the modified query directly into
 library(ggplot2)
 
 q |> 
-    set_time("2010/2020/P1Y") |>
+    set_time("2010/2020/P1M") |>
     ohsome_post() |>
     ggplot(aes(x = timestamp, y = value)) +
-    geom_col()
+    geom_line()
 ```
 
 <img src="man/figures/README-pipe-1.svg" width="900" />
@@ -161,8 +159,8 @@ q |>
 
 If you want your own identifiers for the geometries returned by ohsome,
 your input `sf` object needs a column explicitly named `id`. You can use
-`mutate()` or `rename()` from the `dplyr` to create such a column as in
-the example above.
+`mutate()` or `rename()` from the `dplyr` package to create such a
+column as in the example above.
 
 By default, `ohsome_post()` returns an `sf` object whenever the ohsome
 API is capable of delivering GeoJSON data. This is the case for elements

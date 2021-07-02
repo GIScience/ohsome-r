@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-This ohsome R package grants access to the power of the [ohsome](https://heigit.org/de/big-spatial-data-analytics/ohsome-3/){target=blank}
-API from R. ohsome lets you analyze the rich data source of the 
+This ohsome R package grants access to the power of the [ohsome API](https://api.ohsome.org){target=blank}
+from R. ohsome lets you analyze the rich data source of the
 [OpenStreetMap](https://www.openstreetmap.org/){target=blank} 
 (OSM) history. It aims to leverage the tools of the 
 [OpenStreetMap History Database](https://github.com/GIScience/oshdb){target=blank}
@@ -34,23 +34,6 @@ buildings or the length of streets at any given timestamp.
 visualize the evolution of certain OpenStreetMap elements over time. You can get
 the geometries for specific points in time or all changes within a timespan 
 (full-history).
-
- 
-## Installation
-
-If you have access to the repository and a 
-[personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html){target=blank},
-you can install the development version of ohsome from GitLab:
-
-```{r, eval = FALSE}
-Sys.setenv(GITLAB_PAT = your_personal_access_token)
-
-remotes::install_gitlab(
-	repo = "giscience/big-data/ohsome/libs/ohsome-r@develop",
-	host = "https://gitlab.gistools.geog.uni-heidelberg.de"
-)
-
-```
 
 ## Getting started
 
@@ -116,10 +99,10 @@ and make a quick visualisation with `ggplot2`:
 library(ggplot2)
 
 q |> 
-	set_time("2010/2020/P1Y") |>
+	set_time("2010/2020/P1M") |>
 	ohsome_post() |>
 	ggplot(aes(x = timestamp, y = value)) +
-	geom_col()
+	geom_line()
 ```
 
 This is how to query the total number of breweries in all of Franconia. But
@@ -144,7 +127,7 @@ q |>
 
 If you want your own identifiers for the geometries returned by ohsome, your 
 input `sf` object needs a column explicitly named `id`. You can use `mutate()` 
-or `rename()` from the `dplyr` to create such a column as in the example above.
+or `rename()` from the `dplyr` package to create such a column as in the example above.
 
 By default, `ohsome_post()` returns an `sf` object whenever the ohsome API 
 is capable of delivering GeoJSON data. This is the case for elements 

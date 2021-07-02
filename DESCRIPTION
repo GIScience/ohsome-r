@@ -1,6 +1,6 @@
 Package: ohsome
 Title: An ohsome API client for R
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     c(
       person(
@@ -21,8 +21,8 @@ Description: This ohsome R package grants access to the power of the ohsome API
     time, and you can get aggregated statistics on the evolution of OSM elements
     and specify your own temporal, spatial and/or thematic filters.
 License: GPL (>= 3)
-URL: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
-BugReports: https://gitlab.gistools.geog.uni-heidelberg.de/giscience/big-data/ohsome/libs/ohsome-r/-/issues
+URL: https://github.com/GIScience/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
+BugReports: https://github.com/GIScience/ohsome-r/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
