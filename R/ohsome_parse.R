@@ -8,7 +8,7 @@
 #' does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
 #'
 #' @param response A response object
-#' @param return_class One of the following:
+#' @param returnclass One of the following:
 #'     \describe{
 #'         \item{default}{returns \code{sf} if ohsome API response is GeoJSON,
 #'             else a \code{data.frame}}
@@ -34,15 +34,15 @@
 #' ohsome_sf(r)
 ohsome_parse <- function(
 	response,
-	return_class = c("default", "sf", "data.frame", "list", "character")
+	returnclass = c("default", "sf", "data.frame", "list", "character")
 ) {
 
-	return_class <- match.arg(return_class)
+	returnclass <- match.arg(returnclass)
 
 	type <- httr::http_type(response)
 	content <- httr::content(response, as = "text", encoding = "utf-8")
 
-	if(return_class == "character") {
+	if(returnclass == "character") {
 
 		return(content)
 
@@ -54,9 +54,9 @@ ohsome_parse <- function(
 	) {
 		p <- geojsonsf::geojson_sf(content)
 
-		if(return_class == "data.frame") {
+		if(returnclass == "data.frame") {
 			return(convert_quietly(sf::st_drop_geometry(p)))
-		} else if(return_class == "list") {
+		} else if(returnclass == "list") {
 			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
 			return(sf::st_sf(convert_quietly(as.data.frame(p))))
@@ -66,10 +66,10 @@ ohsome_parse <- function(
 
 		p <- jsonlite::fromJSON(content, simplifyVector = TRUE)
 
-		if(return_class == "list") {
+		if(returnclass == "list") {
 			return(p)
 		} else {
-			if(return_class == "sf") {
+			if(returnclass == "sf") {
 				warning(
 					"No geodata in ohsome API response. Returning data.frame ",
 					"instead of sf."
@@ -88,10 +88,10 @@ ohsome_parse <- function(
 			stringsAsFactors = FALSE
 		)
 
-		if(return_class == "list") {
+		if(returnclass == "list") {
 			return(as.list(convert_quietly(p)))
 		} else {
-			if(return_class == "sf") {
+			if(returnclass == "sf") {
 				warning(
 					"No geodata in ohsome API response. Returning data.frame ",
 					"instead of sf."
@@ -107,8 +107,8 @@ ohsome_parse <- function(
 
 #' @export
 #' @rdname ohsome_parse
-ohsome_sf <- function(response) {ohsome_parse(response, return_class = "sf")}
+ohsome_sf <- function(response) {ohsome_parse(response, returnclass = "sf")}
 
 #' @export
 #' @rdname ohsome_parse
-ohsome_df <- function(response) {ohsome_parse(response, return_class = "data.frame")}
+ohsome_df <- function(response) {ohsome_parse(response, returnclass = "data.frame")}

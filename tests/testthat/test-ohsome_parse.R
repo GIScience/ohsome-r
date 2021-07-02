@@ -21,19 +21,19 @@ test_that(
 })
 
 test_that(
-	'issues warning and returns data.frame if return_class = "sf" and content not GeoJSON', {
-		expect_warning(ohsome_parse(r, return_class = "sf"))
-		expect_s3_class(suppressWarnings(ohsome_parse(r, return_class = "sf")), "data.frame")
+	'issues warning and returns data.frame if returnclass = "sf" and content not GeoJSON', {
+		expect_warning(ohsome_parse(r, returnclass = "sf"))
+		expect_s3_class(suppressWarnings(ohsome_parse(r, returnclass = "sf")), "data.frame")
 })
 
 test_that(
-	'returns list if return_class = "list"', {
-		expect_type(ohsome_parse(r, return_class = "list"), "list")
+	'returns list if returnclass = "list"', {
+		expect_type(ohsome_parse(r, returnclass = "list"), "list")
 })
 
 test_that(
-	'returns character if return_class = "character"', {
-		expect_type(ohsome_parse(r, return_class = "character"), "character")
+	'returns character if returnclass = "character"', {
+		expect_type(ohsome_parse(r, returnclass = "character"), "character")
 })
 
 
@@ -50,7 +50,7 @@ r <- readRDS("data/elements-centroid-shop-convenience-bcircles.rds")
 
 test_that(
 	'returns sf by default when content GeoJSON', {
-		expect_s3_class(ohsome_parse(r, return_class = "sf"), "sf")
+		expect_s3_class(ohsome_parse(r, returnclass = "sf"), "sf")
 })
 
 test_that(
@@ -60,13 +60,13 @@ test_that(
 })
 
 test_that(
-	'returns data.frame when return_class = "data.frame" and content GeoOJSON', {
-		expect_s3_class(ohsome_parse(r, return_class = "data.frame"), "data.frame")
+	'returns data.frame when returnclass = "data.frame" and content GeoOJSON', {
+		expect_s3_class(ohsome_parse(r, returnclass = "data.frame"), "data.frame")
 })
 
 test_that(
-	'returns list if return_class = "list" and content GeoJSON', {
-		expect_type(ohsome_parse(r, return_class = "list"), "list")
+	'returns list if returnclass = "list" and content GeoJSON', {
+		expect_type(ohsome_parse(r, returnclass = "list"), "list")
 })
 
 # original query:

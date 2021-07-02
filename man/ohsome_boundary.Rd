@@ -44,11 +44,12 @@ ohsome_boundary(x, ...)
 }
 \item{character}{a textual definition of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
-\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})
 }
 \item{list}{a list of \code{bbox} objects, \code{matrix} or
 \code{character}. Bounding geometry types of all list elements must
 be the same. Does not work with GeoJSON FeatureCollections.
+}
 }}
 
 \item{...}{Additional arguments other than \code{digits} are ignored.}

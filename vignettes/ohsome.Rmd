@@ -86,7 +86,7 @@ Here is how to create a query of the number of breweries at January 1st of each
 year between 2010 and 2020:
 
 ```{r time, eval = FALSE}
-ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1Y")
+ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1M")
 ```
 
 Alternatively, we can update the existing `ohsome_query` object `q` with the 
@@ -261,7 +261,7 @@ c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
 	ohsome_post()
 ```
 
-`r emo::ji("warning")` While `sf` and `bbox` objects will be automatically 
+While `sf` and `bbox` objects will be automatically 
 transformed to WGS 84 if in a different coordinate reference system, coordinates
 in `character` and `matrix` objects always need to be provided as WGS 84.
 

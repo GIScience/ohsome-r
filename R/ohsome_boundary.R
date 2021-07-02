@@ -6,8 +6,8 @@
 #' \code{bcircles} parameters of an \code{ohsome_query} object.
 #'
 #' @param x Bounding geometries that are passed to
-#'     \code{\link{ohsome_boundary}}. Bounding geometries can be of class:
-#'     \describe{
+#' \code{\link{ohsome_boundary}}. Bounding geometries can be of class:
+#' \describe{
 #'     \item{sf}{with (MULTI)POLYGON geometries}
 #'     \item{sfc}{with (MULTI)POLYGON geometries}
 #'     \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
@@ -15,19 +15,20 @@
 #'     \item{matrix}{created with
 #'         \code{\link[sp]{bbox}} or
 #'         \code{\link[osmdata]{getbb}}
-#'         }
-#'     \item{character}{a textual definition of bounding polygons, boxes or
+#'     }
+#'      \item{character}{a textual definition of bounding polygons, boxes or
 #'     circles as allowed by the ohsome API (see
-#'     \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+#'     \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})
 #'     }
 #'     \item{list}{a list of \code{bbox} objects, \code{matrix} or
 #'         \code{character}. Bounding geometry types of all list elements must
 #'         be the same. Does not work with GeoJSON FeatureCollections.
 #'     }
+#' }    
+#'     
 #' @param ... Additional arguments other than \code{digits} are ignored.
 #' @param digits Number of decimal places of coordinates in the resulting
 #'     GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).
-#'
 #' @return an \code{ohsome_boundary} object
 #' @export
 #' @examples

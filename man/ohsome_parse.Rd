@@ -8,7 +8,7 @@
 \usage{
 ohsome_parse(
   response,
-  return_class = c("default", "sf", "data.frame", "list", "character")
+  returnclass = c("default", "sf", "data.frame", "list", "character")
 )
 
 ohsome_sf(response)
@@ -18,7 +18,7 @@ ohsome_df(response)
 \arguments{
 \item{response}{A response object}
 
-\item{return_class}{One of the following:
+\item{returnclass}{One of the following:
 \describe{
 \item{default}{returns \code{sf} if ohsome API response is GeoJSON,
 else a \code{data.frame}}
