@@ -16,10 +16,12 @@ knitr::opts_chunk$set(
 # ohsome
 
 <!-- badges: start -->
+[![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
+[![status: experimental](https://github.com/GIScience/badges/raw/master/status/experimental.svg)](https://github.com/GIScience/badges#experimental)
 <!-- badges: end -->
 
-This ohsome R package grants access to the power of the [ohsome](https://heigit.org/de/big-spatial-data-analytics/ohsome-3/){target=blank}
-API from R. ohsome lets you analyze the rich data source of the 
+This ohsome R package grants access to the power of the [ohsome API](https://api.ohsome.org){target=blank}
+from R. ohsome lets you analyze the rich data source of the
 [OpenStreetMap](https://www.openstreetmap.org/){target=blank} 
 (OSM) history. It aims to leverage the tools of the 
 [OpenStreetMap History Database](https://github.com/GIScience/oshdb){target=blank}
