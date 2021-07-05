@@ -55,7 +55,7 @@ test_that("returns ohsome_boundary object with type = bpolys for sf boundaries",
 	expect_equal(ohsome_boundary(mapview::franconia)$type, "bpolys")
 })
 
-test_that("returns ohsome_boundary object with type = bpolys for bbox boundaries", {
+test_that("returns ohsome_boundary object with type = bboxes for bbox boundaries", {
 	expect_equal(ohsome_boundary(sf::st_bbox(mapview::franconia))$type, "bboxes")
 })
 
