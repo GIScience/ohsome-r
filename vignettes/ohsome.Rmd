@@ -204,7 +204,6 @@ m <- q |>
 	group_by(osm_id) |>
 	mutate(year = min(format(valid_from, "%Y"))) |>
 	filter(valid_to == end) |>
-	top_n(-1, wt = year) |>
 	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 
 m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
