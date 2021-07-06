@@ -216,9 +216,9 @@ m <- q |>
 	set_properties("metadata") |>
 	ohsome_post() |>
 	janitor:: clean_names() |>
-	mutate(year = format(valid_from, "%Y")) |>
 	group_by(osm_id) |>
-	filter(any(valid_to == end)) |>
+	mutate(year = min(format(valid_from, "%Y"))) |>
+	filter(valid_to == end) |>
 	top_n(-1, wt = year) |>
 	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 
