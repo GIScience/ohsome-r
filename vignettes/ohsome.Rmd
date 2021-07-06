@@ -48,7 +48,7 @@ library(ohsome)
 The metadata is stored in `.ohsome_metadata`. You can print it to the console
 to get more details.
 
-### Aggregate OpenStreetMap elements
+### Aggregating OpenStreetMap elements
 
 This early version of the ohsome R package provides wrapper functions for the
 elements aggregation endpoints only. With these functions you can query the 
@@ -161,11 +161,12 @@ consult the
 or have a look at `ohsome_endpoints`.
 
 
-Here's a query to extract the geometries of building polygons:
+Here's a query to extract the full history of OSM building polygon elements with
+their geometries:
 
 ```{r extract}
 q <- ohsome_query(
-	c("elements", "geometry"), 
+	c("elementsFullHistory", "geometry"), 
 	filter = "building=* and geometry:polygon", 
 	clipGeometry = "false"
 )
@@ -186,21 +187,25 @@ schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
 q <- set_boundary(q, schweinfurt)
 ```
 
-Here, we request OSM building geometries for the district of 
-Schweinfurt City at the end of each year from 2007 to 2020, filter for the 
-earliest version of each feature (by OSM id) that still exists in 2020 and 
-visualise all building features with their year of creation:
+Here, we request the history of OSM buildings for the district of Schweinfurt
+City, filter for features that still exist and visualise all building features 
+with their year of creation:
 
-```{r buildings}
+```{r buildings, message = FALSE}
+meta <- ohsome_get_metadata()
+start <- as.Date(meta$extractRegion$temporalExtent[1])
+end <- as.Date(meta$extractRegion$temporalExtent[2])
+
 m <- q |> 
-	set_time("2007-12-31T23:59:59/2020-12-31T23:59:59/P1Y") |>
+	set_time(paste(start, end, sep = ",")) |>
+	set_properties("metadata") |>
 	ohsome_post() |>
 	janitor:: clean_names() |>
-    mutate(year = format(snapshot_timestamp, "%Y")) |>
-    group_by(osm_id) |>
-    filter(any(year == 2020)) |>
-    top_n(-1, wt = year) |>
-    mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+	mutate(year = format(valid_from, "%Y")) |>
+	group_by(osm_id) |>
+	filter(any(valid_to == end)) |>
+	top_n(-1, wt = year) |>
+	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 
 m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
