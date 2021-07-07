@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ohsome-r
+# ohsome: An R package to interact with the ohsome API to aggregate and extract data from the OpenStreetMap history
 
 <!-- badges: start -->
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)

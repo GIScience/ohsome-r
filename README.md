@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ohsome-r
+# ohsome: An R package to interact with the ohsome API to aggregate and extract data from the OpenStreetMap history
 
 <!-- badges: start -->
 
