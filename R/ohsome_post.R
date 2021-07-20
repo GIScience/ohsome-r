@@ -10,6 +10,11 @@
 #'      invalid/missing query parameters
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
+#' @param ... additional arguments passed to \code{\link{ohsome_parse}} \describe{
+#'     \item{returnclass}{class of the returned object}
+#'     \item{omit_empty}{logical omit features with empty geometries 
+#'         (only if returnclass="sf")}
+#' }
 #'
 #' @return \describe{
 #'    \item{an \code{sf} object}{if parse = TRUE and ohsome API response is GeoJSON}
@@ -26,8 +31,8 @@ ohsome_post <- function(
 	query,
 	parse = TRUE,
 	validate = TRUE,
-	additional_identifiers = NULL
-
+	additional_identifiers = NULL,
+	...
 ) {
 
 	if(validate) validate_query(query)
@@ -51,5 +56,5 @@ ohsome_post <- function(
 
 	httr::stop_for_status(response)
 
-	if(parse) { return(ohsome_parse(response)) } else { return(response) }
+	if(parse) { return(ohsome_parse(response, ...)) } else { return(response) }
 }

@@ -19,6 +19,8 @@
 #'         \item{character}{returns the ohsome API response as text (JSON or
 #'             semicolon-separated values)}
 #'     }
+#' @param omit_empty logical omit features with empty geometries 
+#'     (only if returnclass="sf")
 #' @family Extract and parse the content from an ohsome API response
 #' @return A list (if the response is of type "application/json"), an sf
 #'     object (if the response is of type "application/geo+json") or a
@@ -34,7 +36,8 @@
 #' ohsome_sf(r)
 ohsome_parse <- function(
 	response,
-	returnclass = c("default", "sf", "data.frame", "list", "character")
+	returnclass = c("default", "sf", "data.frame", "list", "character"),
+	omit_empty = TRUE
 ) {
 
 	returnclass <- match.arg(returnclass)
@@ -52,13 +55,42 @@ ohsome_parse <- function(
 		type == "application/geo+json"
 
 	) {
+		content <- jsonlite::minify(content)
+		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
+		loc <- gregexpr(pattern = pattern, text = content)
+		empty <- sapply(loc, function(x) length(attr(x, "match.length")))
+
+
+		if(empty > 0) {
+			content <- gsub(pattern, '"Point","coordinates":[360, 360]', content)
+		}
+		
 		p <- geojsonsf::geojson_sf(content)
+		
+		if(empty > 0) {
+			i <- suppressWarnings(suppressMessages(
+				sf::st_intersects(
+					p,
+					sf::st_point(rep(360, 2)),
+					sparse = FALSE
+			)))
+			p[i, "geometry"] <- NULL
+		}
 
 		if(returnclass == "data.frame") {
 			return(convert_quietly(sf::st_drop_geometry(p)))
 		} else if(returnclass == "list") {
 			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
+			
+			if(omit_empty) {
+				p <- subset(p, !sf::st_is_empty(p))
+				warning(
+					paste(empty, "elements with empty geometries omitted."),
+					call. = FALSE
+				)
+			}
+			
 			return(sf::st_sf(convert_quietly(as.data.frame(p))))
 		}
 
@@ -107,8 +139,12 @@ ohsome_parse <- function(
 
 #' @export
 #' @rdname ohsome_parse
-ohsome_sf <- function(response) {ohsome_parse(response, returnclass = "sf")}
+ohsome_sf <- function(response, omit_empty = TRUE) {
+	ohsome_parse(response, returnclass = "sf", omit_empty = omit_empty)
+}
 
 #' @export
 #' @rdname ohsome_parse
-ohsome_df <- function(response) {ohsome_parse(response, returnclass = "data.frame")}
+ohsome_df <- function(response, omit_empty = TRUE) {
+	ohsome_parse(response, returnclass = "data.frame", omit_empty = omit_empty)
+}

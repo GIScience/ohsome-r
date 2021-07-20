@@ -8,12 +8,13 @@
 \usage{
 ohsome_parse(
   response,
-  returnclass = c("default", "sf", "data.frame", "list", "character")
+  returnclass = c("default", "sf", "data.frame", "list", "character"),
+  omit_empty = TRUE
 )
 
-ohsome_sf(response)
+ohsome_sf(response, omit_empty = TRUE)
 
-ohsome_df(response)
+ohsome_df(response, omit_empty = TRUE)
 }
 \arguments{
 \item{response}{A response object}
@@ -29,6 +30,9 @@ else issues a warning and returns a \code{data.frame}}
 \item{character}{returns the ohsome API response as text (JSON or
 semicolon-separated values)}
 }}
+
+\item{omit_empty}{logical omit features with empty geometries
+(only if returnclass="sf")}
 }
 \value{
 A list (if the response is of type "application/json"), an sf

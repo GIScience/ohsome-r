@@ -8,7 +8,8 @@ ohsome_post(
   query,
   parse = TRUE,
   validate = TRUE,
-  additional_identifiers = NULL
+  additional_identifiers = NULL,
+  ...
 )
 }
 \arguments{
@@ -22,6 +23,12 @@ invalid/missing query parameters}
 
 \item{additional_identifiers}{optional user agent identifiers in addition to
 "ohsome-r/version" (a vector coercible to character)}
+
+\item{...}{additional arguments passed to \code{\link{ohsome_parse}} \describe{
+\item{returnclass}{class of the returned object}
+\item{omit_empty}{logical omit features with empty geometries
+(only if returnclass="sf")}
+}}
 }
 \value{
 \describe{

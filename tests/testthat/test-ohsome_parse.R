@@ -83,3 +83,23 @@ test_that(
 	'succesfully parses csv response of groupBy/boundary/groupBy/tag query', {
 		expect_s3_class(ohsome_parse(r), "data.frame")
 	})
+
+# original query:
+# q <- ohsome_query(
+# 	"elementsFullHistory/geometry", 
+# 	bboxes = "-180,-90,180,90", 
+# 	filter = "id:way/625011340", 
+# 	time = "2008-01-01,2020-01-01"
+# )
+# r <- ohsome_post(q, parse = FALSE, validate = FALSE)
+
+r <- readRDS("data/elements-fullHistory-geometry-id-way-625011340.rds")
+
+test_that(
+	"parses GeoJSON FeatureCollection with faulty feature (way without nodes)", {
+		expect_s3_class(
+			suppressWarnings(ohsome_parse(r, returnclass = "sf")), 
+			"sf"
+		)
+	}
+)
