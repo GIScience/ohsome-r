@@ -58,7 +58,10 @@ ohsome_parse <- function(
 		content <- jsonlite::minify(content)
 		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
 		loc <- gregexpr(pattern = pattern, text = content)
-		empty <- sapply(loc, function(x) length(attr(x, "match.length")))
+		empty <- sapply(loc, function(x) {
+			match.length <- attr(x, "match.length") 
+			length(match.length[match.length > 0])
+		})
 
 
 		if(empty > 0) {
@@ -83,7 +86,7 @@ ohsome_parse <- function(
 			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
 			
-			if(omit_empty) {
+			if(omit_empty & empty > 0) {
 				p <- subset(p, !sf::st_is_empty(p))
 				warning(
 					paste(empty, "elements with empty geometries omitted."),

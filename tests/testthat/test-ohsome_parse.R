@@ -69,6 +69,11 @@ test_that(
 		expect_type(ohsome_parse(r, returnclass = "list"), "list")
 })
 
+test_that(
+	'does not issue warning if no geometries are omitted when omit_empty = TRUE', {
+		expect_silent(ohsome_parse(r, returnclass = "sf", omit_empty = TRUE))
+})
+
 # original query:
 # q <- franconia |>
 # 	mutate(id  = NUTS_ID) |>
@@ -82,7 +87,7 @@ r <- readRDS("data/elements-count-buildings-groupby-boundary-groupby-tag-csv.rds
 test_that(
 	'succesfully parses csv response of groupBy/boundary/groupBy/tag query', {
 		expect_s3_class(ohsome_parse(r), "data.frame")
-	})
+})
 
 # original query:
 # q <- ohsome_query(
@@ -101,5 +106,9 @@ test_that(
 			suppressWarnings(ohsome_parse(r, returnclass = "sf")), 
 			"sf"
 		)
-	}
-)
+})
+
+test_that(
+	"issues warning when omitting empty geometry features", {
+		expect_warning(ohsome_parse(r, returnclass = "sf"))
+})
