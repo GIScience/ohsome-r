@@ -6,6 +6,8 @@
 #' @param endpoint The path to the ohsome API endpoint. Either a single string
 #' (e.g. \code{"elements/count"}) or a character vector in the right order
 #' (e.g. \code{c("elements", "count")})
+#' @param boundary Boundary object that can be interpreted by
+#'     \code{\link{ohsome_boundary}}
 #' @param ... Parameters of the request to the ohsome API endpoint
 #' @param validate logical If TRUE, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
@@ -13,8 +15,16 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-#' ohsome_query("elements/geometry", bbox = "8.5992,49.3567,8.7499,49.4371", filter = "building=*")
-ohsome_query <- function(endpoint, ...,	validate = FALSE) {
+#' # setting bbox parameter manually
+#' ohsome_query("elements/geometry", bboxes = "8.6,49.36,8.75,49.44", filter = "building=*")
+#' 
+#' # using a boundary object:
+#' ohsome_query("elements/geometry", boundary = "8.6,49.36,8.75,49.44", filter = "building=*")
+ohsome_query <- function(
+	endpoint,
+	boundary = NULL,
+	...,	
+	validate = FALSE) {
 
 	body <- lapply(list(...), paste, collapse=",")
 
@@ -38,6 +48,21 @@ ohsome_query <- function(endpoint, ...,	validate = FALSE) {
 		class = "ohsome_query"
 	)
 
+	if(!is.null(boundary)) {
+		btypes <- c("bpolys", "bboxes", "bcircles")
+		check <- btypes %in% names(query$body)
+		if(any(check)) warning(
+			paste(
+				"Boundary overwrites", 
+				paste(btypes[check], collapse = ", "), 
+				"parameter(s)."),
+			call. = FALSE
+		)
+		
+		query <- set_boundary(query, boundary)
+		
+	}
+	
 	if(validate) validate_query(query)
 
 	return(query)

@@ -9,18 +9,18 @@
 \title{Aggregate OSM elements}
 \usage{
 ohsome_aggregate_elements(
-  boundary,
+  boundary = NULL,
   aggregation = c("count", "length", "perimeter", "area"),
   ...
 )
 
-ohsome_elements_count(boundary, ...)
+ohsome_elements_count(boundary = NULL, ...)
 
-ohsome_elements_length(boundary, ...)
+ohsome_elements_length(boundary = NULL, ...)
 
-ohsome_elements_perimeter(boundary, ...)
+ohsome_elements_perimeter(boundary = NULL, ...)
 
-ohsome_elements_area(boundary, ...)
+ohsome_elements_area(boundary = NULL, ...)
 }
 \arguments{
 \item{boundary}{Boundary object that can be interpreted by

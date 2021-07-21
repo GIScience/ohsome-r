@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ohsome: An R package to interact with the ohsome API to aggregate and extract data from the OpenStreetMap history
+# ohsome: An R package to interact with the ohsome API for OpenStreetMap history data aggregation and extraction
 
 <!-- badges: start -->
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
@@ -45,7 +45,7 @@ the geometries for specific points in time or all changes within a timespan
 You can install ohsome from [Github](https://github.com/GIScience/ohsome-r){target=blank}:
 
 ```{r, eval = FALSE}
-remotes::install_github("giscience/ohsome-r")
+remotes::install_github("GIScience/ohsome-r")
 
 ```
 
@@ -175,34 +175,7 @@ consult the
 [ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html){target=blank} 
 or have a look at `ohsome_endpoints`.
 
-
-Here's a query to extract the full history of OSM building polygon elements with
-their geometries:
-
-```{r extract}
-q <- ohsome_query(
-	c("elementsFullHistory", "geometry"), 
-	filter = "building=* and geometry:polygon", 
-	clipGeometry = "false"
-)
-```
-
-One of the downsides of this approach is that you cannot just pass `sf` objects
-as bounding polygons into the query. You would need to textually define the 
-bounding geometries (`bpolys`, `bboxes` or `bcircles`) as parameters to the 
-query just as described in the 
-[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}.
-
-As a workaround, you can just add bounding geometries with `set_boundary()` to 
-any existing `ohsome_query` object:
-
-```{r set_boundary, message = FALSE}
-schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
-
-q <- set_boundary(q, schweinfurt)
-```
-
-Here, we request the history of OSM buildings for the district of Schweinfurt
+Here, we request the full history of OSM buildings for the district of Schweinfurt
 City, filter for features that still exist and visualise all building features 
 with their year of creation:
 
@@ -211,7 +184,14 @@ meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
-m <- q |> 
+schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
+
+m <- ohsome_query(
+	"elementsFullHistory/geometry",
+	schweinfurt,
+	filter = "building=* and geometry:polygon", 
+	clipGeometry = "false"
+) |> 
 	set_time(paste(start, end, sep = ",")) |>
 	set_properties("metadata") |>
 	ohsome_post() |>
@@ -232,15 +212,15 @@ response -- just as in the example above.
 
 The ohsome API requires bounding geometries either as bounding polygons 
 (`bpolys`), bounding boxes (`bboxes`) or bounding circles (`bcircles`) 
-parameters to the query in a textual form. The ohsome R package uses the 
-generic function `ohsome_boundary()` under the hood to make your life easier. 
-It accepts a wider range of input geometry formats, while guessing the right
-type of bounding geometry.
+parameters to the query in a textual form (see
+[ohsome API documentation](https://docs.ohsome.org/ohsome-api/stable/boundaries.html){target=blank}).
+The ohsome R package uses the generic function `ohsome_boundary()` under the 
+hood to make your life easier. It accepts a wider range of input geometry 
+formats, while guessing the right type of bounding geometry.
 
-As seen above, `sf` objects can be passed into any of the wrapper functions of 
-`ohsome_query()` (though not `ohsome_query()` itself) or into `set_boundary()`. 
-The `sf` object will be converted into GeoJSON and passed into the `bpolys` 
-parameter of the query.
+As seen above, `sf` objects can be passed into the `boundary` argument of `ohsome_query()` and any of its wrapper functions. You can also update queries 
+with `set_boundary()`. The `sf` object will be converted into GeoJSON and passed into the `bpolys` parameter 
+of the query.
 
 There are also the following methods of `ohsome_boundary()` for other classes
 of input geometry objects:
