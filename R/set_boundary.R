@@ -44,7 +44,7 @@ set_boundary <- function(query,	boundary, ...) {
 	btypes <- c("bpolys", "bboxes", "bcircles")
 
 	boundary <- ohsome_boundary(boundary, ...)
-
+	
 	body[[boundary$type]] <- boundary$boundary
 	body[btypes[btypes != boundary$type]] <- NULL
 

@@ -4,12 +4,15 @@
 \alias{ohsome_query}
 \title{Create an \code{ohsome_query} object}
 \usage{
-ohsome_query(endpoint, ..., validate = FALSE)
+ohsome_query(endpoint, boundary = NULL, ..., validate = FALSE)
 }
 \arguments{
 \item{endpoint}{The path to the ohsome API endpoint. Either a single string
 (e.g. \code{"elements/count"}) or a character vector in the right order
 (e.g. \code{c("elements", "count")})}
+
+\item{boundary}{Boundary object that can be interpreted by
+\code{\link{ohsome_boundary}}}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 
@@ -24,7 +27,11 @@ Creates an \code{ohsome_query} object specifying the ohsome API endpoint and
 the request parameters.
 }
 \examples{
-ohsome_query("elements/geometry", bbox = "8.5992,49.3567,8.7499,49.4371", filter = "building=*")
+# setting bbox parameter manually
+ohsome_query("elements/geometry", bboxes = "8.6,49.36,8.75,49.44", filter = "building=*")
+
+# using a boundary object:
+ohsome_query("elements/geometry", boundary = "8.6,49.36,8.75,49.44", filter = "building=*")
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}

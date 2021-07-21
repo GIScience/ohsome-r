@@ -28,3 +28,21 @@ test_that("does not set format parameter with elements extraction queries", {
 test_that("returns object of class ohsome_query", {
 	expect_s3_class(ohsome_query("elements/count"), "ohsome_query")
 })
+
+test_that("issues warning if boundary and other bounding geom params are set", {
+	expect_warning(
+		ohsome_query("elements/count", boundary = "0,0,1,1", bboxes = "1,1,2,2")
+	)
+	expect_warning(
+		ohsome_query("elements/count", boundary = "0,0,1,1", bcircles = "0,0,1000")
+	)
+	expect_warning(
+		ohsome_query("elements/count", boundary = "0,0,1,1", bpolys = "foo")
+	)
+})
+
+test_that("correctly sets bboxes param based on boundary argument", {
+	bbox <- "0,0,1,1"
+	q <- ohsome_query("elements/count", boundary = bbox)
+	expect_equal(q$body$bboxes, bbox)
+})

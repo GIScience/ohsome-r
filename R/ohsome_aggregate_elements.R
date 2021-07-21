@@ -25,35 +25,35 @@
 #' ohsome_elements_length(mapview::franconia, filter = "highway=*")
 #'
 ohsome_aggregate_elements <- function(
-	boundary,
+	boundary = NULL,
 	aggregation = c("count", "length", "perimeter", "area"),
 	...
 ) {
 	aggregation <- match.arg(aggregation)
-	query <- ohsome_query(c("elements", aggregation), ...)
+	query <- ohsome_query(c("elements", aggregation), boundary, ...)
 	return(set_boundary(query, boundary))
 }
 
 #' @export
 #' @rdname ohsome_aggregate_elements
-ohsome_elements_count <- function(boundary, ...) {
+ohsome_elements_count <- function(boundary = NULL, ...) {
 	ohsome_aggregate_elements(boundary, aggregation = "count", ...)
 }
 
 #' @export
 #' @rdname ohsome_aggregate_elements
-ohsome_elements_length <- function(boundary, ...) {
+ohsome_elements_length <- function(boundary = NULL, ...) {
 	ohsome_aggregate_elements(boundary, aggregation = "length", ...)
 }
 
 #' @export
 #' @rdname ohsome_aggregate_elements
-ohsome_elements_perimeter <- function(boundary, ...) {
+ohsome_elements_perimeter <- function(boundary = NULL, ...) {
 	ohsome_aggregate_elements(boundary, aggregation = "perimeter", ...)
 }
 
 #' @export
 #' @rdname ohsome_aggregate_elements
-ohsome_elements_area <- function(boundary, ...) {
+ohsome_elements_area <- function(boundary = NULL, ...) {
 	ohsome_aggregate_elements(boundary, aggregation = "area", ...)
 }
