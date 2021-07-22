@@ -36,14 +36,14 @@
 #' set_boundary(q, sf::st_bbox(mapview::franconia))
 #' set_boundary(q, osmdata::getbb("Kigali"))
 #' set_boundary(q, c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
-set_boundary <- function(query,	boundary, ...) {
+set_boundary <- function(query,	boundary = NULL, ...) {
 
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
 	body <- query$body
 
 	btypes <- c("bpolys", "bboxes", "bcircles")
 
-	boundary <- ohsome_boundary(boundary, ...)
+	boundary <- ohsome_boundary(boundary %||% Reduce(`%||%`, body[btypes]), ...)
 	
 	body[[boundary$type]] <- boundary$boundary
 	body[btypes[btypes != boundary$type]] <- NULL

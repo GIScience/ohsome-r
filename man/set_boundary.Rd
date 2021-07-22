@@ -4,7 +4,7 @@
 \alias{set_boundary}
 \title{Set boundary}
 \usage{
-set_boundary(query, boundary, ...)
+set_boundary(query, boundary = NULL, ...)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
