@@ -30,8 +30,7 @@ ohsome_aggregate_elements <- function(
 	...
 ) {
 	aggregation <- match.arg(aggregation)
-	query <- ohsome_query(c("elements", aggregation), boundary, ...)
-	return(set_boundary(query, boundary))
+	ohsome_query(c("elements", aggregation), boundary, ...)
 }
 
 #' @export
