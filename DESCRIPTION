@@ -1,6 +1,6 @@
 Package: ohsome
 Title: An ohsome API client for R
-Version: 0.1.2
+Version: 0.2.0
 Authors@R: 
     c(
       person(
