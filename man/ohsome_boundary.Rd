@@ -59,7 +59,7 @@ GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).}
 }
 \value{
 An \code{ohsome_boundary} object which contains the following elements: \code{boundary} which
-contains the boundary in geojson format and the \code{type} of the boundary (bpolys, bcircles, or bboxes).
+contains the boundary in textual format and the \code{type} of the boundary (bpolys, bcircles, or bboxes).
 }
 \description{
 Creates an \code{ohsome_boundary} object from input geometries of various
