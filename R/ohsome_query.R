@@ -11,7 +11,13 @@
 #' @param ... Parameters of the request to the ohsome API endpoint
 #' @param validate logical If TRUE, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
-#' @return An \code{ohsome_query} object
+#' @return An \code{ohsome_query} object. The object consists of the following elements: 
+#' \describe{
+#'         \item{url}{The url of the endpoint.}
+#'         \item{encode}{The way the information is encoded then posted to the ohsome API. Set as "form".}
+#'         \item{body}{The parameters of the query such as \code{format}, 
+#'         \code{filter} or \code{bpolys}.}
+#'         }
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples

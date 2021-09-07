@@ -20,7 +20,13 @@ ohsome_query(endpoint, boundary = NULL, ..., validate = FALSE)
 invalid/missing query parameters}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object consists of the following elements:
+\describe{
+\item{url}{The url of the endpoint.}
+\item{encode}{The way the information is encoded then posted to the ohsome API. Set as "form".}
+\item{body}{The parameters of the query such as \code{format},
+\code{filter} or \code{bpolys}.}
+}
 }
 \description{
 Creates an \code{ohsome_query} object specifying the ohsome API endpoint and
