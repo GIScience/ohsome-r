@@ -8,7 +8,8 @@
 #' \code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
 #' \code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
 #' to set specific parameters. By default, an unmodified \code{ohsome_query}
-#' object is returned.
+#' object is returned (except for \code{set_properties()} which removes the 
+#' \code{properties} parameter from the query by default).
 #'
 #' @param query An \code{ohsome_query} object
 #' @param ... named parameters (e.g. \code{time = "2020-01-01"})
@@ -18,7 +19,11 @@
 #' @param groupByKeys groupByKeys parameter of a groupBy/key query
 #' @param groupByKey groupByKey parameter of a groupBy/tag query
 #' @param groupByValues groupByValues parameter of a groupBy/tag query
-#' @param properties properties parameter of an extraction query
+#' @param properties properties parameter of an extraction query. Can be 
+#'     "tags" to extract all tags with the elements and/or
+#'     "metadata" to provide metadata with the elements. Multiple values 
+#'     can be provided as comma-separated character or as character vector. 
+#'     Default: NULL (removes \code{properties} parameter from query body)
 #' @family Set parameters
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
@@ -81,5 +86,19 @@ set_groupByValues <- function(query, groupByValues = NULL) {
 #' @export
 #' @rdname set_parameters
 set_properties <- function(query, properties = NULL) {
-	set_parameters(query, properties = properties %||% query$body$properties)
+	
+	if(is.null(properties)) return(set_parameters(query, properties = NULL))
+	
+	properties <- gsub(" ", "", properties, fixed = TRUE)
+	
+	if(!(length(properties) == 1 && properties %in% c("tags,metadata", "metadata,tags"))) {
+		properties <- match.arg(
+			properties, 
+			choices = c("tags", "metadata"), 
+			several.ok = TRUE
+		)
+		properties <- paste(properties, collapse = ",")
+	}
+	
+	set_parameters(query, properties = properties)
 }

@@ -41,7 +41,11 @@ set_properties(query, properties = NULL)
 
 \item{groupByValues}{groupByValues parameter of a groupBy/tag query}
 
-\item{properties}{properties parameter of an extraction query}
+\item{properties}{properties parameter of an extraction query. Can be
+"tags" to extract all tags with the elements and/or
+"metadata" to provide metadata with the elements. Multiple values
+can be provided as comma-separated character or as character vector.
+Default: NULL (removes \code{properties} parameter from query body)}
 }
 \value{
 An \code{ohsome_query} object
@@ -56,7 +60,8 @@ in the \code{ohsome_query} and returns the modified object. \code{set_time()},
 \code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
 \code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
 to set specific parameters. By default, an unmodified \code{ohsome_query}
-object is returned.
+object is returned (except for \code{set_properties()} which removes the
+\code{properties} parameter from the query by default).
 }
 \examples{
 q <- ohsome_query("elements/count/ratio/groupBy/boundary")
