@@ -50,20 +50,20 @@ OSHDB:
 ``` r
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.5.0
-#> Temporal extent: 2007-10-08 to 2021-07-11 21:00:00
+#> ohsome API version: 1.6.0
+#> Temporal extent: 2007-10-08 to 2021-08-29 20:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
 console to get more details.
 
-### Aggregating OpenStreetMap elements
+### Aggregating OSM elements
 
-This early version of the ohsome R package provides wrapper functions
-for the elements aggregation endpoints only. With these functions you
-can query the ohsome API for the aggregated amount, length, area or
-perimeter of OpenStreetMap elements with given properties, within given
-boundaries and at given points in time.
+The
+<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation" target="blank">elements aggregation endpoints</a>
+of the ohsome API allow querying for the aggregated amount, length, area
+or perimeter of OpenStreetMap elements with given properties, within
+given boundaries and at given points in time.
 
 Let us create a query for the total amount of breweries on OSM in the
 region of Franconia. The first argument to `ohsome_elements_count()` is
@@ -74,6 +74,8 @@ and contains boundary polygons of the 37 districts of the region:
 library(mapview)
 
 q <- ohsome_elements_count(franconia, filter = "craft=brewery")
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 ```
 
 The resulting `ohsome_query` object can be sent to the ohsome API with
@@ -86,7 +88,7 @@ ohsome_post(q)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-07-11 21:00:00   125
+#> 1 2021-08-29 20:00:00   129
 ```
 
 `ohsome_post()` has issued a warning that the time parameter of the
@@ -144,17 +146,17 @@ q |>
 #> Bounding box:  xmin: 8.975926 ymin: 48.8625 xmax: 12.27535 ymax: 50.56422
 #> Geodetic CRS:  WGS 84
 #> First 10 features:
-#>    value          groupByBoundaryId  timestamp                       geometry
-#> 1      6  Bamberg, Kreisfreie Stadt 2021-06-01 MULTIPOLYGON (((10.92581 49...
-#> 2      6 Bayreuth, Kreisfreie Stadt 2021-06-01 MULTIPOLYGON (((11.58157 49...
-#> 3      0   Coburg, Kreisfreie Stadt 2021-06-01 MULTIPOLYGON (((10.95355 50...
-#> 4      1      Hof, Kreisfreie Stadt 2021-06-01 MULTIPOLYGON (((11.93067 50...
-#> 5     13         Bamberg, Landkreis 2021-06-01 MULTIPOLYGON (((10.87615 50...
-#> 6     13        Bayreuth, Landkreis 2021-06-01 MULTIPOLYGON (((11.70656 50...
-#> 7      6          Coburg, Landkreis 2021-06-01 MULTIPOLYGON (((10.88654 50...
-#> 8      8                  Forchheim 2021-06-01 MULTIPOLYGON (((11.26376 49...
-#> 9      4             Hof, Landkreis 2021-06-01 MULTIPOLYGON (((11.91989 50...
-#> 10     1                    Kronach 2021-06-01 MULTIPOLYGON (((11.36979 50...
+#>             groupByBoundaryId value  timestamp                       geometry
+#> 1   Bamberg, Kreisfreie Stadt     6 2021-06-01 MULTIPOLYGON (((10.92581 49...
+#> 2  Bayreuth, Kreisfreie Stadt     6 2021-06-01 MULTIPOLYGON (((11.58157 49...
+#> 3    Coburg, Kreisfreie Stadt     0 2021-06-01 MULTIPOLYGON (((10.95355 50...
+#> 4       Hof, Kreisfreie Stadt     1 2021-06-01 MULTIPOLYGON (((11.93067 50...
+#> 5          Bamberg, Landkreis    13 2021-06-01 MULTIPOLYGON (((10.87615 50...
+#> 6         Bayreuth, Landkreis    13 2021-06-01 MULTIPOLYGON (((11.70656 50...
+#> 7           Coburg, Landkreis     6 2021-06-01 MULTIPOLYGON (((10.88654 50...
+#> 8                   Forchheim     8 2021-06-01 MULTIPOLYGON (((11.26376 49...
+#> 9              Hof, Landkreis     4 2021-06-01 MULTIPOLYGON (((11.91989 50...
+#> 10                    Kronach     1 2021-06-01 MULTIPOLYGON (((11.36979 50...
 ```
 
 If you want your own identifiers for the geometries returned by ohsome,
@@ -179,15 +181,51 @@ q |>
 
 <img src="man/figures/README-density-1.png" width="900" />
 
+### Extracting OSM elements
+
+The
+<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction" target="blank">elements extraction endpoints</a>
+of the ohsome API allow obtaining geometries, bounding boxes or
+centroids of OSM elements with given properties, within given boundaries
+and at given points in time. Together with the elements, you can choose
+to query for their tags and/or their metadata such as the changeset ID,
+the time of the last edit or the version number.
+
+The following query extracts the geometries of buildings within 1000 m
+of Heidelberg main station with their tags. The response is used to
+visualise the buildings and the values of their `building:levels` tag
+(if available):
+
+``` r
+ohsome_elements_geometry(
+    boundary = "8.67542,49.40347,1000", 
+    filter = "building=* and type:way", 
+    properties = "tags", 
+    clipGeometry = FALSE
+) |>
+    ohsome_post() |>
+    transmute(level = factor(`building:levels`)) |>
+    mapview(zcol = "level", lwd = 0, layer.name = "Building level")
+#> Warning: Time parameter is not defined and defaults to latest available
+#> timestamp within the underlying OSHDB. You can use set_time() to set the time
+#> parameter.
+```
+
+<img src="man/figures/README-building_levels-1.png" width="900" />
+
+Similarly, you can use `ohsome_elements_centroid()` to extract centroids
+of OSM elements and `ohsome_elements_bbox()` for their bounding boxes.
+Note that OSM node elements (with point geometries) are omitted from the
+results if querying for bounding boxes.
+
 ### Other queries
 
-The ohsome API has endpoints not only for the aggregation of OSM
-elements, but also for the aggregation of users and contributions, and
-even for the extraction of elements, of their full history and of
-contributions. Up to now, this ohsome R package provides wrapper
-functions for element aggregation.
+Up to now, this ohsome R package provides wrapper functions for element
+aggregation and extraction. However, the ohsome API also has endpoints
+for the aggregation of users and contributions as well as for the
+extraction of contributions and of the full history of elements.
 
-However, you can create any ohsome API query using the more generic
+You can create any ohsome API query using the more generic
 `ohsome_query()` function. It takes the endpoint path and any query
 parameters as inputs. For information on all available endpoints with
 their parameters, consult the
@@ -205,8 +243,6 @@ end <- as.Date(meta$extractRegion$temporalExtent[2])
 
 schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
 
-
-
 m <- ohsome_query(
     "elementsFullHistory/geometry",
     schweinfurt,
@@ -221,7 +257,6 @@ m <- ohsome_query(
     mutate(year = min(format(valid_from, "%Y"))) |>
     filter(valid_to == end) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
-
 
 m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
@@ -256,6 +291,7 @@ classes of input geometry objects:
 ``` r
 q <- ohsome_query("users/count") |>
     set_boundary(sf::st_bbox(franconia))
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 
 q$body$bboxes
 #> [1] "8.97592600000002,48.862505,12.2753535,50.5642245"
@@ -303,9 +339,9 @@ c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
 #> Dimension:     XY
 #> Bounding box:  xmin: 8.639026 ymin: 49.35931 xmax: 8.743193 ymax: 49.44659
 #> Geodetic CRS:  WGS 84
-#>   value groupByBoundaryId  timestamp                       geometry
-#> 1    16          Circle 1 2021-01-01 POLYGON ((8.666574 49.36834...
-#> 2    20          Circle 2 2021-01-01 POLYGON ((8.743193 49.43763...
+#>   groupByBoundaryId value  timestamp                       geometry
+#> 1          Circle 1    16 2021-01-01 POLYGON ((8.666574 49.36834...
+#> 2          Circle 2    20 2021-01-01 POLYGON ((8.743193 49.43763...
 ```
 
 ⚠️ While `sf` and `bbox` objects will be automatically transformed to
@@ -357,6 +393,8 @@ building_levels <- franconia |>
     set_endpoint("groupBy/boundary/groupBy/tag", reset_format = F, append = T) |>
     set_groupByKey("building:levels") |>
     ohsome_post()
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 
 dim(building_levels)
 #> [1]    2 1999
@@ -374,7 +412,7 @@ library(tidyr)
 
 building_levels |>
     pivot_longer(-timestamp, names_to = c("id", "levels"), names_sep = "_")
-#> # A tibble: 3,996 x 4
+#> # A tibble: 3,996 × 4
 #>    timestamp           id    levels            value
 #>    <dttm>              <chr> <chr>             <dbl>
 #>  1 2015-01-01 00:00:00 DE241 remainder          4311
@@ -387,7 +425,7 @@ building_levels |>
 #>  8 2015-01-01 00:00:00 DE241 building.levels.9     7
 #>  9 2015-01-01 00:00:00 DE241 building.levels.0     0
 #> 10 2015-01-01 00:00:00 DE241 building.levels.7    32
-#> # ... with 3,986 more rows
+#> # … with 3,986 more rows
 ```
 
 [1] Instead of the new R native pipe `|>` you may choose to use

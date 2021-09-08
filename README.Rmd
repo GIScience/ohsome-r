@@ -62,13 +62,13 @@ library(ohsome)
 The metadata is stored in `.ohsome_metadata`. You can print it to the console
 to get more details.
 
-### Aggregating OpenStreetMap elements
+### Aggregating OSM elements
 
-This early version of the ohsome R package provides wrapper functions for the
-elements aggregation endpoints only. With these functions you can query the 
-ohsome API for the aggregated amount, length, area or perimeter of 
-OpenStreetMap elements with given properties, within given boundaries and at 
-given points in time.
+The
+[elements aggregation endpoints](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation){target=blank}
+of the ohsome API allow querying for the aggregated amount, length, area or 
+perimeter of OpenStreetMap elements with given properties, within given 
+boundaries and at given points in time.
 
 Let us create a query for the total amount of breweries on OSM in the region of 
 Franconia. The first argument to `ohsome_elements_count()` is the `sf` object 
@@ -159,16 +159,46 @@ q |>
 	mapview(zcol = "value", layer.name = "Breweries per sqkm")
 ```
 
+### Extracting OSM elements
+
+The
+[elements extraction endpoints](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction){target=blank}
+of the ohsome API allow obtaining geometries, bounding boxes or centroids of OSM
+elements with given properties, within given boundaries and at given points in 
+time. Together with the elements, you can choose to query for their tags and/or 
+their metadata such as the changeset ID, the time of the last edit or the 
+version number.
+
+The following query extracts the geometries of buildings within 1000 m of 
+Heidelberg main station with their tags. The response is used to visualise
+the buildings and the values of their `building:levels` tag (if available):
+
+```{r building_levels}
+ohsome_elements_geometry(
+	boundary = "8.67542,49.40347,1000", 
+	filter = "building=* and type:way", 
+	properties = "tags", 
+	clipGeometry = FALSE
+) |>
+	ohsome_post() |>
+	transmute(level = factor(`building:levels`)) |>
+	mapview(zcol = "level", lwd = 0, layer.name = "Building level")
+```
+
+Similarly, you can use `ohsome_elements_centroid()` to extract centroids of OSM
+elements and `ohsome_elements_bbox()` for their bounding boxes. Note that OSM
+node elements (with point geometries) are omitted from the results if querying 
+for bounding boxes.
+
 
 ### Other queries
 
-The ohsome API has endpoints not only for the aggregation of OSM elements, but 
-also for the aggregation of users and contributions, and even for the 
-extraction of elements, of their full history and of contributions. Up to now, 
-this ohsome R package provides wrapper functions for element aggregation. 
+Up to now, this ohsome R package provides wrapper functions for element 
+aggregation and extraction. However, the ohsome API also has endpoints for the 
+aggregation of users and contributions as well as for the extraction of 
+contributions and of the full history of elements.
 
-
-However, you can create any ohsome API query using the more generic 
+You can create any ohsome API query using the more generic 
 `ohsome_query()` function. It takes the endpoint path and any query parameters
 as inputs. For information on all available endpoints with their parameters,
 consult the 
