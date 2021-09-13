@@ -15,10 +15,10 @@ set_boundary(query, boundary = NULL, ...)
 \item{sf}{with (MULTI)POLYGON geometries}
 \item{sfc}{with (MULTI)POLYGON geometries}
 \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
-\item{bbox}{created with \code{\link[sf]{st_bbox}}}
+\item{bbox}{created with \code{sf::st_bbox()} or \code{tmaptools::bb()}}
 \item{matrix}{created with
-\code{\link[sp]{bbox}} or
-\code{\link[osmdata]{getbb}}
+\code{sp::bbox()} or
+\code{osmdata::getbb()}
 }
 \item{character}{a textual definition of bounding polygons, boxes or
 circles as allowed by the ohsome API (see

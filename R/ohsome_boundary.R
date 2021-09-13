@@ -10,10 +10,10 @@
 #'     \item{sf}{with (MULTI)POLYGON geometries}
 #'     \item{sfc}{with (MULTI)POLYGON geometries}
 #'     \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
-#'     \item{bbox}{created with \code{\link[sf]{st_bbox}}}
+#'     \item{bbox}{created with \code{sf::st_bbox()} or \code{tmaptools::bb()}}
 #'     \item{matrix}{created with
-#'         \code{\link[sp]{bbox}} or
-#'         \code{\link[osmdata]{getbb}}
+#'         \code{sp::bbox()} or
+#'         \code{osmdata::getbb()}
 #'     }
 #'      \item{character}{a textual definition of bounding polygons, boxes or
 #'     circles as allowed by the ohsome API (see
@@ -34,14 +34,19 @@
 #' @examples
 #' # define boundary by a circle (bcircle)
 #' ohsome_boundary("8.6528,49.3683,1000") 
+#' 
 #' # define boundary by two circles (named Circle 1 and Circle 2)
 #' ohsome_boundary("Circle 1:8.6528,49.3683,1000|Circle 2:8.7294,49.4376,1000")
+#' 
 #' # use the shape of franconia from the mapview package as bpolys
 #' ohsome_boundary(mapview::franconia, digits = 4)
+#' 
 #' # get administrative boundary for Berlin from OSM and use as bpolys
 #' ohsome_boundary(osmdata::getbb("Berlin"))
+#' 
 #' # use the bounding box from franconia
 #' ohsome_boundary(sf::st_bbox(mapview::franconia))
+#' 
 #' # use a list with two bounding boxes
 #' ohsome_boundary(list(osmdata::getbb("Berlin"), sf::st_bbox(mapview::franconia)))
 ohsome_boundary <- function(x, ...) UseMethod("ohsome_boundary")
