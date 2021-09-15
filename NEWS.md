@@ -5,6 +5,10 @@
 body by default, accepts "tags" and/or "metadata" as properties argument 
 (multiple values provided as comma-separated character or character vector).
 * Added `ohsome_query()` wrapper functions `ohsome_extract_elements()`,
-`ohsome_elemets_bbox`, `ohsome_elemets_centroid` and `ohsome_elemets_geometry` 
+`ohsome_elements_bbox`, `ohsome_elements_centroid` and `ohsome_elements_geometry` 
 for elements extraction endpoints of ohsome API
+* Added `ohsome_query()` wrapper functions `ohsome_extract_elementsFullHisotry()`,
+`ohsome_elementsFullHistory_bbox`, `ohsome_elementsFullHistory_centroid` and 
+`ohsome_elementsFullHistory_geometry` for elementsFullHistory extraction
+endpoints of ohsome API
 * Updated `README` to reflect new features
