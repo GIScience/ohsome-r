@@ -43,7 +43,7 @@ ohsome_extract_elements <- function(
 	geometryType <- match.arg(geometryType)
 	q <- ohsome_query(c("elements", geometryType), boundary, ...)
 	q <- set_properties(q, properties)
-	q <- set_parameters(q, clipGeometry = clipGeometry)
+	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
 	return(q)
 }
 

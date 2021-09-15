@@ -54,7 +54,7 @@ ohsome_extract_elementsFullHistory <- function(
 	geometryType <- match.arg(geometryType)
 	q <- ohsome_query(c("elementsFullHistory", geometryType), boundary, ...)
 	q <- set_properties(q, properties)
-	q <- set_parameters(q, clipGeometry = clipGeometry)
+	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
 	q <- set_time(q, paste(time, collapse = ","))
 	return(q)
 }
