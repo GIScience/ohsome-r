@@ -12,6 +12,9 @@ test_that("correctly sets clipGeometry parameter", {
 	expect_equal(q$body$clipGeometry, "FALSE")
 })
 
-test_that("throws error on missing time parameter", {
-	expect_error(ohsome_elementsFullHistory_geometry())
+test_that("uses full temporal extent if time parameter is missing", {
+	expect_equal(
+		ohsome_extract_elementsFullHistory()$body$time,
+		paste(lubridate::format_ISO8601(.ohsome_metadata$extractRegion$temporalExtent), collapse = ",")
+	)
 })

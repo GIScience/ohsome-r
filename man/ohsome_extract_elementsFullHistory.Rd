@@ -10,7 +10,7 @@
 ohsome_extract_elementsFullHistory(
   boundary = NULL,
   geometryType = c("centroid", "bbox", "geometry"),
-  time,
+  time = lubridate::format_ISO8601(.ohsome_metadata$extractRegion$temporalExtent),
   properties = NULL,
   clipGeometry = TRUE,
   ...
@@ -33,7 +33,7 @@ in queries for bounding boxes.}
 
 \item{time}{must consist of two ISO-8601 conform timestrings (as
 comma-separated character or as character vector of length two) defining
-a time interval}
+a time interval (defaults to the temporal extent of the underlying OSHDB)}
 
 \item{properties}{Can be "tags" to extract all tags with the elements and/or
 "metadata" to provide metadata (\code{changesetId}, \code{lastEdit},
@@ -68,7 +68,6 @@ elementsFullHistory extraction endpoints. Boundary objects are passed via
 # main station:
 ohsome_elementsFullHistory_geometry(
     boundary = "8.67542,49.40347,1000", 
-    time = "2008,2020",
     filter = "building=* and type:way", 
     clipGeometry = FALSE
 )
