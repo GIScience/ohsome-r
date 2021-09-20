@@ -102,7 +102,8 @@ validate_endpoint <- function(endpoint) {
 			"\nSee ",
 			"https://docs.ohsome.org/ohsome-api/v1/endpoint-visualisation.html",
 			" for available endpoints.",
-			call. = FALSE
+			call. = FALSE, 
+			immediate. = TRUE
 		)
 	return(FALSE)
 	}
@@ -135,7 +136,8 @@ validate_parameters <- function(endpoint, body) {
 			),
 			"endpoint ", endpoint,
 			"\nSee https://docs.ohsome.org/ohsome-api/v1/",
-			call. = FALSE
+			call. = FALSE, 
+			immediate. = TRUE
 		)
 	}
 
@@ -144,7 +146,8 @@ validate_parameters <- function(endpoint, body) {
 			"One (and only one) of the following parameters should be set: ",
 			"bpolys, bboxes, or bcircles. ",
 			"You can use set_boundary() to set a bounding geometry parameter.",
-			call. = FALSE
+			call. = FALSE, 
+			immediate. = TRUE
 		)
 	}
 
@@ -153,7 +156,8 @@ validate_parameters <- function(endpoint, body) {
 			"Time parameter is not defined and defaults to latest ",
 			"available timestamp within the underlying OSHDB. ",
 			"You can use set_time() to set the time parameter.",
-			call. = FALSE
+			call. = FALSE, 
+			immediate. = TRUE
 		)
 	}
 
@@ -161,7 +165,17 @@ validate_parameters <- function(endpoint, body) {
 		warning(
 			"Filter parameter is not defined. ",
 			"You can use set_filter() to set the filter parameter.",
-			call. = FALSE
+			call. = FALSE, 
+			immediate. = TRUE
+		)
+	}
+	
+	if(grepl("ratio", endpoint) & !("filter2" %in% names(body))) {
+		warning(
+			"Filter2 parameter needs to be defined in ratio queries. ",
+			"You can use set_filter() to set the filter2 parameter.",
+			call. = FALSE, 
+			immediate. = TRUE
 		)
 	}
 }
