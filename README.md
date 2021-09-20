@@ -51,11 +51,21 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.0
-#> Temporal extent: 2007-10-08 to 2021-08-29 20:00:00
+#> Temporal extent: 2007-10-08 to 2021-09-12 20:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
 console to get more details.
+
+You can create any ohsome API query using the generic `ohsome_query()`
+function. It takes the endpoint path and any query parameters as inputs.
+For information on all available endpoints with their parameters,
+consult the
+<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html" target="blank">ohsome API documentation</a>
+or have a look at `ohsome_endpoints`.
+
+However, this ohsome R package provides specific wrapper functions for
+queries to all available endpoints:
 
 ### Aggregating OSM elements
 
@@ -88,7 +98,7 @@ ohsome_post(q)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-08-29 20:00:00   129
+#> 1 2021-09-12 20:00:00   129
 ```
 
 `ohsome_post()` has issued a warning that the time parameter of the
@@ -218,19 +228,7 @@ of OSM elements and `ohsome_elements_bbox()` for their bounding boxes.
 Note that OSM node elements (with point geometries) are omitted from the
 results if querying for bounding boxes.
 
-### Other queries
-
-Up to now, this ohsome R package provides wrapper functions for element
-aggregation and extraction. However, the ohsome API also has endpoints
-for the aggregation of users and contributions as well as for the
-extraction of contributions and of the full history of elements.
-
-You can create any ohsome API query using the more generic
-`ohsome_query()` function. It takes the endpoint path and any query
-parameters as inputs. For information on all available endpoints with
-their parameters, consult the
-<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html" target="blank">ohsome API documentation</a>
-or have a look at `ohsome_endpoints`.
+### Extracting the full history of OSM elements
 
 Here, we request the full history of OSM buildings for the district of
 Schweinfurt City, filter for features that still exist and visualise all
@@ -243,14 +241,13 @@ end <- as.Date(meta$extractRegion$temporalExtent[2])
 
 schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
 
-m <- ohsome_query(
-    "elementsFullHistory/geometry",
-    schweinfurt,
-    filter = "building=* and geometry:polygon", 
-    clipGeometry = "false"
+m <- schweinfurt %>%
+    ohsome_elementsFullHistory_geometry(
+        time = c(start, end),
+        filter = "building=* and geometry:polygon", 
+        clipGeometry = FALSE,
+        properties = "metadata"
 ) |> 
-    set_time(paste(start, end, sep = ",")) |>
-    set_properties("metadata") |>
     ohsome_post() |>
     janitor:: clean_names() |>
     group_by(osm_id) |>
@@ -300,8 +297,8 @@ q$body$bboxes
 2.  `matrix` objects created with `sp::bbox()`, `raster::bbox()` or
     `terra::bbox()` are also converted into a textual `bboxes`
     parameter. This even applies for matrices created with
-    `osmdata::getbb()`, so that you can comfortably acquire bounding
-    boxes for many places in the world:
+    `osmdata::getbb()` and `tmaptools::bb()`, so that you can
+    comfortably acquire bounding boxes from the Nominatim API:
 
 ``` r
 osmdata::getbb("Kigali") |> 
