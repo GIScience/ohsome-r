@@ -37,7 +37,7 @@ You can install ohsome from
 <a href="https://github.com/GIScience/ohsome-r" target="blank">Github</a>:
 
 ``` r
-remotes::install_github("GIScience/ohsome-r")
+remotes::install_github("GIScience/ohsome-r", ref = "main")
 ```
 
 ## Getting started
@@ -50,8 +50,8 @@ OSHDB:
 ``` r
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.0
-#> Temporal extent: 2007-10-08 to 2021-09-12 20:00:00
+#> ohsome API version: 1.6.1
+#> Temporal extent: 2007-10-08 to 2021-10-24 20:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
@@ -84,8 +84,6 @@ and contains boundary polygons of the 37 districts of the region:
 library(mapview)
 
 q <- ohsome_elements_count(franconia, filter = "craft=brewery")
-#> old-style crs object detected; please recreate object with a recent sf::st_crs()
-#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 ```
 
 The resulting `ohsome_query` object can be sent to the ohsome API with
@@ -98,7 +96,7 @@ ohsome_post(q)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-09-12 20:00:00   129
+#> 1 2021-10-24 20:00:00   131
 ```
 
 `ohsome_post()` has issued a warning that the time parameter of the
@@ -142,6 +140,14 @@ character vector [2]:
 
 ``` r
 library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 
 q <- franconia |> 
     mutate(id = NAME_ASCI) |>
@@ -216,9 +222,6 @@ ohsome_elements_geometry(
     ohsome_post() |>
     transmute(level = factor(`building:levels`)) |>
     mapview(zcol = "level", lwd = 0, layer.name = "Building level")
-#> Warning: Time parameter is not defined and defaults to latest available
-#> timestamp within the underlying OSHDB. You can use set_time() to set the time
-#> parameter.
 ```
 
 <img src="man/figures/README-building_levels-1.png" width="900" />
@@ -236,6 +239,9 @@ building features with their year of creation:
 
 ``` r
 meta <- ohsome_get_metadata()
+#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
+#> ohsome API version: 1.6.1
+#> Temporal extent: 2007-10-08 to 2021-10-24 20:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -247,7 +253,7 @@ m <- schweinfurt %>%
         filter = "building=* and geometry:polygon", 
         clipGeometry = FALSE,
         properties = "metadata"
-) |> 
+    ) |> 
     ohsome_post() |>
     janitor:: clean_names() |>
     group_by(osm_id) |>
@@ -288,7 +294,6 @@ classes of input geometry objects:
 ``` r
 q <- ohsome_query("users/count") |>
     set_boundary(sf::st_bbox(franconia))
-#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 
 q$body$bboxes
 #> [1] "8.97592600000002,48.862505,12.2753535,50.5642245"
@@ -390,8 +395,6 @@ building_levels <- franconia |>
     set_endpoint("groupBy/boundary/groupBy/tag", reset_format = F, append = T) |>
     set_groupByKey("building:levels") |>
     ohsome_post()
-#> old-style crs object detected; please recreate object with a recent sf::st_crs()
-#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 
 dim(building_levels)
 #> [1]    2 1999

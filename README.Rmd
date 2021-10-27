@@ -45,7 +45,7 @@ the geometries for specific points in time or all changes within a timespan
 You can install ohsome from [Github](https://github.com/GIScience/ohsome-r){target=blank}:
 
 ```{r, eval = FALSE}
-remotes::install_github("GIScience/ohsome-r")
+remotes::install_github("GIScience/ohsome-r", ref = "main")
 
 ```
 
@@ -83,6 +83,11 @@ Let us create a query for the total amount of breweries on OSM in the region of
 Franconia. The first argument to `ohsome_elements_count()` is the `sf` object 
 `franconia` that is included in the `mapview` package and contains boundary 
 polygons of the `r nrow(mapview::franconia)` districts of the region:
+
+```{r fix, include = FALSE}
+# avoid messages when handling franconia with old-style crs object
+franconia <- sf::st_set_crs(mapview::franconia, 4326)
+```
 
 ```{r elements_count}
 library(mapview)
@@ -136,7 +141,7 @@ endpoint. The endpoint path can either be given as a single string
 (`/groupBy/boundary`) or as a character 
 vector ^[The order of the elements in the character vector is critical!]:
 
-```{r groupBy_boundary, message = FALSE}
+```{r groupBy_boundary}
 library(dplyr)
 
 q <- franconia |> 
@@ -182,7 +187,7 @@ The following query extracts the geometries of buildings within 1000 m of
 Heidelberg main station with their tags. The response is used to visualise
 the buildings and the values of their `building:levels` tag (if available):
 
-```{r building_levels}
+```{r building_levels, warning = FALSE}
 ohsome_elements_geometry(
 	boundary = "8.67542,49.40347,1000", 
 	filter = "building=* and type:way", 
@@ -206,7 +211,7 @@ Here, we request the full history of OSM buildings for the district of Schweinfu
 City, filter for features that still exist and visualise all building features 
 with their year of creation:
 
-```{r buildings, message = FALSE}
+```{r buildings}
 meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
@@ -219,7 +224,7 @@ m <- schweinfurt %>%
 		filter = "building=* and geometry:polygon", 
 		clipGeometry = FALSE,
 		properties = "metadata"
-) |> 
+	) |> 
 	ohsome_post() |>
 	janitor:: clean_names() |>
 	group_by(osm_id) |>
@@ -323,7 +328,7 @@ by the building:levels tag. To avoid lots of redundant geometries,
 comma-separated values (instead of GeoJSON) are explicitly requested as the 
 response format:
 
-```{r groupby_boundary_groupby_tag}
+```{r groupby_boundary_groupby_tag, message = FALSE}
 building_levels <- franconia |>
 	mutate(id  = NUTS_ID) |>
 	ohsome_elements_count(filter = "building=*", time = "2015/2020", format = "csv") |>
