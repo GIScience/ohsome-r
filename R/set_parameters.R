@@ -21,8 +21,10 @@
 #' @param groupByValues groupByValues parameter of a groupBy/tag query
 #' @param properties properties parameter of an extraction query. Can be 
 #'     "tags" to extract all tags with the elements and/or
-#'     "metadata" to provide metadata with the elements. Multiple values 
-#'     can be provided as comma-separated character or as character vector. 
+#'     "metadata" to provide metadata with the elements and/or 
+#'     "contributionTypes" to provide contribution types (only in contribution
+#'     extraction queries). Multiple values can be provided as comma-separated 
+#'     character or as character vector. 
 #'     Default: NULL (removes \code{properties} parameter from query body)
 #' @family Set parameters
 #' @return An \code{ohsome_query} object
@@ -39,7 +41,7 @@
 #'
 set_parameters <- function(query, ...) {
 
-	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
+	endpoint <- extract_endpoint(query)
 	body <- query$body
 
 	params <- list(...)
@@ -89,16 +91,13 @@ set_properties <- function(query, properties = NULL) {
 	
 	if(is.null(properties)) return(set_parameters(query, properties = NULL))
 	
-	properties <- gsub(" ", "", properties, fixed = TRUE)
+	endpoint <- extract_endpoint(query)
+	choices <- c("tags", "metadata")
+	if(grepl("contributions", endpoint)) choices <- c(choices, "contributionTypes")
 	
-	if(!(length(properties) == 1 && properties %in% c("tags,metadata", "metadata,tags"))) {
-		properties <- match.arg(
-			properties, 
-			choices = c("tags", "metadata"), 
-			several.ok = TRUE
-		)
-		properties <- paste(properties, collapse = ",")
-	}
+	properties <- gsub(" ", "", unlist(strsplit(properties, ",")))
+	properties <- match.arg(properties, choices = choices, several.ok = TRUE)
+	properties <- paste(properties, collapse = ",")
 	
 	set_parameters(query, properties = properties)
 }

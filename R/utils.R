@@ -82,6 +82,18 @@ create_metadata_message  <- function(meta) {
 	)
 }
 
+#' Extract endpoint
+#'
+#' Extract the API endpoint path from the URL in an ohsome_query object
+#' @param query an ohsome_query object
+#' @return character
+#' @keywords Internal
+extract_endpoint <- function(query) {
+	gsub("^.*?/", "", httr::parse_url(query$url)$path)
+}
+
+
+
 #' Validate endpoint
 #'
 #' Checks if the specified endpoint is in the list of known ohsome API endpoints
