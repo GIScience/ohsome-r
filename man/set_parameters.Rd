@@ -43,8 +43,10 @@ set_properties(query, properties = NULL)
 
 \item{properties}{properties parameter of an extraction query. Can be
 "tags" to extract all tags with the elements and/or
-"metadata" to provide metadata with the elements. Multiple values
-can be provided as comma-separated character or as character vector.
+"metadata" to provide metadata with the elements and/or
+"contributionTypes" to provide contribution types (only in contribution
+extraction queries). Multiple values can be provided as comma-separated
+character or as character vector.
 Default: NULL (removes \code{properties} parameter from query body)}
 }
 \value{
