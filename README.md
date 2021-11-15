@@ -51,7 +51,7 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.1
-#> Temporal extent: 2007-10-08 to 2021-10-24 20:00:00
+#> Temporal extent: 2007-10-08 to 2021-11-07 21:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
@@ -77,8 +77,10 @@ given boundaries and at given points in time.
 
 Let us create a query for the total amount of breweries on OSM in the
 region of Franconia. The first argument to `ohsome_elements_count()` is
-the `sf` object `franconia` that is included in the `mapview` package
-and contains boundary polygons of the 37 districts of the region:
+the `sf` object `franconia` that is included in the
+<a href="https://r-spatial.github.io/mapview/" target="blank">mapview</a>
+package and contains boundary polygons of the 37 districts of the
+region:
 
 ``` r
 library(mapview)
@@ -96,7 +98,7 @@ ohsome_post(q)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-10-24 20:00:00   131
+#> 1 2021-11-07 21:00:00   132
 ```
 
 `ohsome_post()` has issued a warning that the time parameter of the
@@ -177,8 +179,9 @@ q |>
 
 If you want your own identifiers for the geometries returned by ohsome,
 your input `sf` object needs a column explicitly named `id`. You can use
-`mutate()` or `rename()` from the `dplyr` package to create such a
-column as in the example above.
+`mutate()` or `rename()` from the
+<a href="https://dplyr.tidyverse.org" target="blank">dplyr</a> package
+to create such a column as in the example above.
 
 By default, `ohsome_post()` returns an `sf` object whenever the ohsome
 API is capable of delivering GeoJSON data. This is the case for elements
@@ -241,7 +244,7 @@ building features with their year of creation:
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.1
-#> Temporal extent: 2007-10-08 to 2021-10-24 20:00:00
+#> Temporal extent: 2007-10-08 to 2021-11-07 21:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -266,9 +269,10 @@ m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 
 <img src="man/figures/README-buildings-1.png" width="900" />
 
-You may find using `clean_names()` from the `janitor` package helpful in
-order to remove special characters from column names in the parsed
-ohsome API response – just as in the example above.
+You may find using `clean_names()` from the
+<a href="https://github.com/sfirke/janitor" target="blank">janitor</a>
+package helpful in order to remove special characters from column names
+in the parsed ohsome API response – just as in the example above.
 
 ### Bounding geometries
 
@@ -284,6 +288,19 @@ As seen above, `sf` objects can be passed into the `boundary` argument
 of `ohsome_query()` and any of its wrapper functions. You can also
 update queries with `set_boundary()`. The `sf` object will be converted
 into GeoJSON and passed into the `bpolys` parameter of the query.
+
+If you wish to aggregate or extract OSM elements on administrative
+boundaries in the `sf` format, you might want to check out packages such
+as
+<a href="https://github.com/ropensci/rnaturalearth" target="blank">rnaturalearth</a>,
+<a href="https://github.com/rspatial/geodata" target="blank">geodata</a>,
+<a href="https://github.com/rspatial/raster" target="blank">raster</a>
+(in particular its `getData()` function),
+<a href="https://gitlab.com/dickoa/rgeoboundaries" target="blank">rgeoboundaries</a>
+or
+<a href="https://github.com/dieghernan/nominatimlite" target="blank">nominatimlite</a>
+for the acquisition of boundary data that can be used with
+`ohsome_boundary()`.
 
 There are also the following methods of `ohsome_boundary()` for other
 classes of input geometry objects:
@@ -403,9 +420,10 @@ dim(building_levels)
 The query results in a very confusing data.frame with 1999 columns and 2
 rows! This happens because there is a building count column for each
 combination of boundary polygon and number of levels, while the two
-requested timestamps are in the rows. Fortunately, there is the `tidyr`
-package to do its magic and pivot this table into a long format with one
-value per row:
+requested timestamps are in the rows. Fortunately, there is the
+<a href="https://tidyr.tidyverse.org" target="blank">tidyr</a> package
+to do its magic and pivot this table into a long format with one value
+per row:
 
 ``` r
 library(tidyr)

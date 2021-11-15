@@ -81,7 +81,9 @@ boundaries and at given points in time.
 
 Let us create a query for the total amount of breweries on OSM in the region of 
 Franconia. The first argument to `ohsome_elements_count()` is the `sf` object 
-`franconia` that is included in the `mapview` package and contains boundary 
+`franconia` that is included in the 
+[mapview](https://r-spatial.github.io/mapview/){target=blank} 
+package and contains boundary 
 polygons of the `r nrow(mapview::franconia)` districts of the region:
 
 ```{r fix, include = FALSE}
@@ -155,7 +157,9 @@ q |>
 
 If you want your own identifiers for the geometries returned by ohsome, your 
 input `sf` object needs a column explicitly named `id`. You can use `mutate()` 
-or `rename()` from the `dplyr` package to create such a column as in the example
+or `rename()` from the 
+[dplyr](https://dplyr.tidyverse.org){target=blank} 
+package to create such a column as in the example
 above.
 
 By default, `ohsome_post()` returns an `sf` object whenever the ohsome API 
@@ -235,7 +239,9 @@ m <- schweinfurt %>%
 m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
 
-You may find using `clean_names()` from the `janitor` package helpful in order
+You may find using `clean_names()` from the 
+[janitor](https://github.com/sfirke/janitor){target=blank} 
+package helpful in order
 to remove special characters from column names in the parsed ohsome API 
 response -- just as in the example above.
 
@@ -253,6 +259,17 @@ As seen above, `sf` objects can be passed into the `boundary` argument of
 `ohsome_query()` and any of its wrapper functions. You can also update queries 
 with `set_boundary()`. The `sf` object will be converted into GeoJSON and passed 
 into the `bpolys` parameter of the query.
+
+If you wish to aggregate or extract OSM elements on administrative boundaries in
+the `sf` format, you might want to check out packages such as 
+[rnaturalearth](https://github.com/ropensci/rnaturalearth){target=blank}, 
+[geodata](https://github.com/rspatial/geodata){target=blank},
+[raster](https://github.com/rspatial/raster){target=blank} 
+(in particular its `getData()` function), 
+[rgeoboundaries](https://gitlab.com/dickoa/rgeoboundaries){target=blank} or 
+[nominatimlite](https://github.com/dieghernan/nominatimlite){target=blank} 
+for the acquisition of boundary data that can be used with 
+`ohsome_boundary()`.
 
 There are also the following methods of `ohsome_boundary()` for other classes
 of input geometry objects:
@@ -343,7 +360,9 @@ The query results in a very confusing data.frame with `r ncol(building_levels)`
 columns and `r nrow(building_levels)` rows! This happens because there is a 
 building count column for each combination of boundary polygon and number of 
 levels, while the two requested timestamps are in the rows. Fortunately, there 
-is the `tidyr` package to do its magic and pivot this table into a long format 
+is the 
+[tidyr](https://tidyr.tidyverse.org){target=blank} 
+package to do its magic and pivot this table into a long format 
 with one value per row:
 
 ```{r tidy}

@@ -16,4 +16,5 @@ endpoints of ohsome API
 `ohsome_contributions_bbox`, `ohsome_contributios_centroid` and 
 `ohsome_contributions_geometry` for contributions extraction endpoints of ohsome 
 API
-* Updated `README` to reflect new features
+* Updated `README` to reflect new features, added hints on boundary polygon
+acquisition through third-party packages
