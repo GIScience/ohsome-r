@@ -1,0 +1,20 @@
+citHeader("To cite ohsome in publications use:")
+
+citEntry(
+  entry    = "Misc",
+  title    = "OSHDB - OpenStreetMap History Data Analysis (0.7.2)",
+  author   = c(
+	person(given = "Raifer", family = "Martin"),
+	person(given = "Troilo", family = "Rafael"),
+	person(given = "Mocnik", family = "Franz-Benjamin"),
+	person(given = "Schott", family = "Moritz")
+  ),
+  month    = "sep",
+  year     = "2021",
+  publisher= "Zenodo",
+  version  = "0.7.2",
+  doi	   = "10.5281/zenodo.5512545",
+  url      = "https://doi.org/10.5281/zenodo.5512545",
+  header   = "OSHDB and ohsome API:",
+  textVersion = "Raifer, Martin, Troilo, Rafael, Mocnik, Franz-Benjamin, & Schott, Moritz. (2021). OSHDB - OpenStreetMap History Data Analysis (0.7.2). Zenodo. https://doi.org/10.5281/zenodo.5512545"
+)

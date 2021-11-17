@@ -371,3 +371,9 @@ library(tidyr)
 building_levels |>
 	pivot_longer(-timestamp, names_to = c("id", "levels"), names_sep = "_")
 ```
+
+## How to cite this package
+
+In order to cite this package in publications, please use the citation 
+information provided through `citation("ohsome")`.
+

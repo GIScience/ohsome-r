@@ -446,6 +446,11 @@ building_levels |>
 #> # … with 3,986 more rows
 ```
 
+## How to cite this package
+
+In order to cite this package in publications, please use the citation
+information provided through `citation("ohsome")`.
+
 [1] Instead of the new R native pipe `|>` you may choose to use
 `magrittr`’s `%>%`.
 

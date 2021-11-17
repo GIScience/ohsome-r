@@ -18,3 +18,4 @@ endpoints of ohsome API
 API
 * Updated `README` to reflect new features, added hints on boundary polygon
 acquisition through third-party packages
+* Added `CITATION` file with reference to OSHDB/ohsome API
