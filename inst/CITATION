@@ -2,10 +2,10 @@ citEntry(
 	entry = "Misc",
 	title = "OSHDB - OpenStreetMap History Data Analysis (0.7.2)",
 	author = c(
-		person(given = "Raifer", family = "Martin"),
-		person(given = "Troilo", family = "Rafael"),
-		person(given = "Mocnik", family = "Franz-Benjamin"),
-		person(given = "Schott", family = "Moritz")
+		person(given = "Martin", family = "Raifer"),
+		person(given = "Rafael", family = "Troilo"),
+		person(given = "Franz-Benjamin", family = "Mocnik"),
+		person(given = "Moritz", family = "Schott")
 	),
 	month = "Sep",
 	year = "2021",
@@ -21,16 +21,16 @@ citEntry(
 	entry = "Article",
 	title = "OSHDB: a framework for spatio-temporal analysis of OpenStreetMap history data",
 	author = c(
-		person(given = "Raifer", "Martin"),
-		person(given = "Troilo", "Rafael"),
-		person(given = "Kowatsch", "Fabian"),
-		person(given = "Auer", "Michael"),
-		person(given = "Loos", "Lukas"),
-		person(given = "Marx", "Sabrina"),
-		person(given = "Przybill", "Katharina"),
-		person(given = "Fendrich", "Sascha"),
-		person(given = "Mocnik", "Franz-Benjamin"),
-		person(given = "Zipf", "Alexander")
+		person(given = "Martin", family = "Raifer"),
+		person(given = "Rafael", family = "Troilo"),
+		person(given = "Fabian", family = "Kowatsch"),
+		person(given = "Michael", family = "Auer"),
+		person(given = "Lukas", family = "Loos"),
+		person(given = "Sabrina", family = "Marx"),
+		person(given = "Katharina", family = "Przybill"),
+		person(given = "Sascha", family = "Fendrich"),
+		person(given = "Franz-Benjamin", family = "Mocnik"),
+		person(given = "Alexander", family = "Zipf")
 	),
 	journal = "Open Geospatial Data, Software and Standards",
 	year = "2019",
