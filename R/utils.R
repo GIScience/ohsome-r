@@ -5,9 +5,12 @@
 #' @return character
 #' @keywords Internal
 build_endpoint_url <- function(endpoint) {
-	httr::modify_url(
-		ohsome::ohsome_api_url$base,
-		path = trimws(c(ohsome::ohsome_api_url$version, endpoint), whitespace = "/")
+	trimws(
+		httr::modify_url(
+			ohsome::ohsome_api_url$base,
+			path = c(ohsome::ohsome_api_url$version, endpoint)
+		), 
+		whitespace = "/"
 	)
 }
 
