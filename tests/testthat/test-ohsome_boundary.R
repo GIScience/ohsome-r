@@ -1,3 +1,6 @@
+franconia <- suppressMessages(sf::st_set_crs(mapview::franconia, 4326))
+breweries <- suppressMessages(sf::st_set_crs(mapview::breweries, 4326))
+
 test_that("correctly detects boundary type for character objects", {
 
 	bboxes1 <- paste(
@@ -52,19 +55,19 @@ test_that("returns ohsome_boundary object", {
 })
 
 test_that("returns ohsome_boundary object with type = bpolys for sf boundaries", {
-	expect_equal(ohsome_boundary(mapview::franconia)$type, "bpolys")
+	expect_equal(ohsome_boundary(franconia)$type, "bpolys")
 })
 
 test_that("returns ohsome_boundary object with type = bboxes for bbox boundaries", {
-	expect_equal(ohsome_boundary(sf::st_bbox(mapview::franconia))$type, "bboxes")
+	expect_equal(ohsome_boundary(sf::st_bbox(franconia))$type, "bboxes")
 })
 
 test_that("throws error on sf with point geometries only", {
-	expect_error(ohsome_boundary(mapview::breweries))
+	expect_error(ohsome_boundary(breweries))
 })
 
 test_that("issues warning for sf boundaries that contain polygon and other geoms", {
-	mixed <- dplyr::bind_rows(mapview::franconia, mapview::breweries)
+	mixed <- dplyr::bind_rows(franconia, breweries)
 	expect_warning(ohsome_boundary(mixed))
 })
 
@@ -75,7 +78,7 @@ test_that("creates ohsome_boundary object from list of bboxes of various classes
 		"9.1638,49.113,9.2672,49.1766"
 	)
 	bboxes2 <- osmdata::getbb("Berlin")
-	bboxes3 <- sf::st_bbox(mapview::breweries)
+	bboxes3 <- sf::st_bbox(breweries)
 
 	b <- ohsome_boundary(list(bboxes1, bboxes2, bboxes3))
 	expect_s3_class(b, "ohsome_boundary")
