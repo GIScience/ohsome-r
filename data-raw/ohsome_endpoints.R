@@ -29,7 +29,7 @@ extract_spec <- function(spec) {
 	invisible(out)
 }
 
-specs <- c("group=Data Aggregation", "group=Data Extraction")
+specs <- c("group=Data%20Aggregation", "group=Data%20Extraction")
 ohsome_endpoints <- unlist(lapply(specs, extract_spec), recursive = FALSE)
 
-usethis::use_data(ohsome_endpoints)
+usethis::use_data(ohsome_endpoints, overwrite = TRUE)
