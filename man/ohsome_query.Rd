@@ -4,7 +4,7 @@
 \alias{ohsome_query}
 \title{Create an \code{ohsome_query} object}
 \usage{
-ohsome_query(endpoint, boundary = NULL, ..., validate = FALSE)
+ohsome_query(endpoint, boundary = NULL, grouping = NULL, ..., validate = FALSE)
 }
 \arguments{
 \item{endpoint}{The path to the ohsome API endpoint. Either a single string
@@ -13,6 +13,20 @@ ohsome_query(endpoint, boundary = NULL, ..., validate = FALSE)
 
 \item{boundary}{Boundary object that can be interpreted by
 \code{\link{ohsome_boundary}}}
+
+\item{grouping}{character Group type(s) for grouped aggregations (only
+available for queries to aggregation endpoints). In general, the following
+group types are available:
+\describe{
+\item{"boundary"}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
+\item{"key"}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
+\item{"tag"}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
+\item{"type"}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
+\itme{c("boundary", "tag")}{Groups the result by the given boundary and the tags. Provide }
+}
+Not all of these group types are accepted by all of the aggregation
+endpoints.Please consult the ohsome API documentation to check for available
+group types.}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 

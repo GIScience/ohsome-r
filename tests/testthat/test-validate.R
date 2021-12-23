@@ -73,3 +73,21 @@ test_that("issues warning on ratio query without filter2 param", {
 	)
 	expect_false(suppressWarnings(validate_query(q)))
 })
+
+test_that("issues specific warning on endpoint with unavailable grouping", {
+	q <- set_endpoint(q, "groupBy/foo", append = TRUE)
+	expect_warning(
+		validate_query(q), 
+		regexp = "Only the following groupings are allowed with"
+	)
+	expect_false(suppressWarnings(validate_query(q)))
+})
+
+test_that("issues specific warning on endpoint that allows no grouping", {
+	q <- ohsome_query("elements/geometry", grouping = "tag")
+	expect_warning(
+		validate_query(q), 
+		regexp = "Grouping is not allowed"
+	)
+	expect_false(suppressWarnings(validate_query(q)))
+})

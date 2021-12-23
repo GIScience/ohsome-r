@@ -8,6 +8,19 @@
 #' (e.g. \code{c("elements", "count")})
 #' @param boundary Boundary object that can be interpreted by
 #'     \code{\link{ohsome_boundary}}
+#' @param grouping character Group type(s) for grouped aggregations (only 
+#' available for queries to aggregation endpoints). In general, the following
+#' group types are available:
+#' \describe{
+#'         \item{"boundary"}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
+#'         \item{"key"}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
+#'         \item{"tag"}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
+#'         \item{"type"}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
+#'         \itme{c("boundary", "tag")}{Groups the result by the given boundary and the tags. Provide }
+#' }
+#' Not all of these group types are accepted by all of the aggregation 
+#' endpoints.Please consult the ohsome API documentation to check for available 
+#' group types.
 #' @param ... Parameters of the request to the ohsome API endpoint
 #' @param validate logical If TRUE, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
@@ -29,6 +42,7 @@
 ohsome_query <- function(
 	endpoint,
 	boundary = NULL,
+	grouping = NULL,
 	...,	
 	validate = FALSE) {
 
@@ -45,9 +59,11 @@ ohsome_query <- function(
 		}
 	}
 
+	if(!is.null(grouping)) grouping <- paste("groupBy", tolower(grouping), sep = "/")
+	
 	query <- structure(
 		list(
-			url = build_endpoint_url(endpoint),
+			url = build_endpoint_url(c(endpoint, grouping)),
 			encode = "form",
 			body = body
 		),

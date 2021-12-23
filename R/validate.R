@@ -90,7 +90,8 @@ validate_parameters <- function(endpoint, body) {
 #' Validate endpoint
 #'
 #' Checks if the specified endpoint is in the list of known ohsome API endpoints
-#' and issues a warning if not. Silently returns a logical that indicates the
+#' and issues a warning if not. Specifically checks for invalid groupings in 
+#' endpoint path. Silently returns a logical that indicates the
 #' validity of the endpoint.
 #'
 #' @param endpoint The path to the ohsome API endpoint as a single string
@@ -99,20 +100,41 @@ validate_parameters <- function(endpoint, body) {
 #' @keywords Internal
 validate_endpoint <- function(endpoint) {
 	
-	if(gsub("/$", "", endpoint) %in% names(ohsome::ohsome_endpoints)) {
-		return(TRUE)
-	} else {
-		warning(
-			"ohsome does not know endpoint ", endpoint,
-			"\nSee ",
-			"https://docs.ohsome.org/ohsome-api/v1/endpoint-visualisation.html",
-			" for available endpoints.",
-			call. = FALSE, 
-			immediate. = TRUE
-		)
-		return(FALSE)
-	}
+	endpoint <- gsub("/$", "", endpoint)
+	endpoints <- names(ohsome::ohsome_endpoints)
+	split <- unlist(strsplit(endpoint, "/groupBy"))
+	grouping_message <- NULL
 	
+	if(endpoint %in% endpoints) {
+		return(TRUE)
+	} else if(split[1] %in% endpoints) {
+		
+		if(length(split) > 1) {
+			allowed <- endpoints[grepl(paste0("^", split[[1]], "/groupBy"), endpoints)]
+			grouping_message <- ifelse(
+				length(allowed) > 0,
+				paste0(
+					"\nOnly the following groupings are allowed with ",
+					split[1], ":\n",
+					paste("\t", gsub(split[[1]], "", allowed), collapse = "\n")
+				),
+				paste0("\nGrouping is not allowed with ", split[1], "."
+				)
+			)
+		}
+	}
+			
+	warning(
+		"ohsome does not know endpoint ", endpoint,
+		grouping_message,
+		"\nSee ",
+		"https://docs.ohsome.org/ohsome-api/v1/endpoint-visualisation.html",
+		" for available endpoints.",
+		call. = FALSE, 
+		immediate. = TRUE
+	)
+	return(FALSE)
+
 }
 
 #' Validate ohsome_query
