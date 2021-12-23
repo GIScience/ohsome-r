@@ -6,55 +6,70 @@ q <- ohsome_query(
 	time = "2020-01-01"
 )
 
-test_that("silent on valid query", {
-  expect_silent(validate_query(q))
+test_that("silent on valid query and returns true", {
+	expect_silent(validate_query(q))
+	expect_true(validate_query(q))
 })
 
-test_that("issues warning on unknown endpoint", {
+test_that("issues warning on unknown endpoint and returns false", {
+	q <- set_endpoint(q, "foo")
 	expect_warning(
-		validate_query(set_endpoint(q, "foo")), 
+		validate_query(q), 
 		regexp = "ohsome does not know endpoint foo"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
-test_that("issues warning on missing bounding geometry", {
+test_that("issues warning on missing bounding geometry and returns fals", {
+	q <- set_parameters(q, bcircles = NULL)
 	expect_warning(
-		validate_query(set_parameters(q, bcircles = NULL)),
+		validate_query(q),
 		regexp = "bpolys, bboxes, or bcircles"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
 test_that("issues warning on unknown param", {
+	q <- set_parameters(q, foo = "bar")
 	expect_warning(
-		validate_query(set_parameters(q, foo = "bar")),
+		validate_query(q),
 		regexp = "foo is not a known parameter"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
 test_that("issues warning on missing required param", {
+	q <- set_endpoint(q, "groupBy/key", append = TRUE)
 	expect_warning(
-		validate_query(set_endpoint(q, "groupBy/key", append = TRUE)),
+		validate_query(q),
 		regexp = "groupByKeys is a required parameter"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
 test_that("issues warning on missing time param", {
+	q <- set_parameters(q, time = NULL)
 	expect_warning(
-		validate_query(set_parameters(q, time = NULL)),
+		validate_query(q),
 		regexp = "time parameter is not defined"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
 test_that("issues warning on missing filter param", {
+	q <- set_parameters(q, filter = NULL)
 	expect_warning(
-		validate_query(set_parameters(q, filter = NULL)),
+		validate_query(q),
 		regexp = "filter parameter is not defined"
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })
 
 test_that("issues warning on ratio query without filter2 param", {
+	q <- set_endpoint(q, "ratio", append = TRUE)
 	expect_warning(
-		validate_query(set_endpoint(q, "ratio", append = TRUE)), 
+		validate_query(q), 
 		regexp = "filter2 parameter needs to be defined in ratio queries."
 	)
+	expect_false(suppressWarnings(validate_query(q)))
 })

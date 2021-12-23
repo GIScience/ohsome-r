@@ -1,7 +1,7 @@
 #' Validate parameters
 #'
 #' Checks if the specified parameters in a request body are valid and issues a
-#' warning if not. Silently returns a logical that indicates the validity of the
+#' warning if not. Returns a logical that indicates the validity of the
 #' parameters.
 #'
 #' @param endpoint The path to the ohsome API endpoint as a single string
@@ -10,6 +10,8 @@
 #' @return logical
 #' @keywords Internal
 validate_parameters <- function(endpoint, body) {
+	
+	valid <- TRUE
 	
 	endpoint <- gsub("/$", "", endpoint)
 	params <- ohsome::ohsome_endpoints[[endpoint]]$parameters$name
@@ -25,6 +27,7 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE, 
 			immediate. = TRUE
 		)
+		valid <- FALSE
 	}
 	
 	for(param in unknown_params) {
@@ -35,6 +38,7 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE, 
 			immediate. = TRUE
 		)
+		valid <- FALSE
 	}
 	
 	for(param in missing_params) {
@@ -46,7 +50,7 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE,
 			immediate. = TRUE
 		)
-	
+		valid <- FALSE
 	}
 	
 	if(!("time" %in% names(body))) {
@@ -57,6 +61,7 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE, 
 			immediate. = TRUE
 		)
+		valid <- FALSE
 	}
 	
 	if(!("filter" %in% names(body))) {
@@ -66,6 +71,7 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE, 
 			immediate. = TRUE
 		)
+		valid <- FALSE
 	}
 	
 	if(grepl("ratio", endpoint) & !("filter2" %in% names(body))) {
@@ -75,7 +81,10 @@ validate_parameters <- function(endpoint, body) {
 			call. = FALSE, 
 			immediate. = TRUE
 		)
+		valid <- FALSE
 	}
+	
+	return(valid)
 }
 
 #' Validate endpoint
@@ -108,7 +117,8 @@ validate_endpoint <- function(endpoint) {
 
 #' Validate ohsome_query
 #'
-#' Validates an ohsome_query object by checking against ohsome_endpoints.
+#' Validates an ohsome_query object by checking against ohsome_endpoints. Returns 
+#' a logical that indicates the validity of the query. 
 #'
 #' @param query an ohsome_query object constructed with ohsome_query()
 #'     or any of its wrapper functions
@@ -117,5 +127,9 @@ validate_endpoint <- function(endpoint) {
 validate_query <- function(query) {
 	
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
-	if(validate_endpoint(endpoint)) validate_parameters(endpoint, query$body)
+	valid_endpoint <- validate_endpoint(endpoint)
+	if(valid_endpoint) {
+		valid_params <- validate_parameters(endpoint, query$body)
+	}
+	return(valid_endpoint && valid_params)
 }
