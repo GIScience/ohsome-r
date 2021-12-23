@@ -42,7 +42,7 @@ Set or modify the spatial filter of an existing \code{ohsome_query} object
 can be defined as one or more polygons, bounding boxes or bounding circles.
 }
 \examples{
-q <- ohsome_query("elements/count/groupBy/boundary", ilter = "building=*")
+q <- ohsome_query("elements/count/groupBy/boundary", filter = "building=*")
 
 set_boundary(q, mapview::franconia)
 set_boundary(q, sf::st_bbox(mapview::franconia))

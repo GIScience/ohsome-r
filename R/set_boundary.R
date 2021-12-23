@@ -30,7 +30,7 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-#' q <- ohsome_query("elements/count/groupBy/boundary", ilter = "building=*")
+#' q <- ohsome_query("elements/count/groupBy/boundary", filter = "building=*")
 #'
 #' set_boundary(q, mapview::franconia)
 #' set_boundary(q, sf::st_bbox(mapview::franconia))

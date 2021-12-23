@@ -21,3 +21,7 @@ acquisition through third-party packages
 * Added `CITATION` file with reference to OSHDB/ohsome API and technical paper
 * Added endpoint-specific check for missing required parameters to query 
 validation
+* Added `strict`argument to `ohsome_post`. When set to TRUE (default), an error
+is thrown on invalid queries and the request is **not** sent to the API. Queries 
+with undefined filter or time parameters are considered as invalid in strict 
+mode.

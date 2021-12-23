@@ -8,6 +8,8 @@
 #' @param parse logical parse the ohsome API response?
 #' @param validate logical If true, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
+#' @param strict logical If true, throws error on invalid query (overrules 
+#' validate argument when true)
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
 #' @param ... additional arguments passed to \code{\link{ohsome_parse}} \describe{
@@ -24,18 +26,20 @@
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-#' q <- ohsome_elements_count(osmdata::getbb("Berlin"), filter = "amenity=cinema")
+#' bbberlin <- osmdata::getbb("Berlin")
+#' q <- ohsome_elements_count(bbberlin, filter = "amenity=cinema", time = "2021")
 #'
 #' ohsome_post(q)
 ohsome_post <- function(
 	query,
 	parse = TRUE,
 	validate = TRUE,
+	strict = validate,
 	additional_identifiers = NULL,
 	...
 ) {
-
-	if(validate) validate_query(query)
+	if(validate || strict) valid <- validate_query(query) 
+	stopifnot("Query invalid. See warnings for details." = !strict || valid)
 
 	if(is.null(additional_identifiers)) additional_identifiers <- ""
 	user_agent <- trimws(sprintf(

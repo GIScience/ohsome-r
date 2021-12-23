@@ -8,6 +8,7 @@ ohsome_post(
   query,
   parse = TRUE,
   validate = TRUE,
+  strict = validate,
   additional_identifiers = NULL,
   ...
 )
@@ -20,6 +21,9 @@ or any of its wrapper functions}
 
 \item{validate}{logical If true, issues warning for invalid endpoint or
 invalid/missing query parameters}
+
+\item{strict}{logical If true, throws error on invalid query (overrules
+validate argument when true)}
 
 \item{additional_identifiers}{optional user agent identifiers in addition to
 "ohsome-r/version" (a vector coercible to character)}
@@ -42,7 +46,8 @@ Sends an ohsome_query object as a POST request to the ohsome API and silently
 returns the unparsed response.
 }
 \examples{
-q <- ohsome_elements_count(osmdata::getbb("Berlin"), filter = "amenity=cinema")
+bbberlin <- osmdata::getbb("Berlin")
+q <- ohsome_elements_count(bbberlin, filter = "amenity=cinema", time = "2021")
 
 ohsome_post(q)
 }

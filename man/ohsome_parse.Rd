@@ -51,6 +51,7 @@ does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
 \examples{
 r <- ohsome_query("elements/centroid", filter = "amenity=*", properties = "tags") |>
     set_boundary(osmdata::getbb("Heidelberg")) |>
+    set_time("2021") |>
     ohsome_post(parse = FALSE)
 
 ohsome_parse(r)

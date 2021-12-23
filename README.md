@@ -50,8 +50,8 @@ OSHDB:
 ``` r
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.1
-#> Temporal extent: 2007-10-08 to 2021-11-07 21:00:00
+#> ohsome API version: 1.6.2
+#> Temporal extent: 2007-10-08 to 2021-12-19 20:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
@@ -93,17 +93,17 @@ The resulting `ohsome_query` object can be sent to the ohsome API with
 response. In this case, this is a simple `data.frame` of only one row.
 
 ``` r
-ohsome_post(q)
-#> Warning: Time parameter is not defined and defaults to latest available
+ohsome_post(q, strict = FALSE)
+#> Warning: time parameter is not defined and defaults to the latest available
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-11-07 21:00:00   132
+#> 1 2021-12-19 20:00:00   136
 ```
 
-`ohsome_post()` has issued a warning that the time parameter of the
-query was not defined. The `ohsome` API returns the number of elements
-at the latest available timestamp by default.
+As you can see, `ohsome_post()` issues a warning that the time parameter
+of the query is not defined. In this case, the `ohsome` API returns the
+number of elements at the latest available timestamp by default. [1]
 
 Defining the `time` parameter unlocks the full power of ohsome API by
 giving access to the OSM history. The `time` parameter requires one or
@@ -117,7 +117,7 @@ ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1M
 ```
 
 Alternatively, we can update the existing `ohsome_query` object `q` with
-the `set_time()` function, pipe [1] the modified query directly into
+the `set_time()` function, pipe [2] the modified query directly into
 `ohsome_post()` and make a quick visualisation with `ggplot2`:
 
 ``` r
@@ -138,7 +138,7 @@ But what if we want to aggregate the amount per district? The
 of an API request. In this case, we would want to append
 `groupBy/boundary` to the `elements/count` endpoint. The endpoint path
 can either be given as a single string (`/groupBy/boundary`) or as a
-character vector [2]:
+character vector [3]:
 
 ``` r
 library(dplyr)
@@ -219,6 +219,7 @@ visualise the buildings and the values of their `building:levels` tag
 ohsome_elements_geometry(
     boundary = "8.67542,49.40347,1000", 
     filter = "building=* and type:way", 
+    time = "2021-12-01",
     properties = "tags", 
     clipGeometry = FALSE
 ) |>
@@ -243,8 +244,8 @@ building features with their year of creation:
 ``` r
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.1
-#> Temporal extent: 2007-10-08 to 2021-11-07 21:00:00
+#> ohsome API version: 1.6.2
+#> Temporal extent: 2007-10-08 to 2021-12-19 20:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -451,7 +452,11 @@ building_levels |>
 In order to cite this package in publications, please use the citation
 information provided through `citation("ohsome")`.
 
-[1] Instead of the new R native pipe `|>` you may choose to use
+[1] When the `strict` argument is set to TRUE (default), `ohsome_post`
+throws an error on a missing `time` parameter and does not send the
+request to the API at all.
+
+[2] Instead of the new R native pipe `|>` you may choose to use
 `magrittr`’s `%>%`.
 
-[2] The order of the elements in the character vector is critical!
+[3] The order of the elements in the character vector is critical!

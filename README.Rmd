@@ -102,12 +102,14 @@ The resulting `ohsome_query` object can be sent to the ohsome API with
 response. In this case, this is a simple `data.frame` of only one row.
 
 ```{r post}
-ohsome_post(q)
+ohsome_post(q, strict = FALSE)
 ``` 
 
-`ohsome_post()` has issued a warning that the time parameter of the query was 
-not defined. The `ohsome` API returns the number of elements at the latest 
-available timestamp by default.
+As you can see, `ohsome_post()` issues a warning that the time parameter of the
+query is not defined. In this case, the `ohsome` API returns the number of 
+elements at the latest available timestamp by default. ^[When the `strict` 
+argument is set to TRUE (default), `ohsome_post` throws an error on a missing 
+`time` parameter and does not send the request to the API at all.]
 
 Defining the `time` parameter unlocks the full power of ohsome API by giving 
 access to the OSM history. The `time` parameter requires one or more 
@@ -195,6 +197,7 @@ the buildings and the values of their `building:levels` tag (if available):
 ohsome_elements_geometry(
 	boundary = "8.67542,49.40347,1000", 
 	filter = "building=* and type:way", 
+	time = "2021-12-01",
 	properties = "tags", 
 	clipGeometry = FALSE
 ) |>
