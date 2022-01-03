@@ -9,7 +9,11 @@ mode.
 query body by default, accepts *tags* and/or *metadata* and/or 
 *contributionTypes* as properties argument (multiple values provided as 
 comma-separated character or character vector).
-* Added `grouping` argument to `ohsome_query()`
+* Added `grouping` argument to `ohsome_query()`. Based on `grouping`, the 
+endpoint URL is appended so that aggregations are grouped accordingly.
+* Added `return_value` argument to `ohsome_aggregate_elements()`. Based on 
+`return_value`, the endpoint URL is appended so that either absolute aggregate 
+values, densities or ratios are requested from the ohsome API.
 * Added `ohsome_query()` wrapper functions `ohsome_extract_elements()`,
 `ohsome_elements_bbox`, `ohsome_elements_centroid` and `ohsome_elements_geometry` 
 for elements extraction endpoints of ohsome API

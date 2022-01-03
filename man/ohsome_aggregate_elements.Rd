@@ -11,6 +11,8 @@
 ohsome_aggregate_elements(
   boundary = NULL,
   aggregation = c("count", "length", "perimeter", "area"),
+  return_value = c("absolute", "density"),
+  grouping = NULL,
   ...
 )
 
