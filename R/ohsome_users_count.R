@@ -2,8 +2,8 @@
 #'
 #' Create an \code{ohsome_query} object for OSM users count
 #'
-#' \code{ohsome_count_users} creates an \code{ohsome_query} object for
-#' OSM element aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
+#' \code{ohsome_users_count} creates an \code{ohsome_query} object for
+#' OSM users aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
 #' \code{\link{ohsome_boundary}}.
 #'
 #' @param boundary Boundary object that can be interpreted by

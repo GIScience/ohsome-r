@@ -43,8 +43,8 @@ An \code{ohsome_query} object
 Create an \code{ohsome_query} object for OSM users count
 }
 \details{
-\code{ohsome_count_users} creates an \code{ohsome_query} object for
-OSM element aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
+\code{ohsome_users_count} creates an \code{ohsome_query} object for
+OSM users aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
 \code{\link{ohsome_boundary}}.
 }
 \examples{
