@@ -13,8 +13,9 @@ comma-separated character or character vector).
 `set_groupByKey()` and `set_groupByValues`: Return unmodified query object if
 parameter argument is missing (e.g. `set_filter(query)`), but remove parameter 
 from body if explicitly set to NULL (e.g. `set_filter(query, filter = NULL)`)
-* Added `grouping` argument to `ohsome_query()`. Based on `grouping`, the 
-endpoint URL is appended so that aggregations are grouped accordingly.´
+* Added `grouping` argument to `ohsome_query()` and `set_grouping()`function. 
+Based on `grouping`, the endpoint URL is appended so that aggregations are 
+grouped accordingly.´
 * Added `return_value` argument to `ohsome_aggregate_elements()`. Based on 
 `return_value`, the endpoint URL is appended so that either absolute aggregate 
 values, densities or ratios are requested from the ohsome API.

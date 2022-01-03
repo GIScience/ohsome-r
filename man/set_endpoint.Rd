@@ -2,9 +2,12 @@
 % Please edit documentation in R/set_endpoint.R
 \name{set_endpoint}
 \alias{set_endpoint}
+\alias{set_grouping}
 \title{Set endpoint}
 \usage{
 set_endpoint(query, endpoint, append = FALSE, reset_format = TRUE)
+
+set_grouping(query, grouping)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
@@ -13,13 +16,28 @@ set_endpoint(query, endpoint, append = FALSE, reset_format = TRUE)
 (e.g. \code{"elements/count"}) or a character vector in the right order
 (e.g. \code{c("elements", "count")})}
 
-\item{append}{If true, the provided endpoint string is appended to  the
+\item{append}{logical; If true, the provided endpoint string is appended to  the
 existing endpoint definition instead of replacing it. This is
 particularly useful if you wish to add a groupBy to an existing
 aggregation query.}
 
-\item{reset_format}{If true, the format parameter of the query is updated
+\item{reset_format}{logical; if true, the format parameter of the query is updated
 depending on the new endpoint.}
+
+\item{grouping}{character; group type(s) for grouped aggregations (only
+available for queries to aggregation endpoints). In general, the following
+group types are available:
+\describe{
+\item{boundary}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
+\item{key}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
+\item{tag}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
+\item{type}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
+\item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
+}
+Not all of these group types are accepted by all of the aggregation
+endpoints. Please consult the
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
+to check for available group types.}
 }
 \value{
 An \code{ohsome_query} object
@@ -29,15 +47,20 @@ Modify the endpoint of an existing \code{ohsome_query} object
 }
 \details{
 \code{set_endpoint()} takes an \code{ohsome_query} object and modifies the
-ohsome API endpoint.
+ohsome API endpoint. \code{set_grouping()} takes an \code{ohsome_query}
+object and modifies the endpoint path for grouped aggregations.
 }
 \examples{
 q <- ohsome_elements_count(mapview::franconia, filter = "highway=*")
 
 set_endpoint(q, "elements/length")
+
 set_endpoint(q, "groupBy/boundary", append = TRUE)
+set_grouping(q, grouping = "boundary")
+
 set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
 }
 \seealso{
 \url{https://docs.ohsome.org/ohsome-api/v1/}
 }
+\concept{Set endpoint}

@@ -60,16 +60,16 @@ ohsome_query <- function(
 		}
 	}
 
-	if(!is.null(grouping)) grouping <- paste("groupBy", tolower(grouping), sep = "/")
-	
 	query <- structure(
 		list(
-			url = build_endpoint_url(c(endpoint, grouping)),
+			url = build_endpoint_url(endpoint),
 			encode = "form",
 			body = body
 		),
 		class = "ohsome_query"
 	)
+	
+	if(!is.null(grouping)) query <- set_grouping(query, grouping)
 
 	if(!is.null(boundary)) {
 		btypes <- c("bpolys", "bboxes", "bcircles")
