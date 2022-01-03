@@ -8,8 +8,9 @@
 #' \code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
 #' \code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
 #' to set specific parameters. By default, an unmodified \code{ohsome_query}
-#' object is returned (except for \code{set_properties()} which removes the 
-#' \code{properties} parameter from the query by default).
+#' object is returned. In order to remove a parameter from the query object, you 
+#' can set the respective argument explicitly to NULL 
+#' (e.g. \code{set_filter(query, filter = NULL)}).
 #'
 #' @param query An \code{ohsome_query} object
 #' @param ... named parameters (e.g. \code{time = "2020-01-01"})
@@ -53,36 +54,32 @@ set_parameters <- function(query, ...) {
 
 #' @export
 #' @rdname set_parameters
-set_time <- function(query, time = NULL) {
-	set_parameters(query, time = time %||% query$body$time)
+set_time <- function(query, time = query$body$time) {
+	set_parameters(query, time = time)
 }
 
 #' @export
 #' @rdname set_parameters
-set_filter <- function(query, filter = NULL, filter2 = NULL) {
-	set_parameters(
-		query,
-		filter = filter %||% query$body$filter,
-		filter2 = filter2 %||% query$body$filter2
-	)
+set_filter <- function(query, filter = query$body$filter, filter2 = query$body$filter2) {
+	set_parameters(query, filter = filter, filter2 = filter2)
 }
 
 #' @export
 #' @rdname set_parameters
-set_groupByKeys <- function(query, groupByKeys = NULL) {
-	set_parameters(query, groupByKeys = groupByKeys %||% query$body$groupByKeys)
+set_groupByKeys <- function(query, groupByKeys = query$body$groupByKeys) {
+	set_parameters(query, groupByKeys = groupByKeys)
 }
 
 #' @export
 #' @rdname set_parameters
-set_groupByKey <- function(query, groupByKey = NULL) {
-	set_parameters(query, groupByKey = groupByKey %||% query$body$groupByKey)
+set_groupByKey <- function(query, groupByKey = query$body$groupByKey) {
+	set_parameters(query, groupByKey = groupByKey)
 }
 
 #' @export
 #' @rdname set_parameters
-set_groupByValues <- function(query, groupByValues = NULL) {
-	set_parameters(query, groupByValues = groupByValues %||% query$body$groupByValues)
+set_groupByValues <- function(query, groupByValues = query$body$groupByValues) {
+	set_parameters(query, groupByValues = groupByValues)
 }
 
 #' @export

@@ -8,6 +8,18 @@ test_that("sets and modifies parameters of ohsome_query", {
 	expect_equal(q$body$foo2, "bar")
 })
 
+test_that("returns unmodified query if filter arg is missing", {
+	q1 <- ohsome_query("elements/count",filter = "foo")
+	q2 <- set_filter(q1)
+	expect_equal(q1$body$filter, q2$body$filter)
+})
+
+test_that("removes filter with arg filter = NULL", {
+	q1 <- ohsome_query("elements/count", filter = "foo")
+	q2 <- set_filter(q1, filter = NULL)
+	expect_null(q2$body$filter)
+})
+
 # set properties
 test_that("removes properties from query body by default", {
 	q <- ohsome_query("elements/centroid", properties = "tags")

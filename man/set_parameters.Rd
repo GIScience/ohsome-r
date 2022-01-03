@@ -12,15 +12,15 @@
 \usage{
 set_parameters(query, ...)
 
-set_time(query, time = NULL)
+set_time(query, time = query$body$time)
 
-set_filter(query, filter = NULL, filter2 = NULL)
+set_filter(query, filter = query$body$filter, filter2 = query$body$filter2)
 
-set_groupByKeys(query, groupByKeys = NULL)
+set_groupByKeys(query, groupByKeys = query$body$groupByKeys)
 
-set_groupByKey(query, groupByKey = NULL)
+set_groupByKey(query, groupByKey = query$body$groupByKey)
 
-set_groupByValues(query, groupByValues = NULL)
+set_groupByValues(query, groupByValues = query$body$groupByValues)
 
 set_properties(query, properties = NULL)
 }
@@ -62,8 +62,9 @@ in the \code{ohsome_query} and returns the modified object. \code{set_time()},
 \code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
 \code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
 to set specific parameters. By default, an unmodified \code{ohsome_query}
-object is returned (except for \code{set_properties()} which removes the
-\code{properties} parameter from the query by default).
+object is returned. In order to remove a parameter from the query object, you
+can set the respective argument explicitly to NULL
+(e.g. \code{set_filter(query, filter = NULL)}).
 }
 \examples{
 q <- ohsome_query("elements/count/ratio/groupBy/boundary")
