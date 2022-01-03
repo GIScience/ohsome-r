@@ -31,7 +31,7 @@ else issues a warning and returns a \code{data.frame}}
 semicolon-separated values)}
 }}
 
-\item{omit_empty}{logical omit features with empty geometries
+\item{omit_empty}{logical; omit features with empty geometries
 (only if returnclass="sf")}
 }
 \value{

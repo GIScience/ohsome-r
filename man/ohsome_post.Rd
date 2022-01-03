@@ -17,12 +17,12 @@ ohsome_post(
 \item{query}{an ohsome_query object constructed with \code{\link{ohsome_query}}
 or any of its wrapper functions}
 
-\item{parse}{logical parse the ohsome API response?}
+\item{parse}{logical; parse the ohsome API response?}
 
-\item{validate}{logical If true, issues warning for invalid endpoint or
+\item{validate}{logical; if true, issues warning for invalid endpoint or
 invalid/missing query parameters}
 
-\item{strict}{logical If true, throws error on invalid query (overrules
+\item{strict}{logical; If true, throws error on invalid query (overrules
 validate argument when true)}
 
 \item{additional_identifiers}{optional user agent identifiers in addition to
@@ -30,7 +30,7 @@ validate argument when true)}
 
 \item{...}{additional arguments passed to \code{\link{ohsome_parse}} \describe{
 \item{returnclass}{class of the returned object}
-\item{omit_empty}{logical omit features with empty geometries
+\item{omit_empty}{logical; omit features with empty geometries
 (only if returnclass="sf")}
 }}
 }

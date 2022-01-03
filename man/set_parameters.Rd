@@ -29,17 +29,17 @@ set_properties(query, properties = NULL)
 
 \item{...}{named parameters (e.g. \code{time = "2020-01-01"})}
 
-\item{time}{time parameter of the query}
+\item{time}{character; time parameter of the query}
 
-\item{filter}{filter parameter of the query}
+\item{filter}{character; filter parameter of the query}
 
-\item{filter2}{filter2 parameter of a ratio query}
+\item{filter2}{character; filter2 parameter of a ratio query}
 
-\item{groupByKeys}{groupByKeys parameter of a groupBy/key query}
+\item{groupByKeys}{character; groupByKeys parameter of a groupBy/key query}
 
-\item{groupByKey}{groupByKey parameter of a groupBy/tag query}
+\item{groupByKey}{character; groupByKey parameter of a groupBy/tag query}
 
-\item{groupByValues}{groupByValues parameter of a groupBy/tag query}
+\item{groupByValues}{character; groupByValues parameter of a groupBy/tag query}
 
 \item{properties}{properties parameter of an extraction query. Can be
 "tags" to extract all tags with the elements and/or

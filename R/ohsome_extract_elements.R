@@ -20,7 +20,7 @@
 #'     \code{osmType} and \code{version}) with the elements. Multiple values 
 #'     can be provided as comma-separated character or as character vector. 
 #'     Default: NULL (only provides \code{osmId} with the elements)
-#' @param clipGeometry logical Specifies whether the returned geometries of the 
+#' @param clipGeometry logical; specifies whether the returned geometries of the 
 #'     features should be clipped to the query’s spatial boundary
 #' @param ... Parameters of the request to the ohsome API endpoint
 #'

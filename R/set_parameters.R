@@ -14,12 +14,12 @@
 #'
 #' @param query An \code{ohsome_query} object
 #' @param ... named parameters (e.g. \code{time = "2020-01-01"})
-#' @param time time parameter of the query
-#' @param filter filter parameter of the query
-#' @param filter2 filter2 parameter of a ratio query
-#' @param groupByKeys groupByKeys parameter of a groupBy/key query
-#' @param groupByKey groupByKey parameter of a groupBy/tag query
-#' @param groupByValues groupByValues parameter of a groupBy/tag query
+#' @param time character; time parameter of the query
+#' @param filter character; filter parameter of the query
+#' @param filter2 character; filter2 parameter of a ratio query
+#' @param groupByKeys character; groupByKeys parameter of a groupBy/key query
+#' @param groupByKey character; groupByKey parameter of a groupBy/tag query
+#' @param groupByValues character; groupByValues parameter of a groupBy/tag query
 #' @param properties properties parameter of an extraction query. Can be 
 #'     "tags" to extract all tags with the elements and/or
 #'     "metadata" to provide metadata with the elements and/or 

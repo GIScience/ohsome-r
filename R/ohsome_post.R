@@ -5,16 +5,16 @@
 #'
 #' @param query an ohsome_query object constructed with \code{\link{ohsome_query}}
 #'     or any of its wrapper functions
-#' @param parse logical parse the ohsome API response?
-#' @param validate logical If true, issues warning for invalid endpoint or
+#' @param parse logical; parse the ohsome API response?
+#' @param validate logical; if true, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
-#' @param strict logical If true, throws error on invalid query (overrules 
+#' @param strict logical; If true, throws error on invalid query (overrules 
 #' validate argument when true)
 #' @param additional_identifiers optional user agent identifiers in addition to
 #'     "ohsome-r/version" (a vector coercible to character)
 #' @param ... additional arguments passed to \code{\link{ohsome_parse}} \describe{
 #'     \item{returnclass}{class of the returned object}
-#'     \item{omit_empty}{logical omit features with empty geometries 
+#'     \item{omit_empty}{logical; omit features with empty geometries 
 #'         (only if returnclass="sf")}
 #' }
 #'

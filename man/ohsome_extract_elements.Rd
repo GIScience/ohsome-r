@@ -36,7 +36,7 @@ in queries for bounding boxes.}
 can be provided as comma-separated character or as character vector.
 Default: NULL (only provides \code{osmId} with the elements)}
 
-\item{clipGeometry}{logical Specifies whether the returned geometries of the
+\item{clipGeometry}{logical; specifies whether the returned geometries of the
 features should be clipped to the query’s spatial boundary}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}

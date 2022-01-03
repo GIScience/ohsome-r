@@ -19,7 +19,7 @@
 #'         \item{character}{returns the ohsome API response as text (JSON or
 #'             semicolon-separated values)}
 #'     }
-#' @param omit_empty logical omit features with empty geometries 
+#' @param omit_empty logical; omit features with empty geometries 
 #'     (only if returnclass="sf")
 #' @family Extract and parse the content from an ohsome API response
 #' @return A list (if the response is of type "application/json"), an sf
