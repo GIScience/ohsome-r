@@ -15,6 +15,8 @@
 #'     (\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}. 
 #'     Default: \code{centroid}. Caveat: Node elements are omitted from results 
 #'     in queries for bounding boxes. 
+#' @param latest logical; if true, request only the latest state of the 
+#' contributions provided to the OSM data.
 #' @param time must consist of two ISO-8601 conform timestrings (as 
 #'     comma-separated character or as character vector of length two) defining 
 #'     a time interval (defaults to the temporal extent of the underlying OSHDB)
@@ -25,7 +27,7 @@
 #'     comma-separated character or as character vector. 
 #'     Default: NULL (provides \code{contributionChangesetId}, \code{osmId} and 
 #'     \code{timestamp} with the contribution geometries)
-#' @param clipGeometry logical Specifies whether the returned geometries of the 
+#' @param clipGeometry logical; specifies whether the returned geometries of the 
 #'     contributions should be clipped to the query’s spatial boundary
 #' @param ... Parameters of the request to the ohsome API endpoint
 #'
@@ -41,13 +43,15 @@
 ohsome_extract_contributions <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
+	latest = FALSE, 
 	time = lubridate::format_ISO8601(.ohsome_metadata$extractRegion$temporalExtent),
 	properties = NULL,
 	clipGeometry = TRUE,
 	...
 ) {
 	geometryType <- match.arg(geometryType)
-	q <- ohsome_query(c("contributions", geometryType), boundary, ...)
+	if(latest) latest <- "latest" else latest <- NULL
+	q <- ohsome_query(c("contributions", latest, geometryType), boundary, ...)
 	q <- set_properties(q, properties)
 	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
 	q <- set_time(q, paste(time, collapse = ","))

@@ -10,6 +10,7 @@
 ohsome_extract_contributions(
   boundary = NULL,
   geometryType = c("centroid", "bbox", "geometry"),
+  latest = FALSE,
   time = lubridate::format_ISO8601(.ohsome_metadata$extractRegion$temporalExtent),
   properties = NULL,
   clipGeometry = TRUE,
@@ -31,6 +32,9 @@ ohsome_contributions_geometry(boundary = NULL, ...)
 Default: \code{centroid}. Caveat: Node elements are omitted from results
 in queries for bounding boxes.}
 
+\item{latest}{logical; if true, request only the latest state of the
+contributions provided to the OSM data.}
+
 \item{time}{must consist of two ISO-8601 conform timestrings (as
 comma-separated character or as character vector of length two) defining
 a time interval (defaults to the temporal extent of the underlying OSHDB)}
@@ -43,7 +47,7 @@ comma-separated character or as character vector.
 Default: NULL (provides \code{contributionChangesetId}, \code{osmId} and
 \code{timestamp} with the contribution geometries)}
 
-\item{clipGeometry}{logical Specifies whether the returned geometries of the
+\item{clipGeometry}{logical; specifies whether the returned geometries of the
 contributions should be clipped to the query’s spatial boundary}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
