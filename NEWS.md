@@ -30,6 +30,8 @@ endpoints of ohsome API
 `ohsome_contributions_bbox()`, `ohsome_contributios_centroid()` and 
 `ohsome_contributions_geometry()` for contributions extraction endpoints of ohsome 
 API
+* Added `ohsome_query()` wrapper functions `ohsome_contributions_count()` for 
+contributions aggregation endpoints of ohsome API
 * Added `ohsome_query()` wrapper function `ohsome_users_count()` for user 
 aggregation endpoints of ohsome API
 * Updated `README` to reflect new features, added hints on boundary polygon
