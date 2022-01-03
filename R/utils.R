@@ -110,7 +110,7 @@ convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
 
 
 #' Null coalesce operator
-#'
+#' @name null-coalesce
 #' @param a left-side argument
 #' @param b right-side argument
 #' @keywords Internal

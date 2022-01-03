@@ -30,7 +30,8 @@
 #' @export
 #' @examples
 #' 
-#' # query to extract geometries, metadata and tags of all elements with man_made tag around "null island":
+#' # query to extract geometries, metadata and tags of all elements with 
+#' # man_made tag around "null island":
 #' ohsome_elements_geometry("0,0,10", filter = "man_made=*", properties = c("metadata", "tags"))
 
 ohsome_extract_elements <- function(

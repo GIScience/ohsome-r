@@ -57,7 +57,8 @@ objects are passed via \code{\link{set_boundary}} into
 }
 \examples{
 
-# query to extract geometries, metadata and tags of all elements with man_made tag around "null island":
+# query to extract geometries, metadata and tags of all elements with 
+# man_made tag around "null island":
 ohsome_elements_geometry("0,0,10", filter = "man_made=*", properties = c("metadata", "tags"))
 }
 \seealso{
