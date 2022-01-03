@@ -85,6 +85,7 @@ create_metadata_message  <- function(meta) {
 	)
 }
 
+
 #' Extract endpoint
 #'
 #' Extract the API endpoint path from the URL in an ohsome_query object
@@ -94,6 +95,7 @@ create_metadata_message  <- function(meta) {
 extract_endpoint <- function(query) {
 	gsub("^.*?/", "", httr::parse_url(query$url)$path)
 }
+
 
 #' Type convert without message
 #'
@@ -105,6 +107,7 @@ extract_endpoint <- function(query) {
 #' @return data.frame
 #' @keywords Internal
 convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
+
 
 #' Null coalesce operator
 #'

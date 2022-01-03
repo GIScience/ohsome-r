@@ -1,10 +1,15 @@
 # ohsome 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.
+* Added `strict`argument to `ohsome_post`. When set to TRUE (default), an error
+is thrown on invalid queries and the request is **not** sent to the API. Queries 
+with undefined filter or time parameters are considered as invalid in strict 
+mode.
 * Changed behaviour of `set_properties()`: Removes properties parameter from 
 query body by default, accepts *tags* and/or *metadata* and/or 
 *contributionTypes* as properties argument (multiple values provided as 
 comma-separated character or character vector).
+* Added `grouping` argument to `ohsome_query()`
 * Added `ohsome_query()` wrapper functions `ohsome_extract_elements()`,
 `ohsome_elements_bbox`, `ohsome_elements_centroid` and `ohsome_elements_geometry` 
 for elements extraction endpoints of ohsome API
@@ -16,12 +21,10 @@ endpoints of ohsome API
 `ohsome_contributions_bbox()`, `ohsome_contributios_centroid()` and 
 `ohsome_contributions_geometry()` for contributions extraction endpoints of ohsome 
 API
+* Added `ohsome_query()` wrapper function `ohsome_users_count()` for user 
+aggregation endpoints of ohsome API
 * Updated `README` to reflect new features, added hints on boundary polygon
 acquisition through third-party packages
 * Added `CITATION` file with reference to OSHDB/ohsome API and technical paper
 * Added endpoint-specific check for missing required parameters to query 
 validation
-* Added `strict`argument to `ohsome_post`. When set to TRUE (default), an error
-is thrown on invalid queries and the request is **not** sent to the API. Queries 
-with undefined filter or time parameters are considered as invalid in strict 
-mode.

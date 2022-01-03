@@ -14,23 +14,24 @@ ohsome_query(endpoint, boundary = NULL, grouping = NULL, ..., validate = FALSE)
 \item{boundary}{Boundary object that can be interpreted by
 \code{\link{ohsome_boundary}}}
 
-\item{grouping}{character Group type(s) for grouped aggregations (only
+\item{grouping}{character; group type(s) for grouped aggregations (only
 available for queries to aggregation endpoints). In general, the following
 group types are available:
 \describe{
-\item{"boundary"}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
-\item{"key"}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
-\item{"tag"}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
-\item{"type"}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
-\itme{c("boundary", "tag")}{Groups the result by the given boundary and the tags. Provide }
+\item{boundary}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
+\item{key}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
+\item{tag}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
+\item{type}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
+\item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
 }
 Not all of these group types are accepted by all of the aggregation
-endpoints.Please consult the ohsome API documentation to check for available
-group types.}
+endpoints. Please consult the
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
+to check for available group types.}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 
-\item{validate}{logical If TRUE, issues warning for invalid endpoint or
+\item{validate}{logical; if TRUE, issues warning for invalid endpoint or
 invalid/missing query parameters}
 }
 \value{
