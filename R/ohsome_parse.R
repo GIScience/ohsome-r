@@ -59,19 +59,19 @@ ohsome_parse <- function(
 		content <- jsonlite::minify(content)
 		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
 		loc <- gregexpr(pattern = pattern, text = content)
-		empty <- sapply(loc, function(x) {
+		empty_coords <- sapply(loc, function(x) {
 			match.length <- attr(x, "match.length") 
 			length(match.length[match.length > 0])
 		})
 
 
-		if(empty > 0) {
+		if(empty_coords > 0) {
 			content <- gsub(pattern, '"Point","coordinates":[360, 360]', content)
 		}
 		
 		p <- geojsonsf::geojson_sf(content)
 		
-		if(empty > 0) {
+		if(empty_coords > 0) {
 			i <- suppressWarnings(suppressMessages(
 				sf::st_intersects(
 					p,
@@ -87,10 +87,11 @@ ohsome_parse <- function(
 			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
 			
-			if(omit_empty & empty > 0) {
+			empty <- sf::st_is_empty(p)
+			if(omit_empty & sum(empty) > 0) {
 				p <- subset(p, !sf::st_is_empty(p))
 				warning(
-					paste(empty, "elements with empty geometries omitted."),
+					paste(sum(empty), "element(s) with empty geometries omitted."),
 					call. = FALSE
 				)
 			}
