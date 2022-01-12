@@ -58,7 +58,7 @@ set_endpoint <- function(query,	endpoint, append = FALSE, reset_format = TRUE) {
 
 #' @export
 #' @rdname set_endpoint
-set_grouping <- function(query, grouping) {
+set_grouping <- function(query, grouping, ...) {
 	
 	if(missing(grouping)) return(query)
 	
@@ -69,5 +69,5 @@ set_grouping <- function(query, grouping) {
 	}
 	endpoint <- paste(split[1], grouping, sep = "/")
 	
-	set_endpoint(query, endpoint)
+	set_endpoint(query, endpoint, ...)
 }

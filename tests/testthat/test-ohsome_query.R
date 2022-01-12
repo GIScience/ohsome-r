@@ -25,6 +25,11 @@ test_that("does not set format parameter with elements extraction queries", {
 	expect_null(q2$body$format)
 })
 
+test_that("does not overwrite explicit format with groupBy/boundary", {
+	q <- ohsome_query("elements/count", grouping = "boundary", format = "csv")
+	expect_equal(q$body$format, "csv")
+})
+
 test_that("returns object of class ohsome_query", {
 	expect_s3_class(ohsome_query("elements/count"), "ohsome_query")
 })
@@ -46,3 +51,4 @@ test_that("correctly sets bboxes param based on boundary argument", {
 	q <- ohsome_query("elements/count", boundary = bbox)
 	expect_equal(q$body$bboxes, bbox)
 })
+

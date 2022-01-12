@@ -69,7 +69,7 @@ ohsome_query <- function(
 		class = "ohsome_query"
 	)
 	
-	if(!is.null(grouping)) query <- set_grouping(query, grouping)
+	if(!is.null(grouping)) query <- set_grouping(query, grouping, reset_format = is.null(body[["format"]]))
 
 	if(!is.null(boundary)) {
 		btypes <- c("bpolys", "bboxes", "bcircles")
