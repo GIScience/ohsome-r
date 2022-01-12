@@ -40,6 +40,10 @@ test_that("correctly modifies grouping", {
 	q1 <- ohsome_query("elements/count")
 	q2 <- set_grouping(q1, "tag")
 	expect_equal(httr::parse_url(q2$url)$path, "v1/elements/count/groupBy/tag")
+	
+	q1 <- ohsome_query("elements/count")
+	q2 <- set_grouping(q1, c("Boundary", "Tag"))
+	expect_equal(httr::parse_url(q2$url)$path, "v1/elements/count/groupBy/boundary/groupBy/tag")
 })
 
 test_that("removes grouping if grouping = NULL", {

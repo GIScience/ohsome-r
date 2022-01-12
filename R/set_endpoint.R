@@ -64,7 +64,9 @@ set_grouping <- function(query, grouping) {
 	
 	old <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
 	split <- unlist(strsplit(old, "/groupBy/"))
-	if(!is.null(grouping)) grouping <- paste("groupBy", tolower(grouping), sep = "/")
+	if(!is.null(grouping)) {
+		grouping <- paste("groupBy", tolower(grouping), sep = "/", collapse = "/")
+	}
 	endpoint <- paste(split[1], grouping, sep = "/")
 	
 	set_endpoint(query, endpoint)
