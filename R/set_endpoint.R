@@ -30,6 +30,7 @@
 #' endpoints. Please consult the 
 #' [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
 #' to check for available group types.
+#' @param ... Additional arguments passed to set_endpoint
 #' @family Set endpoint
 #' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}

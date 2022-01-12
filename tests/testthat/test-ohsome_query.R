@@ -2,8 +2,10 @@ test_that("requests geojson content with groupBy/boundary queries", {
 
 	q1 <- ohsome_query(c("elements", "count", "groupBy", "boundary"))
 	q2 <- ohsome_query("elements/length/density/groupBy/boundary")
+	q3 <- ohsome_query("elements/count", grouping = "boundary")
 	expect_equal(q1$body$format, "geojson")
 	expect_equal(q2$body$format, "geojson")
+	expect_equal(q3$body$format, "geojson")
 })
 
 test_that("requests csv content with aggregation not grouped by boundary", {
