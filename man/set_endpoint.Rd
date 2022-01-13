@@ -7,7 +7,7 @@
 \usage{
 set_endpoint(query, endpoint, append = FALSE, reset_format = TRUE)
 
-set_grouping(query, grouping)
+set_grouping(query, grouping, ...)
 }
 \arguments{
 \item{query}{An \code{ohsome_query} object}
@@ -38,6 +38,8 @@ Not all of these group types are accepted by all of the aggregation
 endpoints. Please consult the
 \href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
 to check for available group types.}
+
+\item{...}{Additional arguments passed to set_endpoint}
 }
 \value{
 An \code{ohsome_query} object

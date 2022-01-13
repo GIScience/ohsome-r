@@ -37,7 +37,7 @@ You can install ohsome from
 <a href="https://github.com/GIScience/ohsome-r" target="blank">Github</a>:
 
 ``` r
-remotes::install_github("GIScience/ohsome-r", ref = "main")
+remotes::install_github("GIScience/ohsome-r", ref = "dev-0.2.0")
 ```
 
 ## Getting started
@@ -51,7 +51,7 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.2
-#> Temporal extent: 2007-10-08 to 2021-12-19 20:00:00
+#> Temporal extent: 2007-10-08 to 2022-01-09 20:00:00
 ```
 
 The metadata is stored in `.ohsome_metadata`. You can print it to the
@@ -62,12 +62,14 @@ function. It takes the endpoint path and any query parameters as inputs.
 For information on all available endpoints with their parameters,
 consult the
 <a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html" target="blank">ohsome API documentation</a>
-or have a look at `ohsome_endpoints`.
+or print `ohsome_endpoints` to the console.
 
 However, this ohsome R package provides specific wrapper functions for
-queries to all available endpoints:
+queries to all available endpoints.
 
-### Aggregating OSM elements
+### OSM elements
+
+#### Aggregating OSM elements
 
 The
 <a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation" target="blank">elements aggregation endpoints</a>
@@ -98,12 +100,12 @@ ohsome_post(q, strict = FALSE)
 #> timestamp within the underlying OSHDB. You can use set_time() to set the time
 #> parameter.
 #>             timestamp value
-#> 1 2021-12-19 20:00:00   136
+#> 1 2022-01-09 20:00:00   136
 ```
 
 As you can see, `ohsome_post()` issues a warning that the time parameter
-of the query is not defined. In this case, the `ohsome` API returns the
-number of elements at the latest available timestamp by default. [1]
+of the query is not defined. The `ohsome` API returns the number of
+elements at the latest available timestamp by default. [1]
 
 Defining the `time` parameter unlocks the full power of ohsome API by
 giving access to the OSM history. The `time` parameter requires one or
@@ -133,30 +135,32 @@ q |>
 <img src="man/figures/README-pipe-1.svg" width="900" />
 
 This is how to query the total number of breweries in all of Franconia.
-But what if we want to aggregate the amount per district? The
-`set_endpoint()` function is used to change or append the endpoint path
-of an API request. In this case, we would want to append
-`groupBy/boundary` to the `elements/count` endpoint. The endpoint path
+But what if we want to aggregate the amount per district? The ohsome API
+provides specific endpoints for different grouped calculations, such as
+aggregation grouped by bounding geometry.
+
+There are several ways to define a query for an aggregation grouped by
+boundary:
+
+The `set_endpoint`function is used to change or append the endpoint path
+of an API request. In this case, we could append `groupBy/boundary` to
+the existing query to the `elements/count` endpoint. The endpoint path
 can either be given as a single string (`/groupBy/boundary`) or as a
-character vector [3]:
+character vector:
+`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [3].
+
+More comfortably, however, is the use of either the grouping argument
+with an elements aggregation function (e.g. 
+`ohsome_elements_count(grouping = "boundary)`) or of the
+`set_grouping()` function to modify an existing query object:
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
-q <- franconia |> 
+franconia |> 
     mutate(id = NAME_ASCI) |>
-    ohsome_elements_count(filter = "craft=brewery", time = "2021-06-01")
-
-q |>
-    set_endpoint(c("groupBy", "boundary"), append = TRUE) |>
+    ohsome_elements_count(filter = "craft=brewery", time = "2021-06-01") |>
+    set_grouping("boundary") |>
     ohsome_post()
 #> Simple feature collection with 37 features and 3 fields
 #> Geometry type: MULTIPOLYGON
@@ -181,26 +185,30 @@ If you want your own identifiers for the geometries returned by ohsome,
 your input `sf` object needs a column explicitly named `id`. You can use
 `mutate()` or `rename()` from the
 <a href="https://dplyr.tidyverse.org" target="blank">dplyr</a> package
-to create such a column as in the example above.
+to create such a column as in the example below.
 
 By default, `ohsome_post()` returns an `sf` object whenever the ohsome
 API is capable of delivering GeoJSON data. This is the case for elements
 extraction queries as well as for aggregations grouped by boundaries.
 
 Thus, you can easily create a choropleth map from the query results. In
-addition, `density` can be added to the endpoint path in order to query
-for breweries per area:
+addition, you can set the argument `return_value` to `density`. This
+will modify the endpoint path of the query so that ohsome return the
+number of breweries per area instead of the absolute value:
 
 ``` r
-q |>
-    set_endpoint(c("density", "groupBy", "boundary"), append = TRUE) |>
+franconia |> 
+    mutate(id = NAME_ASCI) |>
+    ohsome_elements_count(filter = "craft=brewery", return_value = "density") |>
+    set_time("2021-06-01") |>
+    set_grouping("boundary") |>
     ohsome_post() |>
     mapview(zcol = "value", layer.name = "Breweries per sqkm")
 ```
 
 <img src="man/figures/README-density-1.png" width="900" />
 
-### Extracting OSM elements
+#### Extracting OSM elements
 
 The
 <a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction" target="blank">elements extraction endpoints</a>
@@ -235,7 +243,14 @@ of OSM elements and `ohsome_elements_bbox()` for their bounding boxes.
 Note that OSM node elements (with point geometries) are omitted from the
 results if querying for bounding boxes.
 
-### Extracting the full history of OSM elements
+#### Extracting the full history of OSM elements
+
+While the elements extraction endpoints provide geometries and
+properties of OSM elements at specific timestamps, results of queries to
+the
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#elements-full-history-extraction" target="blank">full history endpoints</a>
+will include all changes to matching OSM features with corresponding
+`validFrom` and `validTo` timestamps.
 
 Here, we request the full history of OSM buildings for the district of
 Schweinfurt City, filter for features that still exist and visualise all
@@ -245,7 +260,7 @@ building features with their year of creation:
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.2
-#> Temporal extent: 2007-10-08 to 2021-12-19 20:00:00
+#> Temporal extent: 2007-10-08 to 2022-01-09 20:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -274,6 +289,95 @@ You may find using `clean_names()` from the
 <a href="https://github.com/sfirke/janitor" target="blank">janitor</a>
 package helpful in order to remove special characters from column names
 in the parsed ohsome API response – just as in the example above.
+
+### OSM contributions
+
+#### Aggregating OSM contributions
+
+With queries to the ohsome API’s
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation" target="blank">contributions aggregation endpoints</a>,
+you can get counts of the contributions provided by users to OSM. The
+following code requests the number of deletions of man-made objects at
+the location of the hypothetical
+<a href="https://en.wikipedia.org/wiki/Null_Island" target="blank">Null Island</a>
+per year between 2010 and 2020:
+
+``` r
+ohsome_contributions_count(
+    boundary = "0,0,10", 
+    filter = "man_made=*", 
+    time = "2010/2020/P1Y",
+    contributionType = "deletion"
+) |>
+    ohsome_post()
+#>    fromTimestamp toTimestamp value
+#> 1     2010-01-01  2011-01-01     0
+#> 2     2011-01-01  2012-01-01     1
+#> 3     2012-01-01  2013-01-01     0
+#> 4     2013-01-01  2014-01-01     0
+#> 5     2014-01-01  2015-01-01     0
+#> 6     2015-01-01  2016-01-01     3
+#> 7     2016-01-01  2017-01-01     1
+#> 8     2017-01-01  2018-01-01     8
+#> 9     2018-01-01  2019-01-01     4
+#> 10    2019-01-01  2020-01-01     4
+```
+
+The `contributionType` parameter is used to filter for specific types of
+contributions (in this case: deletions). If it is not set, any
+contribution is counted. Note that the resulting values apply to time
+intervals defined by a `fromTimestamp` and a `toTimestamp`.
+
+#### Extracting OSM contributions
+
+The
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extraction" target="blank">constributions extraction</a>
+endpoints of the ohsome API can be used to extract feature geometries of
+contributions.
+
+In the following example, we extract the centroids all amenities in the
+Berlin city district of Neukölln that have had contributions in March
+2020. Consequently, we filter for features that have had tags changed
+and visualise their locations:
+
+``` r
+nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
+    ohsome_contributions_centroid() |>
+    set_filter("amenity=*") |>
+    set_time("2020-03,2020-04") |>
+    set_properties("contributionTypes") |> 
+    ohsome_post() |>
+    filter(`@tagChange`) |>
+    mapview(layer.name = "Amenities with Tag Changes")
+#> Warning: 60 element(s) with empty geometries omitted.
+```
+
+<img src="man/figures/README-contribution_extraction-1.png" width="900" />
+
+### OSM users
+
+You can get statistics on the number of users editing specific features
+through the
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#users-aggregation" target="blank">users aggregation</a>
+endpoints of the ohsome API.
+
+Here, we show the number of users editing buildings before, during and
+after Nepal earthquake 2015:
+
+``` r
+ohsome_users_count(
+    boundary = "82.3055,6.7576,87.4663,28.7025",
+    filter = "building=* and geometry:polygon",
+    time = "2015-03-01/2015-08-01/P1M"
+) |>
+    ohsome_post()
+#>   fromTimestamp toTimestamp value
+#> 1    2015-03-01  2015-04-01    97
+#> 2    2015-04-01  2015-05-01  3489
+#> 3    2015-05-01  2015-06-01  3103
+#> 4    2015-06-01  2015-07-01   478
+#> 5    2015-07-01  2015-08-01   185
+```
 
 ### Bounding geometries
 
@@ -351,8 +455,7 @@ osmdata::getbb("Kigali") |>
 
 ``` r
 c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
-    ohsome_elements_count(filter = "amenity=*", time = 2021) |>
-    set_endpoint("groupBy/boundary", append = TRUE) |>
+    ohsome_elements_count(filter = "amenity=*", grouping = "boundary", time = 2021) |>
     ohsome_post()
 #> Simple feature collection with 2 features and 3 fields
 #> Geometry type: POLYGON
@@ -371,10 +474,10 @@ WGS 84 if in a different coordinate reference system, coordinates in
 ### Modifying queries
 
 As seen above, existing `ohsome_query` objects can be modified by
-`set_endpoint()`, `set_boundary()` or `set_time()`. The latter and other
-functions such as `set_filter()` are just wrappers around the more
-generic `set_parameters()`. This can be used to modify the parameters of
-a query in any possible way:
+`set_endpoint()`, `set_grouping()`, `set_boundary()` or `set_time()`.
+The latter and other functions such as `set_filter()` are just wrappers
+around the more generic `set_parameters()`. This can be used to modify
+the parameters of a query in any possible way:
 
 ``` r
 q <- ohsome_elements_count("8.5992,49.3567,8.7499,49.4371")
@@ -396,6 +499,47 @@ q |>
 #> 6 2020-01-01 31495   1456 0.046230
 ```
 
+### Grouping
+
+<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html" target="blank">Grouping endpoints</a>
+are available for aggregation resources and can be used to compute the
+aggregated results grouped by:
+
+-   boundary,
+-   key,
+-   tag, and
+-   type.
+
+In many cases, a grouping by `boundary` can be combined with a grouping
+by `tag`. Some of the grouping endpoints require additional query
+parameters, e.g. `tag` groupings require a `groupByKey` parameter. Not
+all grouping endpoints are available for all aggregation resources –
+please consult the
+<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html" target="blank">ohsome API documentation</a>
+for details.
+
+You can set the `grouping` argument to any aggregation endpoint wrapper
+function (e.g. `ohsome_elements_count(grouping = c("boundary", "tag"))`)
+or use `set_grouping()` to modify existing query objects.
+
+### Density and ratio requests
+
+Many
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html" target="blank">aggregation resources</a>
+have endpoints for requesting density (i.e. count, length, perimeter or
+area of features **per area**) or ratios (of OSM elements satisfying a
+`filter2` to elements satisfying a `filter`) instead of or in addition
+to absolute values.
+
+You can request density or ratio values by setting the `return_value`
+argument to aggregation endpoint wrapper functions (e.g. 
+`ohsome_elements_count(return_value = "density")`). Mind that ratio
+endpoints require an additional `filter2` query parameter. Please
+consult the
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html" target="blank">ohsome API documentation</a>
+or print `names(ohsome_endpoints)` to the console in order to check for
+the availability of specific density and ratio endpoints.
+
 ### Dealing with complex API responses
 
 The ohsome API allows grouping aggregate values for various timestamps
@@ -409,8 +553,9 @@ explicitly requested as the response format:
 ``` r
 building_levels <- franconia |>
     mutate(id  = NUTS_ID) |>
-    ohsome_elements_count(filter = "building=*", time = "2015/2020", format = "csv") |>
-    set_endpoint("groupBy/boundary/groupBy/tag", reset_format = F, append = T) |>
+    ohsome_elements_count(grouping = c("boundary", "tag"), format = "csv") |>
+    set_filter("building=* and geometry:polygon") |>
+    set_time("2015/2020") |>
     set_groupByKey("building:levels") |>
     ohsome_post()
 
@@ -418,8 +563,8 @@ dim(building_levels)
 #> [1]    2 1999
 ```
 
-The query results in a very confusing data.frame with 1999 columns and 2
-rows! This happens because there is a building count column for each
+The query results in a confusing data.frame with 1999 columns and 2
+rows. This happens because there is a building count column for each
 combination of boundary polygon and number of levels, while the two
 requested timestamps are in the rows. Fortunately, there is the
 <a href="https://tidyr.tidyverse.org" target="blank">tidyr</a> package
@@ -434,7 +579,7 @@ building_levels |>
 #> # A tibble: 3,996 × 4
 #>    timestamp           id    levels            value
 #>    <dttm>              <chr> <chr>             <dbl>
-#>  1 2015-01-01 00:00:00 DE241 remainder          4311
+#>  1 2015-01-01 00:00:00 DE241 remainder          4307
 #>  2 2015-01-01 00:00:00 DE241 building.levels.1  6347
 #>  3 2015-01-01 00:00:00 DE241 building.levels.2  6727
 #>  4 2015-01-01 00:00:00 DE241 building.levels.3  2787
@@ -451,6 +596,8 @@ building_levels |>
 
 In order to cite this package in publications, please use the citation
 information provided through `citation("ohsome")`.
+
+------------------------------------------------------------------------
 
 [1] When the `strict` argument is set to TRUE (default), `ohsome_post`
 throws an error on a missing `time` parameter and does not send the
