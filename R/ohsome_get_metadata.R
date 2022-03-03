@@ -7,9 +7,8 @@
 #'
 #' @param quiet logical; suppress message on data attribution, API version and
 #'     temporal extent.
-#'
-#' @return An \code{ohsome_metadata} object. This is a named list with the
-#'     attributes \code{date} and \code{status_code} (of the GET request) and
+#' @return An \code{ohsome_metadata} object. This is a named list with the 
+#'     attributes \code{date} and \code{status_code} (of the GET request) and 
 #'     the following list elements:
 #'     \describe{
 #'         \item{attribution}{\code{url} and \code{text} of OSM data copyrights
@@ -33,6 +32,7 @@
 #' \dontrun{
 #' ohsome_get_metadata()
 #' }
+
 ohsome_get_metadata <- function(quiet = FALSE) {
 
 	response <- httr::GET(

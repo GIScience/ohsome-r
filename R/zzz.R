@@ -1,11 +1,8 @@
-# Upon attaching package, request ohsome API metadata and assign to .ohsome_metadata
-.onAttach <- function(libname, pkgname) {
+# Upon attaching package, request ohsome API metadata and assign to ohsome_metadata
+.onLoad <- function(libname, pkgname) {
 	tryCatch({
-
 		ohsome_metadata <- ohsome_get_metadata(quiet = TRUE)
-		assign(".ohsome_metadata", ohsome_metadata, pos = "package:ohsome")
-
-		packageStartupMessage(create_metadata_message(ohsome_metadata))
+		assign(".ohsome_metadata", ohsome_metadata, envir = parent.env(environment()))
 		},
 		error = function(e) {
 			warning(
@@ -16,4 +13,10 @@
 			)
 		}
 	)
+}
+
+.onAttach <- function(libname, pkgname) {
+	if(exists(".ohsome_metadata", where = "package:ohsome")) {
+		packageStartupMessage(create_metadata_message(.ohsome_metadata))
+	}
 }
