@@ -15,6 +15,9 @@
 #'         \item{absolute}{Returns the absolute number of contributions (default).}
 #'         \item{density}{Returns the number of contributions per square kilometer.}
 #' }
+#' @param time character; time parameter of the query (see 
+#'     [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
+#'     defaults to the temporal extent of the underlying OSHDB)
 #' @param ... Parameters of the request to the ohsome API endpoint
 #'
 #' @return An \code{ohsome_query} object
@@ -29,11 +32,13 @@ ohsome_contributions_count <- function(
 	boundary = NULL,
 	latest = FALSE,
 	return_value = c("absolute", "density"),
+	time = lubridate::format_ISO8601(.ohsome_temporalExtent),
 	...
 ) {
 	return_value <- match.arg(return_value)
 	if(latest) latest <- "latest" else latest <- NULL
 	if(return_value == "absolute") return_value <- NULL
 	
-	ohsome_query(c("contributions", latest, "count", return_value), boundary,...)
+	q <- ohsome_query(c("contributions", latest, "count", return_value), boundary,...)
+	set_time(q, time)
 }

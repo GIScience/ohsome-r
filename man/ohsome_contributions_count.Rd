@@ -8,6 +8,7 @@ ohsome_contributions_count(
   boundary = NULL,
   latest = FALSE,
   return_value = c("absolute", "density"),
+  time = lubridate::format_ISO8601(.ohsome_temporalExtent),
   ...
 )
 }
@@ -23,6 +24,10 @@ contributions provided to the OSM data.}
 \item{absolute}{Returns the absolute number of contributions (default).}
 \item{density}{Returns the number of contributions per square kilometer.}
 }}
+
+\item{time}{character; time parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
+defaults to the temporal extent of the underlying OSHDB)}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 }

@@ -25,9 +25,9 @@ group types are available:
 \item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
 }
 Not all of these group types are accepted by all of the aggregation
-endpoints. Please consult the
-\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
-to check for available group types.}
+endpoints. Check
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{Grouping}
+for available group types.}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 

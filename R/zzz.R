@@ -2,7 +2,16 @@
 .onLoad <- function(libname, pkgname) {
 	tryCatch({
 		ohsome_metadata <- ohsome_get_metadata(quiet = TRUE)
-		assign(".ohsome_metadata", ohsome_metadata, envir = parent.env(environment()))
+		assign(
+			".ohsome_metadata", 
+			ohsome_metadata, 
+			envir = parent.env(environment())
+		)
+		assign(
+			".ohsome_temporalExtent", 
+			ohsome_metadata$extractRegion$temporalExtent,
+			envir = parent.env(environment())
+		)
 		},
 		error = function(e) {
 			warning(

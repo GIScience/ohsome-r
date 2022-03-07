@@ -10,6 +10,7 @@
 ohsome_extract_elements(
   boundary = NULL,
   geometryType = c("centroid", "bbox", "geometry"),
+  time = lubridate::format_ISO8601(.ohsome_temporalExtent[2]),
   properties = NULL,
   clipGeometry = TRUE,
   ...
@@ -29,6 +30,10 @@ ohsome_elements_geometry(boundary = NULL, ...)
 (\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}.
 Default: \code{centroid}. Caveat: Node elements are omitted from results
 in queries for bounding boxes.}
+
+\item{time}{character; time parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
+defaults to most recent available timestamp in the underlying OSHDB)}
 
 \item{properties}{Can be "tags" to extract all tags with the elements and/or
 "metadata" to provide metadata (\code{changesetId}, \code{lastEdit},

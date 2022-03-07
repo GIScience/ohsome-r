@@ -33,9 +33,12 @@
 #'         \item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
 #' }
 #' Not all of these group types are accepted by all of the aggregation 
-#' endpoints. Please consult the 
-#' [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
-#' to check for available group types.
+#' endpoints. Check 
+#' [Grouping](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
+#' for available group types.
+#' @param time character; time parameter of the query (see 
+#'     [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
+#'     defaults to most recent available timestamp in the underlying OSHDB)
 #' @param ... Parameters of the request to the ohsome API endpoint
 #'
 #' @family Aggregate elements
@@ -53,13 +56,14 @@ ohsome_aggregate_elements <- function(
 	aggregation = c("count", "length", "perimeter", "area"),
 	return_value = c("absolute", "density", "ratio"),
 	grouping = NULL,
+	time = lubridate::format_ISO8601(.ohsome_temporalExtent[2]),
 	...
 ) {
 	aggregation <- match.arg(aggregation)
 	return_value <- match.arg(return_value)
 	if(return_value == "absolute") return_value <- NULL
-	
-	ohsome_query(c("elements", aggregation, return_value), boundary, grouping,...)
+	q <- ohsome_query(c("elements", aggregation, return_value), boundary, grouping, ...)
+	set_time(q, time)
 }
 
 #' @export

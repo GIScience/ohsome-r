@@ -38,7 +38,7 @@ ohsome_post <- function(
 	additional_identifiers = NULL,
 	...
 ) {
-	if(validate || strict) valid <- validate_query(query) 
+	if(validate || strict) valid <- validate_query(query)
 	stopifnot("Query invalid. See warnings for details." = !strict || valid)
 
 	if(is.null(additional_identifiers)) additional_identifiers <- ""

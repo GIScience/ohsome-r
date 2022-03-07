@@ -54,7 +54,7 @@ ohsome_extract_contributions <- function(
 	q <- ohsome_query(c("contributions", latest, geometryType), boundary, ...)
 	q <- set_properties(q, properties)
 	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
-	q <- set_time(q, paste(time, collapse = ","))
+	q <- set_time(q, time)
 	return(q)
 }
 

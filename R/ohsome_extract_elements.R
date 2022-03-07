@@ -15,6 +15,9 @@
 #'     (\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}. 
 #'     Default: \code{centroid}. Caveat: Node elements are omitted from results 
 #'     in queries for bounding boxes. 
+#' @param time character; time parameter of the query (see 
+#'     [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
+#'     defaults to most recent available timestamp in the underlying OSHDB)
 #' @param properties Can be "tags" to extract all tags with the elements and/or
 #'     "metadata" to provide metadata (\code{changesetId}, \code{lastEdit}, 
 #'     \code{osmType} and \code{version}) with the elements. Multiple values 
@@ -37,6 +40,7 @@
 ohsome_extract_elements <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
+	time = lubridate::format_ISO8601(.ohsome_temporalExtent[2]),
 	properties = NULL,
 	clipGeometry = TRUE,
 	...
@@ -45,6 +49,7 @@ ohsome_extract_elements <- function(
 	q <- ohsome_query(c("elements", geometryType), boundary, ...)
 	q <- set_properties(q, properties)
 	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
+	q <- set_time(q, time)
 	return(q)
 }
 

@@ -5,6 +5,9 @@
 is thrown on invalid queries and the request is **not** sent to the API. Queries 
 with undefined filter or time parameters are considered as invalid in strict 
 mode.
+* All `ohsome_query()` wrapper functions (but not `ohsome_query()` itself) are 
+defined with an appropriate default for the `time` parameter. The default values
+are drawn from ohsome API metadata requested on loading the package.
 * Changed behaviour of `set_properties()`: Removes properties parameter from 
 query body by default, accepts *tags* and/or *metadata* and/or 
 *contributionTypes* as properties argument (multiple values provided as 
@@ -34,6 +37,8 @@ API
 contributions aggregation endpoints of ohsome API
 * Added `ohsome_query()` wrapper function `ohsome_users_count()` for user 
 aggregation endpoints of ohsome API
+* `.ohsome_medata` and `.ohsome_temporalExtent` are assigned on loading (not on
+attaching) the package
 * Updated `README` to reflect new features, added hints on boundary polygon
 acquisition through third-party packages
 * Added `CITATION` file with reference to OSHDB/ohsome API and technical paper

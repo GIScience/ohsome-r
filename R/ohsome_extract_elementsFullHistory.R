@@ -46,7 +46,7 @@
 ohsome_extract_elementsFullHistory <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
-	time = lubridate::format_ISO8601(.ohsome_metadata$extractRegion$temporalExtent),
+	time = lubridate::format_ISO8601(.ohsome_temporalExtent),
 	properties = NULL,
 	clipGeometry = TRUE,
 	...
@@ -55,7 +55,7 @@ ohsome_extract_elementsFullHistory <- function(
 	q <- ohsome_query(c("elementsFullHistory", geometryType), boundary, ...)
 	q <- set_properties(q, properties)
 	q <- set_parameters(q, clipGeometry = as.character(clipGeometry))
-	q <- set_time(q, paste(time, collapse = ","))
+	q <- set_time(q, time)
 	return(q)
 }
 

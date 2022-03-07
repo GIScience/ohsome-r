@@ -19,9 +19,9 @@
 #'         \item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
 #' }
 #' Not all of these group types are accepted by all of the aggregation 
-#' endpoints. Please consult the 
-#' [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
-#' to check for available group types.
+#' endpoints. Check 
+#' [Grouping](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
+#' for available group types.
 #' @param ... Parameters of the request to the ohsome API endpoint
 #' @param validate logical; if TRUE, issues warning for invalid endpoint or
 #'      invalid/missing query parameters
@@ -69,7 +69,7 @@ ohsome_query <- function(
 		),
 		class = "ohsome_query"
 	)
-	
+
 	if(!is.null(grouping)) query <- set_grouping(query, grouping, reset_format = !explicit_format)
 
 	if(!is.null(boundary)) {
@@ -86,7 +86,7 @@ ohsome_query <- function(
 		query <- set_boundary(query, boundary)
 		
 	}
-	
+
 	if(validate) validate_query(query)
 
 	return(query)

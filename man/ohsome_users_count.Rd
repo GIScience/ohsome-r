@@ -8,6 +8,7 @@ ohsome_users_count(
   boundary = NULL,
   return_value = c("absolute", "density"),
   grouping = NULL,
+  time = lubridate::format_ISO8601(.ohsome_temporalExtent),
   ...
 )
 }
@@ -33,6 +34,10 @@ Not all of these group types are accepted by all of the user aggregation
 endpoints. Please consult the
 \href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
 to check for available group types.}
+
+\item{time}{character; time parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
+defaults to the temporal extent of the underlying OSHDB)}
 
 \item{...}{Parameters of the request to the ohsome API endpoint}
 }
