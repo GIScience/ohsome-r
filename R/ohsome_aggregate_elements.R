@@ -56,7 +56,7 @@ ohsome_aggregate_elements <- function(
 	aggregation = c("count", "length", "perimeter", "area"),
 	return_value = c("absolute", "density", "ratio"),
 	grouping = NULL,
-	time = lubridate::format_ISO8601(.ohsome_temporalExtent[2]),
+	time = lubridate::format_ISO8601(ohsome_temporalExtent[2]),
 	...
 ) {
 	aggregation <- match.arg(aggregation)

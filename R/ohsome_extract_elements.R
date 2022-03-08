@@ -40,7 +40,7 @@
 ohsome_extract_elements <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
-	time = lubridate::format_ISO8601(.ohsome_temporalExtent[2]),
+	time = lubridate::format_ISO8601(ohsome_temporalExtent[2]),
 	properties = NULL,
 	clipGeometry = TRUE,
 	...

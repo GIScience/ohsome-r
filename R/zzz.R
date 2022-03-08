@@ -3,12 +3,12 @@
 	tryCatch({
 		ohsome_metadata <- ohsome_get_metadata(quiet = TRUE)
 		assign(
-			".ohsome_metadata", 
+			"ohsome_metadata", 
 			ohsome_metadata, 
 			envir = parent.env(environment())
 		)
 		assign(
-			".ohsome_temporalExtent", 
+			"ohsome_temporalExtent", 
 			ohsome_metadata$extractRegion$temporalExtent,
 			envir = parent.env(environment())
 		)
@@ -26,6 +26,6 @@
 
 .onAttach <- function(libname, pkgname) {
 	if(exists(".ohsome_metadata", where = "package:ohsome")) {
-		packageStartupMessage(create_metadata_message(.ohsome_metadata))
+		packageStartupMessage(create_metadata_message(ohsome_metadata))
 	}
 }
