@@ -37,7 +37,7 @@ API
 contributions aggregation endpoints of ohsome API
 * Added `ohsome_query()` wrapper function `ohsome_users_count()` for user 
 aggregation endpoints of ohsome API
-* `.ohsome_medata` and `.ohsome_temporalExtent` are assigned on loading (not on
+* `ohsome_medata` and `ohsome_temporalExtent` are assigned on loading (not on
 attaching) the package
 * Updated `README` to reflect new features, added hints on boundary polygon
 acquisition through third-party packages

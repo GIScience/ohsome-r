@@ -59,7 +59,7 @@ the current temporal extent of the underlying OSHDB:
 library(ohsome)
 ```
 
-The metadata is stored in `.ohsome_metadata`. You can print it to the console
+The metadata is stored in `ohsome_metadata`. You can print it to the console
 to get more details.
 
 You can create any ohsome API query using the generic `ohsome_query()` function. 
