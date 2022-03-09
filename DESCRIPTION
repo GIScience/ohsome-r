@@ -8,13 +8,13 @@ Authors@R:
         	role = c("cph")
       ),
       person(
-    		  given = "Oliver",
+    		given = "Oliver",
         	family = "Fritz",
         	role = c("aut", "cre"),
         	email = "oliver.fritz@heigit.org",
         	comment = c(ORCID = "0000-0001-6324-7295")
       )
-	  )
+	)
 Description: This ohsome R package grants access to the power of the ohsome API 
     from R. It lets you analyze the rich data source of the OpenStreetMap (OSM)
     history. You can retrieve the geometry of OSM data at specific points in 
