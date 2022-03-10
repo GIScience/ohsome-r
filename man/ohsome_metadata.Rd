@@ -6,24 +6,24 @@
 \title{ohsome API metadata}
 \format{
 An \code{ohsome_metadata} object. This is a named list with the
-attributes \code{date} and \code{status_code} (of the GET request) and
-the following list elements:
-\describe{
-\item{attribution}{\code{url} and \code{text} of OSM data copyrights
-and attribution (character)}
-\item{apiVersion}{Version of the ohsome API
-(numeric_version)}
-\item{timeout}{Limit of the processing time in seconds (numeric)}
-\item{extractRegion}{
-\code{spatialExtent}: {Spatial boundary of the OSM data in the
-underlying OSHDB (sfc_POLYGON)}\cr
-\code{temporalExtent}: {Timeframe of the OSM data in the
-underlying OSHDB data (vector of POSIXct)}\cr
-\code{replicationSequenceNumber}: {Precise state of the OSM data
-contained in the underlying OSHDB, expressed as the id of the
-last applied (hourly) diff file from
-\url{planet.openstreetmap.org} (numeric)}
-}}
+attributes \code{date}, \code{status_code} (of the GET request) and the following list
+elements:
+\itemize{
+\item \code{attribution}: characer; \code{url} and \code{text} of OSM data copyrights and
+attribution
+\item \code{apiVersion}: numeric_version; Version of the ohsome API
+\item \code{timeout}: numeric; limit of the processing time in seconds
+\item \code{extractRegion}:
+\itemize{
+\item \code{spatialExtent}: sfc_POLYGON; spatial boundary of the OSM data in the
+underlying OSHDB
+\item \code{temporalExtent}: vector of POSIXct; timeframe of the OSM data in the
+underlying OSHDB data
+\item \code{replicationSequenceNumber}: numeric; precise state of the OSM data
+contained in the underlying OSHDB, expressed as the id of the last
+applied (hourly) diff file from \href{planet.openstreetmap.org}{Planet OSM}
+}
+}
 }
 \description{
 Metadata of the ohsome API that is requested on loading the

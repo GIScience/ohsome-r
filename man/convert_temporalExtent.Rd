@@ -7,7 +7,7 @@
 convert_temporalExtent(temporalExtent)
 }
 \arguments{
-\item{temporalExtent}{The \code{$extractRegion$temporalExtent} element of the
+\item{temporalExtent}{The \verb{$extractRegion$temporalExtent} element of the
 parsed content of a response from the metadata endpoint of ohsome API}
 }
 \value{

@@ -10,59 +10,90 @@ set_endpoint(query, endpoint, append = FALSE, reset_format = TRUE)
 set_grouping(query, grouping, ...)
 }
 \arguments{
-\item{query}{An \code{ohsome_query} object}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 
 \item{endpoint}{The path to the ohsome API endpoint. Either a single string
-(e.g. \code{"elements/count"}) or a character vector in the right order
-(e.g. \code{c("elements", "count")})}
+(e.g. \code{"elements/count"}) or a vector of character in the right order
+(e.g. \code{c("elements", "count")}).}
 
-\item{append}{logical; If true, the provided endpoint string is appended to  the
-existing endpoint definition instead of replacing it. This is
-particularly useful if you wish to add a groupBy to an existing
-aggregation query.}
+\item{append}{logical; If \code{TRUE}, the provided endpoint string is appended to
+the existing endpoint definition instead of replacing it. This is
+particularly useful if you wish to add  \code{density}/\code{ratio} and/or a grouping
+to an existing aggregation query.}
 
-\item{reset_format}{logical; if true, the format parameter of the query is updated
-depending on the new endpoint.}
+\item{reset_format}{logical; if \code{TRUE}, the format parameter of the query is
+updated depending on the new endpoint.}
 
 \item{grouping}{character; group type(s) for grouped aggregations (only
-available for queries to aggregation endpoints). In general, the following
-group types are available:
-\describe{
-\item{boundary}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
-\item{key}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
-\item{tag}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
-\item{type}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
-\item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
+available for queries to aggregation endpoints). The following group types
+are available:
+\itemize{
+\item \code{"boundary"} groups the result by the given boundaries that are defined
+through any of the \code{boundary} query parameters
+\item \code{"key"} groups the result by the given keys that are defined through the
+\code{groupByKeys} query parameter.
+\item \code{"tag"} groups the result by the given tags that are defined through the
+\code{groupByKey} and \code{groupByValues} query parameters.
+\item \code{"type"} groups the result by the given OSM, or simple feature types that
+are defined through the \code{types} parameter.
+\item \code{c("boundary", "tag")} groups the result by the given boundary and tags.
 }
-Not all of these group types are accepted by all of the aggregation
-endpoints. Please consult the
-\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
-to check for available group types.}
 
-\item{...}{Additional arguments passed to set_endpoint}
+Not all of these group types are accepted by all of the aggregation
+endpoints. Check
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{Grouping}
+for available group types.}
+
+\item{...}{Additional arguments passed to \code{set_endpoint()}}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Modify the endpoint of an existing \code{ohsome_query} object
+Modifies the endpoint of an existing \code{ohsome_query} object
 }
 \details{
-\code{set_endpoint()} takes an \code{ohsome_query} object and modifies the
-ohsome API endpoint. \code{set_grouping()} takes an \code{ohsome_query}
-object and modifies the endpoint path for grouped aggregations.
+\code{set_endpoint()} takes an \code{ohsome_query} object and modifies the ohsome API
+endpoint. \code{set_grouping()} takes an \code{ohsome_query} object and modifies the
+endpoint path for grouped aggregations.
 }
 \examples{
-q <- ohsome_elements_count(mapview::franconia, filter = "highway=*")
+# Query for count of elements
+q <- ohsome_elements_count(
+  osmdata::getbb("Berlin"),
+  time = "2022-01-01",
+  filter = "highway=*"
+)
 
+# Modify query to aggregate length of elements instead of count
 set_endpoint(q, "elements/length")
 
+# Modify query to extract geometries instead of aggregating elements
+set_endpoint(q, "elements/geometry")
+
+# Append the endpoint path in order to group aggregation by boundary
 set_endpoint(q, "groupBy/boundary", append = TRUE)
+
+# Modify query to group aggregation by boundary
 set_grouping(q, grouping = "boundary")
 
+# Modify query to group by boundary, but keep format csv instead of geojson
+set_grouping(q, grouping = "boundary", reset_format = FALSE)
+
+# Append the endpoint path to query for element densities per boundary
 set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
+
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/v1/}
+\href{https://docs.ohsome.org/ohsome-api/v1/endpoints.html}{ohsome API Endpoints}
 }
 \concept{Set endpoint}

@@ -9,7 +9,7 @@
 #' endpoints. Boundary objects are passed via [set_boundary()] into
 #' [ohsome_boundary()].
 #'
-#' @inheritParams ohsome_query
+#' @inherit ohsome_query params return
 #' @param aggregation character; aggregation operation
 #' @param return_value character; the value to be returned by the ohsome API:
 #'   * `"absolute"` returns the absolute number, length, perimeter or area of 
@@ -19,30 +19,41 @@
 #'   * `"ratio"` returns an absolute `value` for elements satisfying the 
 #'   `filter` argument, an absolute `value2` for elements satisfying the 
 #'   `filter2` argument, and the `ratio` of `value2` to `value`.
-#' @param time character; time parameter of the query (see 
-#'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
-#'   defaults to most recent available timestamp in the underlying OSHDB)
-#' @inherit ohsome_query return
+#' @param time character; `time` parameter of the query (see 
+#'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html)). 
+#'   This defaults to the most recent available timestamp in the underlying 
+#'   OSHDB.
 #' @seealso [ohsome API Endpoints - Elements Aggregation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation)
 #' @export
 #' @family Aggregate elements
 #' @examples
 #' # Count of breweries in Franconia
-#' ohsome_aggregate_elements(mapview::franconia, "count", filter = "craft=brewery")
-#' ohsome_elements_count(mapview::franconia, filter = "craft=brewery")
+#' ohsome_aggregate_elements(
+#'     mapview::franconia, 
+#'     aggregation = "count", 
+#'     filter = "craft=brewery",
+#'     time = "2022-01-01"
+#' )
+#'
+#' ohsome_elements_count(
+#'     mapview::franconia, 
+#'     filter = "craft=brewery",
+#'     time = "2022-01-01"
+#' )
 #' 
-#' # Monthly counts of breweries in Franconia from 2010 to 2020
+#' # Monthly counts of breweries in Franconia from 2012 to 2022
 #' ohsome_elements_count(
 #'     mapview::franconia, 
 #'     filter = "craft=brewery", 
-#'     time = "2010/2020/P1M"
+#'     time = "2012/2022/P1M"
 #' )
 #' 
 #' # Count of breweries per district of Franconia
 #' ohsome_elements_count(
 #'     mapview::franconia, 
 #'     filter = "craft=brewery", 
-#'     grouping = "boundary"
+#'     grouping = "boundary",
+#'     time = "2022-01-01"
 #' )
 #' 
 #' # Proportion of breweries in Franconia that are Microbreweries
@@ -50,11 +61,16 @@
 #'     mapview::franconia, 
 #'     filter = "craft=brewery", 
 #'     filter2 = "craft=brewery and microbrewery=yes", 
-#'     return_value = "ratio"
+#'     return_value = "ratio",
+#'     time = "2022-01-01"
 #' ) 
 #' 
 #' # Total length of highway elements in Franconia
-#' ohsome_elements_length(mapview::franconia, filter = "highway=* and geometry:line")
+#' ohsome_elements_length(
+#'     mapview::franconia, 
+#'     filter = "highway=* and geometry:line",
+#'     time = "2022-01-01"
+#' )
 #'
 ohsome_aggregate_elements <- function(
 	boundary = NULL,

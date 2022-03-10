@@ -7,7 +7,7 @@
 create_metadata_message(meta)
 }
 \arguments{
-\item{meta}{An ohsome_metadata object}
+\item{meta}{An \link{ohsome_metadata} object}
 }
 \value{
 character

@@ -3,11 +3,11 @@
 #' Creates an `ohsome_query` object specifying the ohsome API endpoint and
 #' the request parameters.
 #'
+#' @inheritParams ohsome_boundary
+#' @inheritParams ohsome_post
 #' @param endpoint The path to the ohsome API endpoint. Either a single string
 #'   (e.g. `"elements/count"`) or a vector of character in the right order
 #'   (e.g. `c("elements", "count")`).
-#' @param boundary A boundary object that can be interpreted by
-#'   [ohsome_boundary()].
 #' @param grouping character; group type(s) for grouped aggregations (only 
 #'   available for queries to aggregation endpoints). The following group types 
 #'   are available:
@@ -26,8 +26,6 @@
 #'   [Grouping](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
 #'   for available group types.
 #' @param ... Parameters of the request to the ohsome API endpoint.
-#' @param validate logical; if TRUE, issues warning for invalid endpoint or
-#'   invalid/missing query parameters.
 #' @return An `ohsome_query` object. The object can be sent to the ohsome API 
 #'   with [ohsome_post()]. It consists of the following elements:
 #'   * `url`: The URL of the endpoint.

@@ -11,8 +11,22 @@ ohsome_query(endpoint, boundary = NULL, grouping = NULL, ..., validate = FALSE)
 (e.g. \code{"elements/count"}) or a vector of character in the right order
 (e.g. \code{c("elements", "count")}).}
 
-\item{boundary}{A boundary object that can be interpreted by
-\code{\link[=ohsome_boundary]{ohsome_boundary()}}.}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
+}}
 
 \item{grouping}{character; group type(s) for grouped aggregations (only
 available for queries to aggregation endpoints). The following group types
@@ -36,7 +50,7 @@ for available group types.}
 
 \item{...}{Parameters of the request to the ohsome API endpoint.}
 
-\item{validate}{logical; if TRUE, issues warning for invalid endpoint or
+\item{validate}{logical; if \code{TRUE}, issues warning for invalid endpoint or
 invalid/missing query parameters.}
 }
 \value{

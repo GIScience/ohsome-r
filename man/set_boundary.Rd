@@ -7,48 +7,66 @@
 set_boundary(query, boundary = NULL, ...)
 }
 \arguments{
-\item{query}{An \code{ohsome_query} object}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 
-\item{boundary}{Bounding geometries that are passed to
-\code{\link{ohsome_boundary}}. Bounding geometries can be of class:
-\describe{
-\item{sf}{with (MULTI)POLYGON geometries}
-\item{sfc}{with (MULTI)POLYGON geometries}
-\item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
-\item{bbox}{created with \code{sf::st_bbox()} or \code{tmaptools::bb()}}
-\item{matrix}{created with
-\code{sp::bbox()} or
-\code{osmdata::getbb()}
-}
-\item{character}{a textual definition of bounding polygons, boxes or
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
-\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
 }}
 
-\item{...}{Additional arguments passed to \code{\link{ohsome_boundary}}. For
-boundaries of class \code{sf}, \code{digits} defines the number of
-decimal places of coordinates in the resulting GeoJSON (defaults to 6).
-Other arguments are ignored.}
+\item{...}{Additional arguments other than \code{digits} are ignored.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
 Set or modify the spatial filter of an existing \code{ohsome_query} object
 }
 \details{
-\code{set_boundary()} adds or modifies a spatial filter of an
-\code{ohsome_query} object. The spatial filter of a query to the ohsome API
-can be defined as one or more polygons, bounding boxes or bounding circles.
+\code{\link[=set_boundary]{set_boundary()}} adds a spatial filter to an \code{ohsome_query} object or
+replaces an exsting one. The spatial filter of a query to the ohsome API can
+be defined as one or more polygons, bounding boxes or bounding circles.
 }
 \examples{
+# Query without boundary definition
 q <- ohsome_query("elements/count/groupBy/boundary", filter = "building=*")
 
-set_boundary(q, mapview::franconia)
+# Use franconia from the mapview package as bounding polygons
+set_boundary(q, mapview::franconia, digits = 4)
+
+# Use the bounding box of franconia
 set_boundary(q, sf::st_bbox(mapview::franconia))
+
+\dontrun{
+# Get bounding box of the city of Kigali from OSM
 set_boundary(q, osmdata::getbb("Kigali"))
+}
+
+# Definition of two named bounding circles
 set_boundary(q, c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
+
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/v1/}
+\href{https://docs.ohsome.org/ohsome-api/v1/}{ohsome API documentation}
 }

@@ -7,15 +7,15 @@
 convert_metadata(parsed)
 }
 \arguments{
-\item{parsed}{The parsed content of a response object from the metadata endpoint of
-ohsome API}
+\item{parsed}{The parsed content of a response object from the metadata
+endpoint of ohsome API}
 }
 \value{
 A list (parsed and converted content of ohsome metadata)
 }
 \description{
-Converts the following elements: \code{apiVersion} to \code{numeric_version},
-\code{spatialExtent} to \code{sfc_POLYGON} and \code{temporalExtent} to a
-vector of \code{POSIXct}
+Converts the following elements of a response from the metadata endpoint of
+ohsome API: \code{apiVersion} to \code{numeric_version}, \code{spatialExtent} to
+\code{sfc_POLYGON} and \code{temporalExtent} to a vector of \code{POSIXct}
 }
 \keyword{Internal}

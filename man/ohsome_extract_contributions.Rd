@@ -24,54 +24,91 @@ ohsome_contributions_centroid(boundary = NULL, ...)
 ohsome_contributions_geometry(boundary = NULL, ...)
 }
 \arguments{
-\item{boundary}{Boundary object that can be interpreted by
-\code{\link{ohsome_boundary}}}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
+}}
 
-\item{geometryType}{Type of geometry to be extracted. Can be centroids
-(\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}.
-Default: \code{centroid}. Caveat: Node elements are omitted from results
-in queries for bounding boxes.}
+\item{geometryType}{character; type of geometry to be extracted:
+\itemize{
+\item \code{"centroid"},
+\item \code{"bboxes"} (bounding boxes), or
+\item \code{"geometry"}
+}
 
-\item{latest}{logical; if true, request only the latest state of the
-contributions provided to the OSM data.}
+Caveat: Node elements are omitted from results in queries for bounding
+boxes.}
 
-\item{time}{must consist of two ISO-8601 conform timestrings (as
-comma-separated character or as character vector of length two) defining
-a time interval (defaults to the temporal extent of the underlying OSHDB)}
+\item{latest}{logical; if \code{TRUE}, request only the latest contributions
+provided to each OSM element.}
 
-\item{properties}{Can be "tags" to extract all tags and/or "metadata" to
-provide metadata (\code{changesetId}, \code{lastEdit}, \code{osmType} and
-\code{version}) and/or "contributionTypes" to provide contribution types
-with the contributions. Multiple values can be provided as
-comma-separated character or as character vector.
-Default: NULL (provides \code{contributionChangesetId}, \code{osmId} and
-\code{timestamp} with the contribution geometries)}
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
+This defaults to the temporal extent of the underlying OSHDB.}
 
-\item{clipGeometry}{logical; specifies whether the returned geometries of the
-contributions should be clipped to the query’s spatial boundary}
+\item{properties}{character; properties to be extracted with the
+contributions:
+\itemize{
+\item \code{"tags"}, and/or
+\item \code{"metadata"} (i.e. \verb{@changesetId}, \verb{@lastEdit}, \verb{@osmType},
+\verb{@version}), and/or
+\item \code{"contributionTypes"} (i.e. \verb{@creation}, \verb{@tagChange}, \verb{@deletion}, and
+\verb{@geometryChange})
+}
 
-\item{...}{Parameters of the request to the ohsome API endpoint}
+Multiple values can be provided as comma-separated character or as
+character vector. This defaults to \code{NULL} (provides
+\verb{@contributionChangesetId}, \verb{@osmId} and \verb{@timestamp}).}
+
+\item{clipGeometry}{logical; specifies whether the returned geometries should
+be clipped to the query’s spatial boundary}
+
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Create an \code{ohsome_query} object for OSM contribution extraction
+Creates an \code{ohsome_query} object for OSM contribution extraction
 }
 \details{
-\code{ohsome_extract_contributionss} creates an \code{ohsome_query} object
-for OSM contribution extraction. \code{ohsome_contributions_bbox},
-\code{ohsome_contributions_centroid} and \code{ohsome_contributions_geometry}
+\code{ohsome_extract_contributions()} creates an \code{ohsome_query} object for OSM
+contribution extraction. \code{ohsome_contributions_bbox()},
+\code{ohsome_contributions_centroid()} and \code{ohsome_contributions_geometry()}
 are wrapper functions for specific contributions extraction endpoints.
-Boundary objects are passed via \code{\link{set_boundary}} into
-\code{\link{ohsome_boundary}}.
+Boundary objects are passed via \code{\link[=set_boundary]{set_boundary()}} into \code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
+# Extract contributions to man-made objects around "Null Island" with metadata:
+ohsome_contributions_geometry(
+    "0,0,10", 
+    filter = "man_made=*", 
+    time = "2022-01-01",
+    properties = "metadata"
+)
 
-# query to extract contributions to man-made features around "null island" with metadata:
-ohsome_contributions_geometry("0,0,10", filter = "man_made=*", properties = "metadata")
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#contributions-extraction}
+\href{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#contributions-extraction}{ohsome API Endpoints -- Contributions Extraction}
 }
 \concept{Extract contributions}

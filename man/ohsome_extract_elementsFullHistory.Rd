@@ -23,56 +23,86 @@ ohsome_elementsFullHistory_centroid(boundary = NULL, ...)
 ohsome_elementsFullHistory_geometry(boundary = NULL, ...)
 }
 \arguments{
-\item{boundary}{Boundary object that can be interpreted by
-\code{\link{ohsome_boundary}}}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
+}}
 
-\item{geometryType}{Type of geometry to be extracted. Can be centroids
-(\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}.
-Default: \code{centroid}. Caveat: Node elements are omitted from results
-in queries for bounding boxes.}
+\item{geometryType}{character; type of geometry to be extracted:
+\itemize{
+\item \code{"centroid"},
+\item \code{"bboxes"} (bounding boxes), or
+\item \code{"geometry"}
+}
 
-\item{time}{must consist of two ISO-8601 conform timestrings (as
-comma-separated character or as character vector of length two) defining
-a time interval (defaults to the temporal extent of the underlying OSHDB)}
+Caveat: Node elements are omitted from results in queries for bounding
+boxes.}
 
-\item{properties}{Can be "tags" to extract all tags with the elements and/or
-"metadata" to provide metadata (\code{changesetId}, \code{lastEdit},
-\code{osmType} and \code{version}) with the elements. Multiple values
-can be provided as comma-separated character or as character vector.
-Default: NULL (only provides \code{osmId} with the elements)}
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
+This defaults to the temporal extent of the underlying OSHDB.}
 
-\item{clipGeometry}{logical; specifies whether the returned geometries of the
-features should be clipped to the query’s spatial boundary}
+\item{properties}{character; properties to be extracted with the features:
+\itemize{
+\item \code{"tags"}, and/or
+\item \code{"metadata"} (i.e. \verb{@changesetId}, \verb{@lastEdit}, \verb{@osmType}, and
+\verb{@version})
+}
 
-\item{...}{Parameters of the request to the ohsome API endpoint}
+Multiple values can be provided as comma-separated character or as
+character vector. This defaults to \code{NULL} (provides \verb{@osmId}).}
+
+\item{clipGeometry}{logical; specifies whether the returned geometries should
+be clipped to the query’s spatial boundary}
+
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Create an \code{ohsome_query} object for the extraction of OSM elements' full
+Creates an \code{ohsome_query} object for the extraction of OSM elements' full
 history
 }
 \details{
-\code{ohsome_extract_elementsFullHistory} creates an \code{ohsome_query}
-object for OSM element full history extraction.
-\code{ohsome_elementsFullHistory_bbox},
-\code{ohsome_elementsFullHistory_centroid} and
-\code{ohsome_elementsFullHistory_geometry} are wrapper functions for specific
+\code{ohsome_extract_elementsFullHistory()} creates an \code{ohsome_query} object for OSM
+element full history extraction. \code{ohsome_elementsFullHistory_bbox()},
+\code{ohsome_elementsFullHistory_centroid()} and
+\code{ohsome_elementsFullHistory_geometry()} are wrapper functions for specific
 elementsFullHistory extraction endpoints. Boundary objects are passed via
-\code{\link{set_boundary}} into \code{\link{ohsome_boundary}}.
+\code{\link[=set_boundary]{set_boundary()}} into \code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
 
-# query to extract full history of building geometries around Heidelberg 
-# main station:
+# Extract full history of building geometries around Heidelberg main station:
 ohsome_elementsFullHistory_geometry(
-    boundary = "8.67542,49.40347,1000", 
-    filter = "building=* and type:way", 
+    boundary = "8.67542,49.40347,1000",
+    time = "2012,2022", 
+    filter = "building=* and type:way",
     clipGeometry = FALSE
 )
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#elements-full-history-extraction}
+\href{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#elements-full-history-extraction}{ohsome API Endpoints -- Elements Full History Extraction}
 }
 \concept{Extract elements full History}

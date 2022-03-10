@@ -1,7 +1,6 @@
 #' Build URL to an ohsome API endpoint
 #'
 #' @param endpoint character (atomic or vector)
-#'
 #' @return character
 #' @keywords Internal
 build_endpoint_url <- function(endpoint) {
@@ -16,10 +15,9 @@ build_endpoint_url <- function(endpoint) {
 
 #' Convert spatialExtent of ohsome metadata
 #'
-#' @param spatialExtent The \code{$extractRegion$spatialExtent} element of the
-#'     parsed content of a response from the metadata endpoint of ohsome API
-#'
-#' @return An \code{sfc_POLYGON} object
+#' @param spatialExtent The `$extractRegion$spatialExtent` element of the
+#'   parsed content of a response from the metadata endpoint of ohsome API
+#' @return An `sfc_POLYGON` object
 #' @keywords Internal
 convert_spatialExtent <- function(spatialExtent) {
 
@@ -32,10 +30,9 @@ convert_spatialExtent <- function(spatialExtent) {
 
 #' Convert temporalExtent of ohsome metadata
 #'
-#' @param temporalExtent The \code{$extractRegion$temporalExtent} element of the
-#'     parsed content of a response from the metadata endpoint of ohsome API
-#'
-#' @return A \code{POSIXct} vector
+#' @param temporalExtent The `$extractRegion$temporalExtent` element of the
+#'   parsed content of a response from the metadata endpoint of ohsome API
+#' @return A `POSIXct` vector
 #' @keywords Internal
 convert_temporalExtent <- function(temporalExtent) {
 	lubridate::ymd_hms(unlist(temporalExtent), truncated = 3)
@@ -44,13 +41,12 @@ convert_temporalExtent <- function(temporalExtent) {
 
 #' Convert ohsome metadata content
 #'
-#' Converts the following elements: \code{apiVersion} to \code{numeric_version},
-#' \code{spatialExtent} to \code{sfc_POLYGON} and \code{temporalExtent} to a
-#' vector of \code{POSIXct}
+#' Converts the following elements of a response from the metadata endpoint of 
+#' ohsome API: `apiVersion` to `numeric_version`, `spatialExtent` to 
+#' `sfc_POLYGON` and `temporalExtent` to a vector of `POSIXct`
 #'
-#' @param parsed The parsed content of a response object from the metadata endpoint of
-#'     ohsome API
-#'
+#' @param parsed The parsed content of a response object from the metadata 
+#'   endpoint of ohsome API
 #' @return A list (parsed and converted content of ohsome metadata)
 #' @keywords Internal
 convert_metadata <- function(parsed) {
@@ -68,10 +64,9 @@ convert_metadata <- function(parsed) {
 
 #' Create metadata message
 #'
-#' Creates a message text from a \code{ohsome_metadata} object.
+#' Creates a message text from a `ohsome_metadata` object.
 #'
-#' @param meta An ohsome_metadata object
-#'
+#' @param meta An [ohsome_metadata] object
 #' @return character
 #' @keywords Internal
 create_metadata_message  <- function(meta) {
@@ -88,8 +83,8 @@ create_metadata_message  <- function(meta) {
 
 #' Extract endpoint
 #'
-#' Extract the API endpoint path from the URL in an ohsome_query object
-#' @param query an ohsome_query object
+#' Extracts the API endpoint path from the URL in an `ohsome_query` object
+#' @inheritParams ohsome_post
 #' @return character
 #' @keywords Internal
 extract_endpoint <- function(query) {
@@ -99,11 +94,10 @@ extract_endpoint <- function(query) {
 
 #' Type convert without message
 #'
-#' Converts type of data.frame columns with \code{readr::type_convert()} while
+#' Converts type of data.frame columns with [readr::type_convert()] while
 #' suppressing messages
 #'
 #' @param df data.frame
-#'
 #' @return data.frame
 #' @keywords Internal
 convert_quietly <- function(df) suppressMessages(readr::type_convert(df))

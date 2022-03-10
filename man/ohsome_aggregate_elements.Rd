@@ -26,8 +26,22 @@ ohsome_elements_perimeter(boundary = NULL, ...)
 ohsome_elements_area(boundary = NULL, ...)
 }
 \arguments{
-\item{boundary}{A boundary object that can be interpreted by
-\code{\link[=ohsome_boundary]{ohsome_boundary()}}.}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
+}}
 
 \item{aggregation}{character; aggregation operation}
 
@@ -62,9 +76,10 @@ endpoints. Check
 \href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{Grouping}
 for available group types.}
 
-\item{time}{character; time parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
-defaults to most recent available timestamp in the underlying OSHDB)}
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
+This defaults to the most recent available timestamp in the underlying
+OSHDB.}
 
 \item{...}{Parameters of the request to the ohsome API endpoint.}
 }
@@ -92,21 +107,32 @@ endpoints. Boundary objects are passed via \code{\link[=set_boundary]{set_bounda
 }
 \examples{
 # Count of breweries in Franconia
-ohsome_aggregate_elements(mapview::franconia, "count", filter = "craft=brewery")
-ohsome_elements_count(mapview::franconia, filter = "craft=brewery")
+ohsome_aggregate_elements(
+    mapview::franconia, 
+    aggregation = "count", 
+    filter = "craft=brewery",
+    time = "2022-01-01"
+)
 
-# Monthly counts of breweries in Franconia from 2010 to 2020
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery",
+    time = "2022-01-01"
+)
+
+# Monthly counts of breweries in Franconia from 2012 to 2022
 ohsome_elements_count(
     mapview::franconia, 
     filter = "craft=brewery", 
-    time = "2010/2020/P1M"
+    time = "2012/2022/P1M"
 )
 
 # Count of breweries per district of Franconia
 ohsome_elements_count(
     mapview::franconia, 
     filter = "craft=brewery", 
-    grouping = "boundary"
+    grouping = "boundary",
+    time = "2022-01-01"
 )
 
 # Proportion of breweries in Franconia that are Microbreweries
@@ -114,11 +140,16 @@ ohsome_elements_count(
     mapview::franconia, 
     filter = "craft=brewery", 
     filter2 = "craft=brewery and microbrewery=yes", 
-    return_value = "ratio"
+    return_value = "ratio",
+    time = "2022-01-01"
 ) 
 
 # Total length of highway elements in Franconia
-ohsome_elements_length(mapview::franconia, filter = "highway=* and geometry:line")
+ohsome_elements_length(
+    mapview::franconia, 
+    filter = "highway=* and geometry:line",
+    time = "2022-01-01"
+)
 
 }
 \seealso{

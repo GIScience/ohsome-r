@@ -7,7 +7,7 @@
 convert_spatialExtent(spatialExtent)
 }
 \arguments{
-\item{spatialExtent}{The \code{$extractRegion$spatialExtent} element of the
+\item{spatialExtent}{The \verb{$extractRegion$spatialExtent} element of the
 parsed content of a response from the metadata endpoint of ohsome API}
 }
 \value{

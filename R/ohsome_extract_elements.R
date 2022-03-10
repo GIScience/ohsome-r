@@ -1,42 +1,43 @@
 #' Extract OSM elements
 #'
-#' Create an \code{ohsome_query} object for OSM element extraction
+#' Create an `ohsome_query` object for OSM element extraction
 #'
-#' \code{ohsome_extract_elements} creates an \code{ohsome_query} object for
-#' OSM element extraction. \code{ohsome_elements_bbox},
-#' \code{ohsome_elements_centroid} and \code{ohsome_elements_geometry} are 
-#' wrapper functions for specific elements extraction endpoints. Boundary 
-#' objects are passed via \code{\link{set_boundary}} into 
-#' \code{\link{ohsome_boundary}}.
+#' `ohsome_extract_elements()` creates an `ohsome_query` object for OSM element 
+#' extraction. `ohsome_elements_bbox()`, `ohsome_elements_centroid()` and 
+#' `ohsome_elements_geometry()` are wrapper functions for specific elements 
+#' extraction endpoints. Boundary objects are passed via [set_boundary()] into 
+#' [ohsome_boundary()].
 #'
-#' @param boundary Boundary object that can be interpreted by
-#'     \code{\link{ohsome_boundary}}
-#' @param geometryType Type of geometry to be extracted. Can be centroids 
-#'     (\code{centroid}, bounding boxes (\code{bbox}) or \code{geometry}. 
-#'     Default: \code{centroid}. Caveat: Node elements are omitted from results 
-#'     in queries for bounding boxes. 
-#' @param time character; time parameter of the query (see 
-#'     [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
-#'     defaults to most recent available timestamp in the underlying OSHDB)
-#' @param properties Can be "tags" to extract all tags with the elements and/or
-#'     "metadata" to provide metadata (\code{changesetId}, \code{lastEdit}, 
-#'     \code{osmType} and \code{version}) with the elements. Multiple values 
-#'     can be provided as comma-separated character or as character vector. 
-#'     Default: NULL (only provides \code{osmId} with the elements)
-#' @param clipGeometry logical; specifies whether the returned geometries of the 
-#'     features should be clipped to the query’s spatial boundary
-#' @param ... Parameters of the request to the ohsome API endpoint
-#'
+#' @inherit ohsome_query params return
+#' @inheritParams ohsome_aggregate_elements
+#' @param geometryType character; type of geometry to be extracted: 
+#'   * `"centroid"`,
+#'   * `"bboxes"` (bounding boxes), or
+#'   * `"geometry"`
+#'   
+#'   Caveat: Node elements are omitted from results in queries for bounding 
+#'   boxes. 
+#' @param properties character; properties to be extracted with the features:
+#'   * `"tags"`, and/or 
+#'   * `"metadata"` (i.e. `@changesetId`, `@lastEdit`, `@osmType`, and
+#'   `@version`)
+#'   
+#'   Multiple values can be provided as comma-separated character or as 
+#'   character vector. This defaults to `NULL` (provides `@osmId`).
+#' @param clipGeometry logical; specifies whether the returned geometries should 
+#'   be clipped to the query’s spatial boundary
 #' @family Extract elements
-#' @return An \code{ohsome_query} object
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction}
+#' @seealso [ohsome API Endpoints -- Elements Extraction](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction)
 #' @export
 #' @examples
+#' # Extract geometries, metadata and tags man-made objects around "Null Island":
+#' ohsome_elements_geometry(
+#'     "0,0,10", 
+#'     filter = "man_made=*", 
+#'     time = "2022-01-01",
+#'     properties = c("metadata", "tags")
+#' )
 #' 
-#' # query to extract geometries, metadata and tags of all elements with 
-#' # man_made tag around "null island":
-#' ohsome_elements_geometry("0,0,10", filter = "man_made=*", properties = c("metadata", "tags"))
-
 ohsome_extract_elements <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),

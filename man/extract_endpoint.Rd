@@ -7,12 +7,13 @@
 extract_endpoint(query)
 }
 \arguments{
-\item{query}{an ohsome_query object}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 }
 \value{
 character
 }
 \description{
-Extract the API endpoint path from the URL in an ohsome_query object
+Extracts the API endpoint path from the URL in an \code{ohsome_query} object
 }
 \keyword{Internal}

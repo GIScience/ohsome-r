@@ -13,7 +13,7 @@ convert_quietly(df)
 data.frame
 }
 \description{
-Converts type of data.frame columns with \code{readr::type_convert()} while
+Converts type of data.frame columns with \code{\link[readr:type_convert]{readr::type_convert()}} while
 suppressing messages
 }
 \keyword{Internal}

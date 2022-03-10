@@ -13,41 +13,71 @@ ohsome_contributions_count(
 )
 }
 \arguments{
-\item{boundary}{Boundary object that can be interpreted by
-\code{\link{ohsome_boundary}}}
-
-\item{latest}{logical; if true, request the count of only the latest
-contributions provided to the OSM data.}
-
-\item{return_value}{character; the value to be returned by the ohsome API:
-\describe{
-\item{absolute}{Returns the absolute number of contributions (default).}
-\item{density}{Returns the number of contributions per square kilometer.}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
 }}
 
-\item{time}{character; time parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
-defaults to the temporal extent of the underlying OSHDB)}
+\item{latest}{logical; if \code{TRUE}, request only the latest contributions
+provided to each OSM element.}
 
-\item{...}{Parameters of the request to the ohsome API endpoint}
+\item{return_value}{character; the value to be returned by the ohsome API:
+\itemize{
+\item \code{"absolute"} returns the absolute number of contributions. This is the
+default.
+\item \code{"density"} returns the number of contributions per square kilometer.
+}}
+
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
+This defaults to the temporal extent of the underlying OSHDB.}
+
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Create an \code{ohsome_query} object for OSM contributions count
+Creates an \code{ohsome_query} object for OSM contributions count
 }
 \details{
-\code{ohsome_contributions_count} creates an \code{ohsome_query} object for
-OSM element aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
-\code{\link{ohsome_boundary}}.
+\code{ohsome_contributions_count()} creates an \code{ohsome_query} object for
+OSM element aggregation. Boundary objects are passed via \code{\link[=set_boundary]{set_boundary()}}
+into \code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
-
+# Monthly counts of contributions of man-made objects around "Null Island"
 ohsome_contributions_count("0,0,10", filter = "man_made=*", time = "2010/2020/P1Y")
-ohsome_contributions_count("0,0,10", latest = TRUE, filter = "man_made=*", time = "2010/2020/P1Y")
+
+# Monthly counts of latest contributions of man-made objects around "Null Island"
+ohsome_contributions_count(
+    "0,0,10", 
+    latest = TRUE, 
+    filter = "man_made=*", 
+    time = "2010/2020/P1Y"
+)
 
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#users-aggregation}
+\href{https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation}{ohsome API Endpoints - Contributions Aggregation}
 }

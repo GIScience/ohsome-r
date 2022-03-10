@@ -1,49 +1,49 @@
 #' Set endpoint
 #'
-#' Modify the endpoint of an existing \code{ohsome_query} object
+#' Modifies the endpoint of an existing `ohsome_query` object
 #'
-#' \code{set_endpoint()} takes an \code{ohsome_query} object and modifies the
-#' ohsome API endpoint. \code{set_grouping()} takes an \code{ohsome_query} 
-#' object and modifies the endpoint path for grouped aggregations.
+#' `set_endpoint()` takes an `ohsome_query` object and modifies the ohsome API 
+#' endpoint. `set_grouping()` takes an `ohsome_query` object and modifies the 
+#' endpoint path for grouped aggregations.
 #'
-#' @param query An \code{ohsome_query} object
-#' @param endpoint The path to the ohsome API endpoint. Either a single string
-#'     (e.g. \code{"elements/count"}) or a character vector in the right order
-#'     (e.g. \code{c("elements", "count")})
-#' @param append logical; If true, the provided endpoint string is appended to  the
-#'     existing endpoint definition instead of replacing it. This is
-#'     particularly useful if you wish to add a groupBy to an existing
-#'     aggregation query.
-#' @param reset_format logical; if true, the format parameter of the query is updated
-#'     depending on the new endpoint.
-#' @param grouping character; group type(s) for grouped aggregations (only 
-#' available for queries to aggregation endpoints). In general, the following
-#' group types are available:
-#' \describe{
-#'         \item{boundary}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
-#'         \item{key}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
-#'         \item{tag}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
-#'         \item{type}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
-#'         \item{c("boundary", "tag")}{Groups the result by the given boundary and the tags.}
-#' }
-#' Not all of these group types are accepted by all of the aggregation 
-#' endpoints. Please consult the 
-#' [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
-#' to check for available group types.
-#' @param ... Additional arguments passed to set_endpoint
+#' @inherit ohsome_query params return
+#' @inheritParams ohsome_post
+#' @param append logical; If `TRUE`, the provided endpoint string is appended to  
+#'   the existing endpoint definition instead of replacing it. This is 
+#'   particularly useful if you wish to add  `density`/`ratio` and/or a grouping
+#'   to an existing aggregation query.
+#' @param reset_format logical; if `TRUE`, the format parameter of the query is 
+#'   updated depending on the new endpoint.
+#' @param ... Additional arguments passed to `set_endpoint()`
 #' @family Set endpoint
-#' @return An \code{ohsome_query} object
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
+#' @seealso [ohsome API Endpoints](https://docs.ohsome.org/ohsome-api/v1/endpoints.html)
 #' @export
 #' @examples
-#' q <- ohsome_elements_count(mapview::franconia, filter = "highway=*")
+#' # Query for count of elements
+#' q <- ohsome_elements_count(
+#'   osmdata::getbb("Berlin"),
+#'   time = "2022-01-01",
+#'   filter = "highway=*"
+#' )
 #'
+#' # Modify query to aggregate length of elements instead of count
 #' set_endpoint(q, "elements/length")
 #' 
+#' # Modify query to extract geometries instead of aggregating elements
+#' set_endpoint(q, "elements/geometry")
+#' 
+#' # Append the endpoint path in order to group aggregation by boundary
 #' set_endpoint(q, "groupBy/boundary", append = TRUE)
+#' 
+#' # Modify query to group aggregation by boundary
 #' set_grouping(q, grouping = "boundary")
 #' 
+#' # Modify query to group by boundary, but keep format csv instead of geojson
+#' set_grouping(q, grouping = "boundary", reset_format = FALSE)
+#' 
+#' # Append the endpoint path to query for element densities per boundary
 #' set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
+#' 
 set_endpoint <- function(query,	endpoint, append = FALSE, reset_format = TRUE) {
 
 	if(append) {

@@ -17,45 +17,52 @@ ohsome_sf(response, omit_empty = TRUE)
 ohsome_df(response, omit_empty = TRUE)
 }
 \arguments{
-\item{response}{A response object}
+\item{response}{An \code{ohsome_response} object}
 
-\item{returnclass}{One of the following:
-\describe{
-\item{default}{returns \code{sf} if ohsome API response is GeoJSON,
-else a \code{data.frame}}
-\item{sf}{returns \code{sf} if ohsome API response is GeoJSON,
-else issues a warning and returns a \code{data.frame}}
-\item{data.frame}{returns a \code{data.frame}}
-\item{list}{returns a \code{list}}
-\item{character}{returns the ohsome API response as text (JSON or
-semicolon-separated values)}
+\item{returnclass}{character; one of the following:
+\itemize{
+\item \code{"default"} returns \code{sf} if the \code{ohsome_response} contains GeoJSON, or
+else a \code{data.frame}.
+\item \code{"sf"} returns \code{sf} if the \code{ohsome_response} contains GeoJSON, else
+issues a warning and returns a \code{data.frame}.
+\item \code{"data.frame"} returns a \code{data.frame}.
+\item \code{"list"} returns a \code{list}.
+\item \code{"character"} returns the ohsome API response body as text (JSON or
+semicolon-separated values)
 }}
 
-\item{omit_empty}{logical; omit features with empty geometries
-(only if returnclass="sf")}
+\item{omit_empty}{logical; omit features with empty geometries (only if
+\code{returnclass = "sf"})}
 }
 \value{
-A list (if the response is of type "application/json"), an sf
-object (if the response is of type "application/geo+json") or a
-data.frame (if the response is of type "text/csv")
+An \code{sf} object, a \code{data.frame}, a \code{list} or a \code{character}
 }
 \description{
-Extract and parse the content from an ohsome API response
+Extracts and parses the content from an ohsome API response
 }
 \details{
-\code{ohsome_parse()} parses an \code{ohsome_response} object into
-an object of the specified class. By default, this is an \code{sf} object if
-the ohsome API response contains GeoJSON data or a \code{data.frame} if it
-does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
+\code{ohsome_parse()} parses an \code{ohsome_response} object into an object of the
+specified class. By default, this is an \code{sf} object if the ohsome API
+response contains GeoJSON data or else a \code{data.frame}. \code{ohsome_sf()} and
+\code{ohsome_df()} wrapper functions for specific return classes.
 }
 \examples{
-r <- ohsome_query("elements/centroid", filter = "amenity=*", properties = "tags") |>
+\dontrun{
+# Create and send a query to ohsome API
+r <- ohsome_query("elements/centroid", filter = "amenity=*") |>
     set_boundary(osmdata::getbb("Heidelberg")) |>
     set_time("2021") |>
     ohsome_post(parse = FALSE)
 
+# Parse response to object of default class (here: sf)
 ohsome_parse(r)
+
+# Parse response to data.frame
 ohsome_df(r)
+
+# Parse response to sf
 ohsome_sf(r)
+}
+
 }
 \concept{Extract and parse the content from an ohsome API response}

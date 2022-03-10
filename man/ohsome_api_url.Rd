@@ -6,9 +6,9 @@
 \title{ohsome API URL}
 \format{
 A list:
-\describe{
-\item{base}{base URL (character)}
-\item{version}{path to current major API version (character)}
+\itemize{
+\item \code{base}: character; base URL
+\item \code{version}: character; path to current major API version
 }
 }
 \description{

@@ -7,14 +7,14 @@
 validate_query(query)
 }
 \arguments{
-\item{query}{an ohsome_query object constructed with ohsome_query()
-or any of its wrapper functions}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 }
 \value{
 logical
 }
 \description{
-Validates an ohsome_query object by checking against ohsome_endpoints. Returns
-a logical that indicates the validity of the query.
+Validates an ohsome_query object by checking against \link{ohsome_endpoints}.
+Returns a logical that indicates the validity of the query.
 }
 \keyword{Internal}

@@ -1,32 +1,35 @@
 #' Count OSM contributions
 #'
-#' Create an \code{ohsome_query} object for OSM contributions count
+#' Creates an `ohsome_query` object for OSM contributions count
 #'
-#' \code{ohsome_contributions_count} creates an \code{ohsome_query} object for
-#' OSM element aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
-#' \code{\link{ohsome_boundary}}.
+#' `ohsome_contributions_count()` creates an `ohsome_query` object for
+#' OSM element aggregation. Boundary objects are passed via [set_boundary()] 
+#' into [ohsome_boundary()].
 #'
-#' @param boundary Boundary object that can be interpreted by
-#'     \code{\link{ohsome_boundary}}
-#' @param latest logical; if true, request the count of only the latest 
-#' contributions provided to the OSM data.
+#' @inherit ohsome_query params return
+#' @param latest logical; if `TRUE`, request only the latest contributions 
+#'   provided to each OSM element.
 #' @param return_value character; the value to be returned by the ohsome API:
-#'  \describe{
-#'         \item{absolute}{Returns the absolute number of contributions (default).}
-#'         \item{density}{Returns the number of contributions per square kilometer.}
-#' }
-#' @param time character; time parameter of the query (see 
-#'     [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html); 
-#'     defaults to the temporal extent of the underlying OSHDB)
-#' @param ... Parameters of the request to the ohsome API endpoint
-#'
-#' @return An \code{ohsome_query} object
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#users-aggregation}
+#'   * `"absolute"` returns the absolute number of contributions. This is the
+#'    default.
+#'   * `"density"` returns the number of contributions per square kilometer.
+#' @param time character; `time` parameter of the query (see 
+#'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html)). 
+#'   This defaults to the temporal extent of the underlying OSHDB.
+#' @inherit ohsome_query return
+#' @seealso [ohsome API Endpoints - Contributions Aggregation](https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation)
 #' @export
 #' @examples
-#'
+#' # Monthly counts of contributions of man-made objects around "Null Island"
 #' ohsome_contributions_count("0,0,10", filter = "man_made=*", time = "2010/2020/P1Y")
-#' ohsome_contributions_count("0,0,10", latest = TRUE, filter = "man_made=*", time = "2010/2020/P1Y")
+#' 
+#' # Monthly counts of latest contributions of man-made objects around "Null Island"
+#' ohsome_contributions_count(
+#'     "0,0,10", 
+#'     latest = TRUE, 
+#'     filter = "man_made=*", 
+#'     time = "2010/2020/P1Y"
+#' )
 #'
 ohsome_contributions_count <- function(
 	boundary = NULL,

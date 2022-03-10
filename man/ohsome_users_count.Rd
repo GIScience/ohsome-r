@@ -13,50 +13,80 @@ ohsome_users_count(
 )
 }
 \arguments{
-\item{boundary}{Boundary object that can be interpreted by
-\code{\link{ohsome_boundary}}}
-
-\item{return_value}{character; the value to be returned by the ohsome API:
-\describe{
-\item{absolute}{Returns the absolute number of users (default).}
-\item{density}{Returns the number of users per square kilometer.}
+\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
+The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
+known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
 }}
 
-\item{grouping}{character; group type(s) for grouped user aggregation. The
-following group types are available:
-\describe{
-\item{boundary}{Groups the result by the given boundaries that are defined through any of the boundary query parameters}
-\item{key}{Groups the result by the given keys that are defined through the groupByKeys query parameter.}
-\item{tag}{Groups the result by the given tags that are defined through the groupByKey and groupByValues query parameters.}
-\item{type}{Groups the result by the given OSM, or simple feature types that are defined through the types parameter.}
+\item{return_value}{character; the value to be returned by the ohsome API:
+\itemize{
+\item \code{"absolute"} returns the absolute number of contributions. This is the
+default.
+\item \code{"density"} returns the number of contributions per square kilometer.
+}}
+
+\item{grouping}{character; group type(s) for grouped aggregations (only
+available for queries to aggregation endpoints). The following group types
+are available:
+\itemize{
+\item \code{"boundary"} groups the result by the given boundaries that are defined
+through any of the \code{boundary} query parameters
+\item \code{"key"} groups the result by the given keys that are defined through the
+\code{groupByKeys} query parameter.
+\item \code{"tag"} groups the result by the given tags that are defined through the
+\code{groupByKey} and \code{groupByValues} query parameters.
+\item \code{"type"} groups the result by the given OSM, or simple feature types that
+are defined through the \code{types} parameter.
+\item \code{c("boundary", "tag")} groups the result by the given boundary and tags.
 }
-Not all of these group types are accepted by all of the user aggregation
-endpoints. Please consult the
-\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{ohsome API documentation}
-to check for available group types.}
 
-\item{time}{character; time parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats};
-defaults to the temporal extent of the underlying OSHDB)}
+Not all of these group types are accepted by all of the aggregation
+endpoints. Check
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{Grouping}
+for available group types.}
 
-\item{...}{Parameters of the request to the ohsome API endpoint}
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
+This defaults to the temporal extent of the underlying OSHDB.}
+
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
 Create an \code{ohsome_query} object for OSM users count
 }
 \details{
-\code{ohsome_users_count} creates an \code{ohsome_query} object for
-OSM users aggregation. Boundary objects are passed via \code{\link{set_boundary}} into
-\code{\link{ohsome_boundary}}.
+\code{ohsome_users_count()} creates an \code{ohsome_query} object for OSM users
+aggregation. Boundary objects are passed via \code{\link[=set_boundary]{set_boundary()}} into
+\code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
-
-ohsome_users_count("0,0,10", filter = "man_made=*", time = "2010/2020/P1Y")
+# Yearly count of users contributing to man-made objects around "Null Island"
+ohsome_users_count("0,0,10", filter = "man_made=*", time = "2012/2022/P1Y")
 
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#users-aggregation}
+\href{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#users-aggregation}{ohsome API Endpoints -- Users Aggregation}
 }

@@ -1,40 +1,45 @@
 #' Parse content from an ohsome API response
 #'
-#' Extract and parse the content from an ohsome API response
+#' Extracts and parses the content from an ohsome API response
 #'
-#' \code{ohsome_parse()} parses an \code{ohsome_response} object into
-#' an object of the specified class. By default, this is an \code{sf} object if
-#' the ohsome API response contains GeoJSON data or a \code{data.frame} if it
-#' does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
+#' `ohsome_parse()` parses an `ohsome_response` object into an object of the 
+#' specified class. By default, this is an `sf` object if the ohsome API 
+#' response contains GeoJSON data or else a `data.frame`. `ohsome_sf()` and 
+#' `ohsome_df()` wrapper functions for specific return classes.
 #'
-#' @param response A response object
-#' @param returnclass One of the following:
-#'     \describe{
-#'         \item{default}{returns \code{sf} if ohsome API response is GeoJSON,
-#'             else a \code{data.frame}}
-#'         \item{sf}{returns \code{sf} if ohsome API response is GeoJSON,
-#'             else issues a warning and returns a \code{data.frame}}
-#'         \item{data.frame}{returns a \code{data.frame}}
-#'         \item{list}{returns a \code{list}}
-#'         \item{character}{returns the ohsome API response as text (JSON or
-#'             semicolon-separated values)}
-#'     }
-#' @param omit_empty logical; omit features with empty geometries 
-#'     (only if returnclass="sf")
+#' @param response An `ohsome_response` object
+#' @param returnclass character; one of the following:
+#'   * `"default"` returns `sf` if the `ohsome_response` contains GeoJSON, or 
+#'   else a `data.frame`.
+#'   * `"sf"` returns `sf` if the `ohsome_response` contains GeoJSON, else 
+#'   issues a warning and returns a `data.frame`.
+#'   * `"data.frame"` returns a `data.frame`.
+#'   * `"list"` returns a `list`.
+#'   * `"character"` returns the ohsome API response body as text (JSON or
+#'   semicolon-separated values)
+#' @param omit_empty logical; omit features with empty geometries (only if 
+#'   `returnclass = "sf"`)
 #' @family Extract and parse the content from an ohsome API response
-#' @return A list (if the response is of type "application/json"), an sf
-#'     object (if the response is of type "application/geo+json") or a
-#'     data.frame (if the response is of type "text/csv")
+#' @return An `sf` object, a `data.frame`, a `list` or a `character`
 #' @export
 #' @examples
-#' r <- ohsome_query("elements/centroid", filter = "amenity=*", properties = "tags") |>
+#' \dontrun{
+#' # Create and send a query to ohsome API
+#' r <- ohsome_query("elements/centroid", filter = "amenity=*") |>
 #'     set_boundary(osmdata::getbb("Heidelberg")) |>
 #'     set_time("2021") |>
 #'     ohsome_post(parse = FALSE)
 #'
+#' # Parse response to object of default class (here: sf)
 #' ohsome_parse(r)
+#' 
+#' # Parse response to data.frame
 #' ohsome_df(r)
+#' 
+#' # Parse response to sf
 #' ohsome_sf(r)
+#' }
+#' 
 ohsome_parse <- function(
 	response,
 	returnclass = c("default", "sf", "data.frame", "list", "character"),

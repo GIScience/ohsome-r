@@ -4,10 +4,10 @@
 #' warning if not. Returns a logical that indicates the validity of the
 #' parameters.
 #'
+#' @inherit validate_query return
 #' @param endpoint The path to the ohsome API endpoint as a single string
-#'     (e.g. \code{"elements/count"})
+#'   (e.g. `"elements/count"`)
 #' @param body A list of named parameters to the ohsome API request
-#' @return logical
 #' @keywords Internal
 validate_parameters <- function(endpoint, body) {
 	
@@ -91,12 +91,11 @@ validate_parameters <- function(endpoint, body) {
 #'
 #' Checks if the specified endpoint is in the list of known ohsome API endpoints
 #' and issues a warning if not. Specifically checks for invalid groupings in 
-#' endpoint path. Silently returns a logical that indicates the
-#' validity of the endpoint.
+#' the endpoint path. Silently returns a logical that indicates the validity of 
+#' the endpoint.
 #'
-#' @param endpoint The path to the ohsome API endpoint as a single string
-#'      (e.g. \code{"elements/count"})
-#' @return logical
+#' @inheritParams validate_parameters
+#' @inherit validate_query return
 #' @keywords Internal
 validate_endpoint <- function(endpoint) {
 	
@@ -139,11 +138,10 @@ validate_endpoint <- function(endpoint) {
 
 #' Validate ohsome_query
 #'
-#' Validates an ohsome_query object by checking against ohsome_endpoints. Returns 
-#' a logical that indicates the validity of the query. 
+#' Validates an ohsome_query object by checking against [ohsome_endpoints]. 
+#' Returns a logical that indicates the validity of the query. 
 #'
-#' @param query an ohsome_query object constructed with ohsome_query()
-#'     or any of its wrapper functions
+#' @inheritParams ohsome_post
 #' @return logical
 #' @keywords Internal
 validate_query <- function(query) {

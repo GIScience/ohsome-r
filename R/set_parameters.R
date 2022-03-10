@@ -1,44 +1,65 @@
 #' Set parameters
 #'
-#' Set or modify parameters of an existing \code{ohsome_query} object
+#' Sets or modifies parameters of an existing `ohsome_query` object
 #'
-#' \code{set_parameters()} takes an \code{ohsome_query} object and an arbitrary
-#' number of named parameters as an input. It sets or modifies these parameters
-#' in the \code{ohsome_query} and returns the modified object. \code{set_time()},
-#' \code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
-#' \code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
-#' to set specific parameters. By default, an unmodified \code{ohsome_query}
-#' object is returned. In order to remove a parameter from the query object, you 
-#' can set the respective argument explicitly to NULL 
-#' (e.g. \code{set_filter(query, filter = NULL)}).
+#' `set_parameters()` takes an `ohsome_query` object and an arbitrary number of 
+#' named parameters as an input. It sets or modifies these parameters in the 
+#' `ohsome_query` and returns the modified object. `set_time()`, `set_filter()`,
+#' `set_groupByKeys()`, `set_groupByKey()`, `set_groupByValues()` and 
+#' `set_properties()` are wrapper functions to set specific parameters. By 
+#' default, an unmodified `ohsome_query` object is returned. In order to remove 
+#' a parameter from the query object, you can set the respective argument 
+#' explicitly to `NULL` (e.g. `set_filter(query, filter = NULL)`).
 #'
-#' @param query An \code{ohsome_query} object
-#' @param ... named parameters (e.g. \code{time = "2020-01-01"})
-#' @param time character; time parameter of the query
-#' @param filter character; filter parameter of the query
-#' @param filter2 character; filter2 parameter of a ratio query
-#' @param groupByKeys character; groupByKeys parameter of a groupBy/key query
-#' @param groupByKey character; groupByKey parameter of a groupBy/tag query
-#' @param groupByValues character; groupByValues parameter of a groupBy/tag query
-#' @param properties properties parameter of an extraction query. Can be 
-#'     "tags" to extract all tags with the elements and/or
-#'     "metadata" to provide metadata with the elements and/or 
-#'     "contributionTypes" to provide contribution types (only in contribution
-#'     extraction queries). Multiple values can be provided as comma-separated 
-#'     character or as character vector. 
-#'     Default: NULL (removes \code{properties} parameter from query body)
+#' @inherit ohsome_query params return
+#' @inheritParams ohsome_post
+#' @param time character; `time` parameter of the query (see 
+#'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html)). 
+#' @param filter character; `filter` parameter of the query (see
+#'   [Filter](https://docs.ohsome.org/ohsome-api/v1/filter.html))
+#' @param filter2 character; `filter2` parameter of a ratio query
+#' @param groupByKeys character; `groupByKeys` parameter of a `groupBy/key` query
+#' @param groupByKey character; `groupByKey` parameter of a `groupBy/tag` query
+#' @param groupByValues character; `groupByValues` parameter of a `groupBy/tag` 
+#'   query
+#' @param properties character; properties to be extracted with extraction 
+#'   queries:
+#'   * `"tags"`, and/or 
+#'   * `"metadata"` (i.e. `@changesetId`, `@lastEdit`, `@osmType`, 
+#'   `@version`), and/or 
+#'   * `"contributionTypes"` (i.e. `@creation`, `@tagChange`, `@deletion`, and 
+#'   `@geometryChange`; only for contributions extraction)
+#'   
+#'   Multiple values can be provided as comma-separated character or as 
+#'   character vector. This defaults to `NULL` (removes `properties` parameter
+#'   from the query body).
 #' @family Set parameters
-#' @return An \code{ohsome_query} object
 #' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
 #' @export
 #' @examples
-#' q <- ohsome_query("elements/count/ratio/groupBy/boundary")
+#' # Query ratio grouped by boundary
+#' q1 <- ohsome_query(
+#'      endpoint = "elements/count/ratio/groupBy/boundary",
+#'      boundary = "HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766"
+#' )
 #'
-#' q |>
-#'     set_boundary("HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766") |>
-#'     set_time("2021") |>
+#' # Add time, filter and format parameters
+#' q1 |>
+#'     set_time("2021/2022/P3M") |>
 #'     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
 #'     set_parameters(format = "csv")
+#'
+#' # Query elements area grouped by tag
+#' q2 <- ohsome_query(
+#'     endpoint = "elements/area/groupBy/tag",
+#'     boundary = "HD:8.5992,49.3567,8.7499,49.4371"
+#' )
+#' 
+#' # Add time, filter and groupByKey parameters
+#' q2 |>
+#'     set_time("2021/2022/P3M") |>
+#'     set_filter("building=*") |>
+#'     set_groupByKey("building:levels")
 #'
 set_parameters <- function(query, ...) {
 

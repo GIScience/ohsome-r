@@ -1,41 +1,34 @@
 #' Set boundary
 #'
-#' Set or modify the spatial filter of an existing \code{ohsome_query} object
+#' Set or modify the spatial filter of an existing `ohsome_query` object
 #'
-#' \code{set_boundary()} adds or modifies a spatial filter of an
-#' \code{ohsome_query} object. The spatial filter of a query to the ohsome API
-#' can be defined as one or more polygons, bounding boxes or bounding circles.
+#' [set_boundary()] adds a spatial filter to an `ohsome_query` object or 
+#' replaces an exsting one. The spatial filter of a query to the ohsome API can 
+#' be defined as one or more polygons, bounding boxes or bounding circles.
 #'
-#' @param query An \code{ohsome_query} object
-#' @param boundary Bounding geometries that are passed to
-#'     \code{\link{ohsome_boundary}}. Bounding geometries can be of class:
-#'     \describe{
-#'     \item{sf}{with (MULTI)POLYGON geometries}
-#'     \item{sfc}{with (MULTI)POLYGON geometries}
-#'     \item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
-#'     \item{bbox}{created with \code{sf::st_bbox()} or \code{tmaptools::bb()}}
-#'     \item{matrix}{created with
-#'         \code{sp::bbox()} or
-#'         \code{osmdata::getbb()}
-#'     }
-#'     \item{character}{a textual definition of bounding polygons, boxes or
-#'     circles as allowed by the ohsome API (see
-#'     \href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})}
-#'     }
-#' @param ... Additional arguments passed to \code{\link{ohsome_boundary}}. For
-#'     boundaries of class \code{sf}, \code{digits} defines the number of
-#'     decimal places of coordinates in the resulting GeoJSON (defaults to 6).
-#'     Other arguments are ignored.
-#' @return An \code{ohsome_query} object
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
+#' @inheritParams ohsome_boundary
+#' @inheritParams ohsome_post
+#' @inherit ohsome_query return
+#' @seealso [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/)
 #' @export
 #' @examples
+#' # Query without boundary definition
 #' q <- ohsome_query("elements/count/groupBy/boundary", filter = "building=*")
 #'
-#' set_boundary(q, mapview::franconia)
+#' # Use franconia from the mapview package as bounding polygons
+#' set_boundary(q, mapview::franconia, digits = 4)
+#' 
+#' # Use the bounding box of franconia
 #' set_boundary(q, sf::st_bbox(mapview::franconia))
+#' 
+#' \dontrun{
+#' # Get bounding box of the city of Kigali from OSM
 #' set_boundary(q, osmdata::getbb("Kigali"))
+#' }
+#' 
+#' # Definition of two named bounding circles
 #' set_boundary(q, c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
+#' 
 set_boundary <- function(query,	boundary = NULL, ...) {
 
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)

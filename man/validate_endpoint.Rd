@@ -16,7 +16,7 @@ logical
 \description{
 Checks if the specified endpoint is in the list of known ohsome API endpoints
 and issues a warning if not. Specifically checks for invalid groupings in
-endpoint path. Silently returns a logical that indicates the
-validity of the endpoint.
+the endpoint path. Silently returns a logical that indicates the validity of
+the endpoint.
 }
 \keyword{Internal}

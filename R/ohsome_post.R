@@ -1,35 +1,47 @@
 #' Send POST request to ohsome API
 #'
-#' Sends an ohsome_query object as a POST request to the ohsome API and silently
-#' returns the unparsed response.
+#' Sends an `ohsome_query` object as a POST request to the ohsome API and 
+#' returns the response.
 #'
-#' @param query an ohsome_query object constructed with \code{\link{ohsome_query}}
-#'     or any of its wrapper functions
-#' @param parse logical; parse the ohsome API response?
-#' @param validate logical; if true, issues warning for invalid endpoint or
-#'      invalid/missing query parameters
-#' @param strict logical; If true, throws error on invalid query (overrules 
-#' validate argument when true)
-#' @param additional_identifiers optional user agent identifiers in addition to
-#'     "ohsome-r/version" (a vector coercible to character)
-#' @param ... additional arguments passed to \code{\link{ohsome_parse}} \describe{
-#'     \item{returnclass}{class of the returned object}
-#'     \item{omit_empty}{logical; omit features with empty geometries 
-#'         (only if returnclass="sf")}
-#' }
-#'
-#' @return \describe{
-#'    \item{an \code{sf} object}{if parse = TRUE and ohsome API response is GeoJSON}
-#'    \item{a \code{data.frame}}{if parse = TRUE and ohsome API response is not GeoJSON}
-#'    \item{an \code{ohsome_response} object}{if parse = FALSE}
-#' }
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
+#' @param query An `ohsome_query` object constructed with [ohsome_query()] or 
+#'   any of its wrapper functions
+#' @param parse logical; if `TRUE`, parse the ohsome API response with 
+#'   [ohsome_parse()]
+#' @param validate logical; if `TRUE`, issues warning for invalid endpoint or
+#'   invalid/missing query parameters.
+#' @param strict logical; If `TRUE`, throws error on invalid query. Overrules 
+#'   validate argument `TRUE`.
+#' @param additional_identifiers vector coercible to character; optional user 
+#'   agent identifiers in addition to `"ohsome-r/{version}"`.
+#' @param ... Additional arguments passed to [ohsome_parse()]:
+#'   * `returnclass`: class of the returned object
+#'   * `omit_empty`: logical; omit features with empty geometries (only if 
+#'   `returnclass = "sf"`)
+#' @return An `ohsome_response` object if `parse = FALSE`, else an `sf` object, 
+#'   a `data.frame`, a `list` or a `character`
+#' @seealso [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/)
 #' @export
 #' @examples
+#' \dontrun{
+#' # Get bounding box of the city of Berlin
 #' bbberlin <- osmdata::getbb("Berlin")
-#' q <- ohsome_elements_count(bbberlin, filter = "amenity=cinema", time = "2021")
-#'
+#' 
+#' # Query for cinema geometries within bounding box
+#' q <- ohsome_elements_geometry(bbberlin, filter = "amenity=cinema")
+#' 
+#' # Send query to ohsome API and return sf by default
 #' ohsome_post(q)
+#' 
+#' # Send query to ohsome API and return data.frame
+#' ohsome_post(q, returnclass = "data.frame")
+#' 
+#' # Send query and return unparsed response
+#' ohsome_post(q, parse = FALSE)
+#' 
+#' # Send query with strict validation (will fail due to missing time parameter)
+#' ohsome_post(q, strict = TRUE)
+#' }
+#' 
 ohsome_post <- function(
 	query,
 	parse = TRUE,
