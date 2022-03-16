@@ -40,7 +40,8 @@ through any of the \code{boundary} query parameters
 \code{groupByKey} and \code{groupByValues} query parameters.
 \item \code{"type"} groups the result by the given OSM, or simple feature types that
 are defined through the \code{types} parameter.
-\item \code{c("boundary", "tag")} groups the result by the given boundary and tags.
+\item \code{c("boundary", "tag")} groups the result by the given boundaries and
+tags.
 }
 
 Not all of these group types are accepted by all of the aggregation

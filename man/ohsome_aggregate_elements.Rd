@@ -43,14 +43,20 @@ list elements must be the same. Does not work with GeoJSON
 FeatureCollections.
 }}
 
-\item{aggregation}{character; aggregation operation}
+\item{aggregation}{character; aggregation type:
+\itemize{
+\item \code{"count"} returns the total number of elements. This is the default.
+\item \code{"length"} returns the total length of elements in meters.
+\item \code{"perimeter"} returns the total perimeter of elements in meters.
+\item \code{"area"} returns the total area of elements in square meters.
+}}
 
 \item{return_value}{character; the value to be returned by the ohsome API:
 \itemize{
 \item \code{"absolute"} returns the absolute number, length, perimeter or area of
 elements. This is the default.
-\item \code{"density"} returns the number, length, perimeter or area of elements per
-square kilometer.
+\item \code{"density"} returns the number, length, perimeter or area (in meters!) of
+elements per square kilometer.
 \item \code{"ratio"} returns an absolute \code{value} for elements satisfying the
 \code{filter} argument, an absolute \code{value2} for elements satisfying the
 \code{filter2} argument, and the \code{ratio} of \code{value2} to \code{value}.
@@ -68,7 +74,8 @@ through any of the \code{boundary} query parameters
 \code{groupByKey} and \code{groupByValues} query parameters.
 \item \code{"type"} groups the result by the given OSM, or simple feature types that
 are defined through the \code{types} parameter.
-\item \code{c("boundary", "tag")} groups the result by the given boundary and tags.
+\item \code{c("boundary", "tag")} groups the result by the given boundaries and
+tags.
 }
 
 Not all of these group types are accepted by all of the aggregation
@@ -135,7 +142,15 @@ ohsome_elements_count(
     time = "2022-01-01"
 )
 
-# Proportion of breweries in Franconia that are Microbreweries
+# Number of breweries per square kilometer
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery", 
+    return_value = "density",
+    time = "2022-01-01"
+)
+
+# Proportion of breweries in Franconia that are microbreweries
 ohsome_elements_count(
     mapview::franconia, 
     filter = "craft=brewery", 

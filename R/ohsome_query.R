@@ -19,7 +19,8 @@
 #'   `groupByKey` and `groupByValues` query parameters.
 #'   * `"type"` groups the result by the given OSM, or simple feature types that 
 #'   are defined through the `types` parameter.
-#'   * `c("boundary", "tag")` groups the result by the given boundary and tags.
+#'   * `c("boundary", "tag")` groups the result by the given boundaries and 
+#'   tags.
 #' 
 #'   Not all of these group types are accepted by all of the aggregation 
 #'   endpoints. Check 
