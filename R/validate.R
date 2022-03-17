@@ -33,7 +33,7 @@ validate_parameters <- function(endpoint, body) {
 	for(param in unknown_params) {
 		warning(
 			param, " is not a known parameter of ",
-			"endpoint ", endpoint,
+			"endpoint ", endpoint, ".",
 			"\nSee https://docs.ohsome.org/ohsome-api/v1/",
 			call. = FALSE, 
 			immediate. = TRUE
@@ -44,7 +44,7 @@ validate_parameters <- function(endpoint, body) {
 	for(param in missing_params) {
 		warning(
 			param, " is a required parameter in queries to the endpoint ",
-			endpoint,
+			endpoint, ". ",
 			"You can use set_parameter() to set the ",
 			param, " parameter.",
 			call. = FALSE,
@@ -53,7 +53,7 @@ validate_parameters <- function(endpoint, body) {
 		valid <- FALSE
 	}
 	
-	if(!("time" %in% names(body))) {
+	if(!("time" %in% names(body)) && !("time" %in% missing_params)) {
 		warning(
 			"time parameter is not defined and defaults to the latest ",
 			"available timestamp within the underlying OSHDB. ",

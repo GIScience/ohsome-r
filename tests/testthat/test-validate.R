@@ -47,11 +47,44 @@ test_that("issues warning on missing required param", {
 	expect_false(suppressWarnings(validate_query(q)))
 })
 
-test_that("issues warning on missing time param", {
+test_that("issues warning on defaulting time param", {
 	q <- set_parameters(q, time = NULL)
 	expect_warning(
 		validate_query(q),
-		regexp = "time parameter is not defined"
+		regexp = "time parameter is not defined and defaults"
+	)
+	expect_false(suppressWarnings(validate_query(q)))
+})
+
+test_that("does not issue warn on missing time param when time has default", {
+	q <- set_parameters(q, time = NULL)
+	suppressWarnings(expect_failure(	
+		expect_warning(
+			validate_query(q),
+			regexp = "time is a required parameter"
+		)
+	))
+	expect_false(suppressWarnings(validate_query(q)))
+})
+
+test_that("does not warn on defaulting time param when time is required", {
+	q <- set_endpoint(q, "elementsFullHistory/centroid")
+	q <- set_parameters(q, time = NULL)
+	suppressWarnings(expect_failure(
+		expect_warning(
+			validate_query(q),
+			regexp = "time parameter is not defined and defaults"
+		)
+	))
+	expect_false(suppressWarnings(validate_query(q)))
+})
+
+test_that("issues warning on missing time param when time is required", {
+	q <- set_endpoint(q, "elementsFullHistory/centroid")
+	q <- set_parameters(q, time = NULL)
+	expect_warning(
+		validate_query(q),
+		regexp = "time is a required parameter"
 	)
 	expect_false(suppressWarnings(validate_query(q)))
 })
