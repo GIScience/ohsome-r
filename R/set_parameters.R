@@ -67,8 +67,10 @@ set_parameters <- function(query, ...) {
 	body <- query$body
 
 	params <- list(...)
-
-	for(i in 1:length(params)) body[[names(params[i])]] <- params[[i]]
+	
+	if(length(params) > 0) {
+		for(i in 1:length(params)) body[[names(params[i])]] <- params[[i]]
+	}
 
 	return(do.call(ohsome_query, c(endpoint, body)))
 }
