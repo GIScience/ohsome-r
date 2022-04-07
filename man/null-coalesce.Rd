@@ -13,6 +13,7 @@ a \%||\% b
 \item{b}{right-side argument}
 }
 \description{
-Null coalesce operator
+Operator that returns the left-hand side operand if it is not \code{NULL}, else
+returns the right-hand side operand
 }
 \keyword{Internal}

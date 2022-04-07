@@ -5,20 +5,20 @@
 #'
 #' @inheritParams ohsome_boundary
 #' @inheritParams ohsome_post
-#' @param endpoint The path to the ohsome API endpoint. Either a single string
-#'   (e.g. `"elements/count"`) or a vector of character in the right order
-#'   (e.g. `c("elements", "count")`).
+#' @param endpoint The path to the 
+#'   [ohsome API endpoint](https://docs.ohsome.org/ohsome-api/v1/endpoints.html). 
+#'   Either a single string (e.g. `"elements/count"`) or a vector of character 
+#'   in the right order (e.g. `c("elements", "count")`).
 #' @param grouping character; group type(s) for grouped aggregations (only 
 #'   available for queries to aggregation endpoints). The following group types 
 #'   are available:
 #'   * `"boundary"` groups the result by the given boundaries that are defined 
-#'   through any of the `boundary` query parameters
+#'   through any of the `boundary` query parameters.
 #'   * `"key"` groups the result by the given keys that are defined through the 
 #'   `groupByKeys` query parameter.
 #'   * `"tag"` groups the result by the given tags that are defined through the 
 #'   `groupByKey` and `groupByValues` query parameters.
-#'   * `"type"` groups the result by the given OSM, or simple feature types that 
-#'   are defined through the `types` parameter.
+#'   * `"type"` groups the result by OSM element type.
 #'   * `c("boundary", "tag")` groups the result by the given boundaries and 
 #'   tags.
 #' 
@@ -83,7 +83,9 @@ ohsome_query <- function(
 		class = "ohsome_query"
 	)
 
-	if(!is.null(grouping)) query <- set_grouping(query, grouping, reset_format = !explicit_format)
+	if(!is.null(grouping)) {
+		query <- set_grouping(query, grouping, reset_format = !explicit_format)
+	}
 
 	if(!is.null(boundary)) {
 		btypes <- c("bpolys", "bboxes", "bcircles")

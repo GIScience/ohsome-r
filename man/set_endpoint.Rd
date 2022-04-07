@@ -13,9 +13,10 @@ set_grouping(query, grouping, ...)
 \item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
 any of its wrapper functions}
 
-\item{endpoint}{The path to the ohsome API endpoint. Either a single string
-(e.g. \code{"elements/count"}) or a vector of character in the right order
-(e.g. \code{c("elements", "count")}).}
+\item{endpoint}{The path to the
+\href{https://docs.ohsome.org/ohsome-api/v1/endpoints.html}{ohsome API endpoint}.
+Either a single string (e.g. \code{"elements/count"}) or a vector of character
+in the right order (e.g. \code{c("elements", "count")}).}
 
 \item{append}{logical; If \code{TRUE}, the provided endpoint string is appended to
 the existing endpoint definition instead of replacing it. This is
@@ -30,13 +31,12 @@ available for queries to aggregation endpoints). The following group types
 are available:
 \itemize{
 \item \code{"boundary"} groups the result by the given boundaries that are defined
-through any of the \code{boundary} query parameters
+through any of the \code{boundary} query parameters.
 \item \code{"key"} groups the result by the given keys that are defined through the
 \code{groupByKeys} query parameter.
 \item \code{"tag"} groups the result by the given tags that are defined through the
 \code{groupByKey} and \code{groupByValues} query parameters.
-\item \code{"type"} groups the result by the given OSM, or simple feature types that
-are defined through the \code{types} parameter.
+\item \code{"type"} groups the result by OSM element type.
 \item \code{c("boundary", "tag")} groups the result by the given boundaries and
 tags.
 }
@@ -70,7 +70,7 @@ endpoint path for grouped aggregations.
 \examples{
 # Query for count of elements
 q <- ohsome_elements_count(
-  osmdata::getbb("Berlin"),
+  boundary = "HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766",
   time = "2022-01-01",
   filter = "highway=*"
 )
@@ -92,6 +92,9 @@ set_grouping(q, grouping = "boundary", reset_format = FALSE)
 
 # Append the endpoint path to query for element densities per boundary
 set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
+
+# Modify query to group aggregation by OSM element type
+set_grouping(q, grouping = "type")
 
 }
 \seealso{

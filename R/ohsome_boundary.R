@@ -2,11 +2,11 @@
 #'
 #' Creates an `ohsome_boundary` object from input geometries of various classes. 
 #' The `ohsome_boundary` object is used to set the `bpolys`, `bboxes` or
-#' `bcircles` parameters of an `ohsome_query` object.
+#' `bcircles` parameter of an `ohsome_query` object.
 #'
-#' @param boundary Bounding geometries specified in WGS84 in the format lon-lat. 
-#'   The geometries of `sf` are transformed to WGS84 if the CRS of the object is 
-#'   known. The following classes are supported:
+#' @param boundary Bounding geometries specified by WGS84 coordinates in the 
+#'   order `lon,lat`. The geometries of `sf` are transformed to WGS84 if the CRS 
+#'   of the object is known. The following classes are supported:
 #'   * `sf` with (MULTI)POLYGON geometries
 #'   * `sfc` with (MULTI)POLYGON geometries
 #'   * `sfg` with (MULTI)POLYGON geometries and WGS 84 coordinates
@@ -14,7 +14,17 @@
 #'   * `matrix` created with [sp::bbox()] or [osmdata::getbb()]
 #'   * `character` providing textual definitions of bounding polygons, boxes or 
 #'   circles as allowed by the ohsome API (see 
-#'   [ohsome API - Boundaries](https://docs.ohsome.org/ohsome-api/stable/boundaries.html))
+#'   [ohsome API - Boundaries](https://docs.ohsome.org/ohsome-api/stable/boundaries.html)
+#'   ):
+#'     * bboxes: WGS84 coordinates in the following format: 
+#'     `"id1:lon1,lat1,lon2,lat2|id2:lon1,lat1,lon2,lat2|..."` OR 
+#'     `"lon1,lat1,lon2,lat2|lon1,lat1,lon2,lat2|..."`
+#'     * bcircles: WGS84 coordinates + radius in meter in the following 
+#'     format: `"id1:lon,lat,r|id2:lon,lat,r|..."` OR 
+#'     `"lon,lat,r|lon,lat,r|..."`
+#'     * bpolys: WGS84 coordinates given as a list of coordinate pairs (as for 
+#'     bboxes) or GeoJSON FeatureCollection. The first point has to be the same 
+#'     as the last point and MultiPolygons are only supported in GeoJSON.
 #'   * `list` of `bbox`, `matrix` or `character`. Bounding geometry types of all 
 #'   list elements must be the same. Does not work with GeoJSON 
 #'   FeatureCollections.
@@ -26,7 +36,7 @@
 #'   * `type` of the boundary (`bpolys`, `bcircles`, or `bboxes`).
 #' @export
 #' @examples
-#' # Defintion of a bounding circle (bcircle)
+#' # Defintion of a bounding circle (lon,lat,radius in meters)
 #' ohsome_boundary("8.6528,49.3683,1000") 
 #' 
 #' # Definition of two named bounding circles

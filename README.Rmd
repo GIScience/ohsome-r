@@ -104,17 +104,15 @@ The resulting `ohsome_query` object can be sent to the ohsome API with
 response. In this case, this is a simple `data.frame` of only one row.
 
 ```{r post}
-ohsome_post(q, strict = FALSE)
+ohsome_post(q)
 ``` 
 
-As you can see, `ohsome_post()` issues a warning that the time parameter of the
-query is not defined. The `ohsome` API returns the number of elements at the 
-latest available timestamp by default. ^[When the `strict` 
-argument is set to TRUE (default), `ohsome_post` throws an error on a missing 
-`time` parameter and does not send the request to the API at all.]
+The `ohsome_query` object was created without an explicit `time` parameter. When
+using functions to create element aggregation queries, `time` defaults to the 
+most recent available timestamp in the underlying OSHDB.
 
 Defining the `time` parameter unlocks the full power of ohsome API by giving 
-access to the OSM history. The `time` parameter requires one or more 
+access to the OSM history. It requires one or more 
 [ISO-8601 conform timestring(s)](https://docs.ohsome.org/ohsome-api/stable/time.html){target=blank}.
 Here is how to create a query for the number of breweries at the first of each 
 month between 2010 and 2020:

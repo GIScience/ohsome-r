@@ -13,9 +13,9 @@ ohsome_users_count(
 )
 }
 \arguments{
-\item{boundary}{Bounding geometries specified in WGS84 in the format lon-lat.
-The geometries of \code{sf} are transformed to WGS84 if the CRS of the object is
-known. The following classes are supported:
+\item{boundary}{Bounding geometries specified by WGS84 coordinates in the
+order \verb{lon,lat}. The geometries of \code{sf} are transformed to WGS84 if the CRS
+of the object is known. The following classes are supported:
 \itemize{
 \item \code{sf} with (MULTI)POLYGON geometries
 \item \code{sfc} with (MULTI)POLYGON geometries
@@ -24,7 +24,19 @@ known. The following classes are supported:
 \item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
 \item \code{character} providing textual definitions of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
-\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries})
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries}
+):
+\itemize{
+\item bboxes: WGS84 coordinates in the following format:
+\code{"id1:lon1,lat1,lon2,lat2|id2:lon1,lat1,lon2,lat2|..."} OR
+\code{"lon1,lat1,lon2,lat2|lon1,lat1,lon2,lat2|..."}
+\item bcircles: WGS84 coordinates + radius in meter in the following
+format: \code{"id1:lon,lat,r|id2:lon,lat,r|..."} OR
+\code{"lon,lat,r|lon,lat,r|..."}
+\item bpolys: WGS84 coordinates given as a list of coordinate pairs (as for
+bboxes) or GeoJSON FeatureCollection. The first point has to be the same
+as the last point and MultiPolygons are only supported in GeoJSON.
+}
 \item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
 list elements must be the same. Does not work with GeoJSON
 FeatureCollections.
@@ -32,9 +44,9 @@ FeatureCollections.
 
 \item{return_value}{character; the value to be returned by the ohsome API:
 \itemize{
-\item \code{"absolute"} returns the absolute number of contributions. This is the
+\item \code{"absolute"} returns the absolute number of users. This is the
 default.
-\item \code{"density"} returns the number of contributions per square kilometer.
+\item \code{"density"} returns the number of users per square kilometer.
 }}
 
 \item{grouping}{character; group type(s) for grouped aggregations (only
@@ -42,13 +54,12 @@ available for queries to aggregation endpoints). The following group types
 are available:
 \itemize{
 \item \code{"boundary"} groups the result by the given boundaries that are defined
-through any of the \code{boundary} query parameters
+through any of the \code{boundary} query parameters.
 \item \code{"key"} groups the result by the given keys that are defined through the
 \code{groupByKeys} query parameter.
 \item \code{"tag"} groups the result by the given tags that are defined through the
 \code{groupByKey} and \code{groupByValues} query parameters.
-\item \code{"type"} groups the result by the given OSM, or simple feature types that
-are defined through the \code{types} parameter.
+\item \code{"type"} groups the result by OSM element type.
 \item \code{c("boundary", "tag")} groups the result by the given boundaries and
 tags.
 }

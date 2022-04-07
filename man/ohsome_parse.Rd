@@ -52,6 +52,7 @@ response contains GeoJSON data or else a \code{data.frame}. \code{ohsome_sf()} a
 r <- ohsome_query("elements/centroid", filter = "amenity=*") |>
     set_boundary(osmdata::getbb("Heidelberg")) |>
     set_time("2021") |>
+    set_properties("metadata") |>
     ohsome_post(parse = FALSE)
 
 # Parse response to object of default class (here: sf)

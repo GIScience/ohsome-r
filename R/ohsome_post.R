@@ -37,9 +37,6 @@
 #' 
 #' # Send query and return unparsed response
 #' ohsome_post(q, parse = FALSE)
-#' 
-#' # Send query with strict validation (will fail due to missing time parameter)
-#' ohsome_post(q, strict = TRUE)
 #' }
 #' 
 ohsome_post <- function(

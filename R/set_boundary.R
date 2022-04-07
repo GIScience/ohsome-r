@@ -3,7 +3,7 @@
 #' Set or modify the spatial filter of an existing `ohsome_query` object
 #'
 #' [set_boundary()] adds a spatial filter to an `ohsome_query` object or 
-#' replaces an exsting one. The spatial filter of a query to the ohsome API can 
+#' replaces an existing one. The spatial filter of a query to the ohsome API can 
 #' be defined as one or more polygons, bounding boxes or bounding circles.
 #'
 #' @inheritParams ohsome_boundary
@@ -13,7 +13,11 @@
 #' @export
 #' @examples
 #' # Query without boundary definition
-#' q <- ohsome_query("elements/count/groupBy/boundary", filter = "building=*")
+#' q <- ohsome_query(
+#'     "elements/count/groupBy/boundary", 
+#'     filter = "building=*",
+#'     time = "2022-01-01"
+#' )
 #'
 #' # Use franconia from the mapview package as bounding polygons
 #' set_boundary(q, mapview::franconia, digits = 4)

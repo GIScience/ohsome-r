@@ -22,8 +22,39 @@ validate_parameters <- function(endpoint, body) {
 	if(length(intersect(names(body), c("bpolys", "bboxes", "bcircles"))) != 1) {
 		warning(
 			"One (and only one) of the following parameters should be set: ",
-			"bpolys, bboxes, or bcircles. ",
-			"You can use set_boundary() to set a bounding geometry parameter.",
+			"bpolys, bboxes, or bcircles.",
+			"\nYou can use set_boundary() to set a bounding geometry parameter.",
+			call. = FALSE, 
+			immediate. = TRUE
+		)
+		valid <- FALSE
+	}
+
+	if(!("time" %in% names(body)) && !("time" %in% missing_params)) {
+		warning(
+			"The time parameter is not defined and defaults to the latest ",
+			"available timestamp within the underlying OSHDB.",
+			"\nYou can use set_time() to set the time parameter.",
+			call. = FALSE, 
+			immediate. = TRUE
+		)
+		valid <- FALSE
+	}
+	
+	if(!("filter" %in% names(body))) {
+		warning(
+			"The filter parameter is not defined.",
+			"\nYou can use set_filter() to set the filter parameter.",
+			call. = FALSE, 
+			immediate. = TRUE
+		)
+		valid <- FALSE
+	}
+	
+	if(grepl("ratio", endpoint) & !("filter2" %in% names(body))) {
+		warning(
+			"The filter2 parameter needs to be defined in ratio queries.",
+			"\nYou can use set_filter() to set the filter2 parameter.",
 			call. = FALSE, 
 			immediate. = TRUE
 		)
@@ -34,7 +65,8 @@ validate_parameters <- function(endpoint, body) {
 		warning(
 			param, " is not a known parameter of ",
 			"endpoint ", endpoint, ".",
-			"\nSee https://docs.ohsome.org/ohsome-api/v1/",
+			"\nYou can use set_parameters() with the argument ",
+			param, " = NULL to remove it from the query.",
 			call. = FALSE, 
 			immediate. = TRUE
 		)
@@ -44,41 +76,10 @@ validate_parameters <- function(endpoint, body) {
 	for(param in missing_params) {
 		warning(
 			param, " is a required parameter in queries to the endpoint ",
-			endpoint, ". ",
-			"You can use set_parameter() to set the ",
+			endpoint, ".",
+			"\nYou can use set_parameters() to set the ",
 			param, " parameter.",
 			call. = FALSE,
-			immediate. = TRUE
-		)
-		valid <- FALSE
-	}
-	
-	if(!("time" %in% names(body)) && !("time" %in% missing_params)) {
-		warning(
-			"time parameter is not defined and defaults to the latest ",
-			"available timestamp within the underlying OSHDB. ",
-			"You can use set_time() to set the time parameter.",
-			call. = FALSE, 
-			immediate. = TRUE
-		)
-		valid <- FALSE
-	}
-	
-	if(!("filter" %in% names(body))) {
-		warning(
-			"filter parameter is not defined. ",
-			"You can use set_filter() to set the filter parameter.",
-			call. = FALSE, 
-			immediate. = TRUE
-		)
-		valid <- FALSE
-	}
-	
-	if(grepl("ratio", endpoint) & !("filter2" %in% names(body))) {
-		warning(
-			"filter2 parameter needs to be defined in ratio queries. ",
-			"You can use set_filter() to set the filter2 parameter.",
-			call. = FALSE, 
 			immediate. = TRUE
 		)
 		valid <- FALSE
@@ -91,7 +92,7 @@ validate_parameters <- function(endpoint, body) {
 #'
 #' Checks if the specified endpoint is in the list of known ohsome API endpoints
 #' and issues a warning if not. Specifically checks for invalid groupings in 
-#' the endpoint path. Silently returns a logical that indicates the validity of 
+#' the endpoint path. Returns a logical that indicates the validity of 
 #' the endpoint.
 #'
 #' @inheritParams validate_parameters

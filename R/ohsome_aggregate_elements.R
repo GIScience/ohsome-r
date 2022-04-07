@@ -68,7 +68,7 @@
 #'     time = "2022-01-01"
 #' )
 #' 
-#' # Proportion of breweries in Franconia that are microbreweries
+#' # Proportion of breweries that are microbreweries
 #' ohsome_elements_count(
 #'     mapview::franconia, 
 #'     filter = "craft=brewery", 

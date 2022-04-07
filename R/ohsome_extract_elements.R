@@ -30,7 +30,7 @@
 #' @seealso [ohsome API Endpoints -- Elements Extraction](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction)
 #' @export
 #' @examples
-#' # Extract geometries, metadata and tags man-made objects around "Null Island":
+#' # Extract geometries, metadata and tags of man-made objects around "Null Island":
 #' ohsome_elements_geometry(
 #'     "0,0,10", 
 #'     filter = "man_made=*", 

@@ -13,6 +13,6 @@ create_metadata_message(meta)
 character
 }
 \description{
-Creates a message text from a \code{ohsome_metadata} object.
+Creates a message text from an \code{ohsome_metadata} object.
 }
 \keyword{Internal}

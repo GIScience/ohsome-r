@@ -15,7 +15,7 @@ An \code{ohsome_metadata} object. This is a named list with the
 attributes \code{date}, \code{status_code} (of the GET request) and the following list
 elements:
 \itemize{
-\item \code{attribution}: characer; \code{url} and \code{text} of OSM data copyrights and
+\item \code{attribution}: character; \code{url} and \code{text} of OSM data copyrights and
 attribution
 \item \code{apiVersion}: numeric_version; Version of the ohsome API
 \item \code{timeout}: numeric; limit of the processing time in seconds

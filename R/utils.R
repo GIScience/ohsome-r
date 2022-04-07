@@ -64,7 +64,7 @@ convert_metadata <- function(parsed) {
 
 #' Create metadata message
 #'
-#' Creates a message text from a `ohsome_metadata` object.
+#' Creates a message text from an `ohsome_metadata` object.
 #'
 #' @param meta An [ohsome_metadata] object
 #' @return character
@@ -94,7 +94,7 @@ extract_endpoint <- function(query) {
 
 #' Type convert without message
 #'
-#' Converts type of data.frame columns with [readr::type_convert()] while
+#' Converts types of data.frame columns with [readr::type_convert()] while
 #' suppressing messages
 #'
 #' @param df data.frame
@@ -104,6 +104,10 @@ convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
 
 
 #' Null coalesce operator
+#' 
+#' Operator that returns the left-hand side operand if it is not `NULL`, else 
+#' returns the right-hand side operand
+#' 
 #' @name null-coalesce
 #' @param a left-side argument
 #' @param b right-side argument

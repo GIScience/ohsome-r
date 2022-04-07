@@ -21,7 +21,7 @@
 #' @examples
 #' # Query for count of elements
 #' q <- ohsome_elements_count(
-#'   osmdata::getbb("Berlin"),
+#'   boundary = "HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766",
 #'   time = "2022-01-01",
 #'   filter = "highway=*"
 #' )
@@ -43,6 +43,9 @@
 #' 
 #' # Append the endpoint path to query for element densities per boundary
 #' set_endpoint(q, c("density", "groupBy", "boundary"), append = TRUE)
+#' 
+#' # Modify query to group aggregation by OSM element type
+#' set_grouping(q, grouping = "type")
 #' 
 set_endpoint <- function(query,	endpoint, append = FALSE, reset_format = TRUE) {
 

@@ -20,10 +20,10 @@
 #' @seealso [ohsome API Endpoints - Contributions Aggregation](https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation)
 #' @export
 #' @examples
-#' # Monthly counts of contributions of man-made objects around "Null Island"
+#' # Monthly counts of contributions to man-made objects around "Null Island"
 #' ohsome_contributions_count("0,0,10", filter = "man_made=*", time = "2010/2020/P1Y")
 #' 
-#' # Monthly counts of latest contributions of man-made objects around "Null Island"
+#' # Monthly counts of latest contributions to man-made objects around "Null Island"
 #' ohsome_contributions_count(
 #'     "0,0,10", 
 #'     latest = TRUE, 

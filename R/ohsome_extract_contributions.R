@@ -30,7 +30,7 @@
 #' ohsome_contributions_geometry(
 #'     "0,0,10", 
 #'     filter = "man_made=*", 
-#'     time = "2022-01-01",
+#'     time = c("2021-01-01", "2022-01-01"),
 #'     properties = "metadata"
 #' )
 #' 

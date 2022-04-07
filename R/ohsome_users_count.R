@@ -8,6 +8,10 @@
 #' 
 #' @inherit ohsome_query params return
 #' @inheritParams ohsome_contributions_count
+#' @param return_value character; the value to be returned by the ohsome API:
+#'   * `"absolute"` returns the absolute number of users. This is the
+#'    default.
+#'   * `"density"` returns the number of users per square kilometer.
 #' @seealso [ohsome API Endpoints -- Users Aggregation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#users-aggregation)
 #' @export
 #' @examples
