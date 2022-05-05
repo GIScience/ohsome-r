@@ -397,7 +397,7 @@ c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000") |>
 	ohsome_post()
 ```
 
-`r emo::ji("warning")` While `sf` and `bbox` objects will be automatically 
+While `sf` and `bbox` objects will be automatically 
 transformed to WGS 84 if in a different coordinate reference system, coordinates
 in `character` and `matrix` objects always need to be provided as WGS 84.
 

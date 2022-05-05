@@ -1,36 +1,33 @@
 Package: ohsome
-Title: An ohsome API Client
+Title: An 'ohsome API' Client
 Version: 0.2.0
-Authors@R: 
-    c(
-      person(
-        	given = "Heidelberg Institute for Geoinformation Technology (HeiGIT) gGmbH",
-        	role = c("cph")
-      ),
-      person(
-    		given = "Oliver",
-        	family = "Fritz",
-        	role = c("aut", "cre"),
-        	email = "oliver.fritz@heigit.org",
-        	comment = c(ORCID = "0000-0001-6324-7295")
-      )
-	)
-Description: This ohsome R package grants access to the power of the ohsome API 
-    from R. It lets you analyze the rich data source of the OpenStreetMap (OSM)
-    history. You can retrieve the geometry of OSM data at specific points in 
-    time, and you can get aggregated statistics on the evolution of OSM elements
-    and specify your own temporal, spatial and/or thematic filters.
+Authors@R: c(
+    person("Heidelberg Institute for Geoinformation Technology (HeiGIT) gGmbH", role = "cph"),
+    person("Oliver", "Fritz", , "oliver.fritz@heigit.org", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-6324-7295"))
+  )
+Description: This ohsome R package grants access to the power of the
+    ohsome API from R. It lets you analyze the rich data source of the
+    OpenStreetMap (OSM) history. You can retrieve the geometry of OSM data
+    at specific points in time, and you can get aggregated statistics on
+    the evolution of OSM elements and specify your own temporal, spatial
+    and/or thematic filters.
 License: GPL (>= 3)
-URL: https://github.com/GIScience/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
+URL: 
+    https://github.com/GIScience/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
 BugReports: https://github.com/GIScience/ohsome-r/issues
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
+Imports: 
+    geojsonsf,
+    httr,
+    jsonlite,
+    lubridate,
+    readr,
+    sf,
+    utils
 Suggests: 
-    data.table,
     dplyr,
-    emo,
     ggplot2,
     httptest,
     janitor,
@@ -39,19 +36,13 @@ Suggests:
     mapview,
     nominatimlite,
     osmdata,
-    qpdf,
-    rapiclient,
     rmarkdown,
     testthat (>= 3.0.0),
     tidyr
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
-Imports: 
-    sf,
-    httr,
-    geojsonsf,
-    lubridate,
-    jsonlite,
-    readr
-VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
