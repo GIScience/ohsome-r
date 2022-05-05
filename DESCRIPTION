@@ -1,5 +1,5 @@
 Package: ohsome
-Title: An ohsome API client for R
+Title: An ohsome API client
 Version: 0.2.0
 Authors@R: 
     c(
@@ -52,6 +52,6 @@ Imports:
     lubridate,
     jsonlite,
     readr
-VignetteBuilder: knitr
+VignetteBuilder: knitr<
 Depends: 
     R (>= 2.10)
