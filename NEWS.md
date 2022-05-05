@@ -8,11 +8,11 @@ mode.
 * All `ohsome_query()` wrapper functions (but not `ohsome_query()` itself) are 
 defined with an appropriate default for the `time` parameter. The default values
 are drawn from ohsome API metadata requested on loading the package.
-* Changed behaviour of `set_properties()`: Removes properties parameter from 
+* Changed behavior of `set_properties()`: Removes properties parameter from 
 query body by default, accepts *tags* and/or *metadata* and/or 
 *contributionTypes* as properties argument (multiple values provided as 
 comma-separated character or character vector).
-* Changed behaviour of `set_time()`, `set_filter()`, `set_groupByKeys()`, 
+* Changed behavior of `set_time()`, `set_filter()`, `set_groupByKeys()`, 
 `set_groupByKey()` and `set_groupByValues`: Return unmodified query object if
 parameter argument is missing (e.g. `set_filter(query)`), but remove parameter 
 from body if explicitly set to NULL (e.g. `set_filter(query, filter = NULL)`)

@@ -34,7 +34,7 @@ With ohsome, you can …
 ## Installation
 
 You can install ohsome from
-<a href="https://github.com/GIScience/ohsome-r" target="blank">Github</a>:
+<a href="https://github.com/GIScience/ohsome-r" target="blank">GitHub</a>:
 
 ``` r
 remotes::install_github("GIScience/ohsome-r", ref = "dev-0.2.0")
@@ -49,12 +49,9 @@ OSHDB:
 
 ``` r
 library(ohsome)
-#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.2
-#> Temporal extent: 2007-10-08 to 2022-01-09 20:00:00
 ```
 
-The metadata is stored in `.ohsome_metadata`. You can print it to the
+The metadata is stored in `ohsome_metadata`. You can print it to the
 console to get more details.
 
 You can create any ohsome API query using the generic `ohsome_query()`
@@ -95,21 +92,18 @@ The resulting `ohsome_query` object can be sent to the ohsome API with
 response. In this case, this is a simple `data.frame` of only one row.
 
 ``` r
-ohsome_post(q, strict = FALSE)
-#> Warning: time parameter is not defined and defaults to the latest available
-#> timestamp within the underlying OSHDB. You can use set_time() to set the time
-#> parameter.
+ohsome_post(q)
 #>             timestamp value
-#> 1 2022-01-09 20:00:00   136
+#> 1 2022-05-02 06:00:00   145
 ```
 
-As you can see, `ohsome_post()` issues a warning that the time parameter
-of the query is not defined. The `ohsome` API returns the number of
-elements at the latest available timestamp by default. [1]
+The `ohsome_query` object was created without an explicit `time`
+parameter. When using functions to create element aggregation queries,
+`time` defaults to the most recent available timestamp in the underlying
+OSHDB.
 
 Defining the `time` parameter unlocks the full power of ohsome API by
-giving access to the OSM history. The `time` parameter requires one or
-more
+giving access to the OSM history. It requires one or more
 <a href="https://docs.ohsome.org/ohsome-api/stable/time.html" target="blank">ISO-8601 conform timestring(s)</a>.
 Here is how to create a query for the number of breweries at the first
 of each month between 2010 and 2020:
@@ -119,8 +113,8 @@ ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1M
 ```
 
 Alternatively, we can update the existing `ohsome_query` object `q` with
-the `set_time()` function, pipe [2] the modified query directly into
-`ohsome_post()` and make a quick visualisation with `ggplot2`:
+the `set_time()` function, pipe [1] the modified query directly into
+`ohsome_post()` and make a quick visualization with `ggplot2`:
 
 ``` r
 library(ggplot2)
@@ -147,7 +141,7 @@ of an API request. In this case, we could append `groupBy/boundary` to
 the existing query to the `elements/count` endpoint. The endpoint path
 can either be given as a single string (`/groupBy/boundary`) or as a
 character vector:
-`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [3].
+`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [2].
 
 More comfortably, however, is the use of either the grouping argument
 with an elements aggregation function (e.g. 
@@ -220,7 +214,7 @@ the time of the last edit or the version number.
 
 The following query extracts the geometries of buildings within 1000 m
 of Heidelberg main station with their tags. The response is used to
-visualise the buildings and the values of their `building:levels` tag
+visualize the buildings and the values of their `building:levels` tag
 (if available):
 
 ``` r
@@ -253,14 +247,14 @@ will include all changes to matching OSM features with corresponding
 `validFrom` and `validTo` timestamps.
 
 Here, we request the full history of OSM buildings for the district of
-Schweinfurt City, filter for features that still exist and visualise all
+Schweinfurt City, filter for features that still exist and visualize all
 building features with their year of creation:
 
 ``` r
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.2
-#> Temporal extent: 2007-10-08 to 2022-01-09 20:00:00
+#> ohsome API version: 1.6.3
+#> Temporal extent: 2007-10-08 to 2022-05-02 06:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -331,14 +325,14 @@ intervals defined by a `fromTimestamp` and a `toTimestamp`.
 #### Extracting OSM contributions
 
 The
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extraction" target="blank">constributions extraction</a>
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extraction" target="blank">contributions extraction</a>
 endpoints of the ohsome API can be used to extract feature geometries of
 contributions.
 
 In the following example, we extract the centroids all amenities in the
 Berlin city district of Neukölln that have had contributions in March
 2020. Consequently, we filter for features that have had tags changed
-and visualise their locations:
+and visualize their locations:
 
 ``` r
 nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
@@ -435,15 +429,15 @@ osmdata::getbb("Kigali") |>
 #> 1  2018-01-01  28251.24
 #> 2  2018-02-01  28251.24
 #> 3  2018-03-01  29103.11
-#> 4  2018-04-01 186645.71
-#> 5  2018-05-01 378185.54
-#> 6  2018-06-01 473065.23
-#> 7  2018-07-01 615801.98
-#> 8  2018-08-01 648385.19
-#> 9  2018-09-01 753618.88
-#> 10 2018-10-01 771239.17
-#> 11 2018-11-01 847337.73
-#> 12 2018-12-01 858886.63
+#> 4  2018-04-01 187174.31
+#> 5  2018-05-01 378714.14
+#> 6  2018-06-01 473593.82
+#> 7  2018-07-01 616330.57
+#> 8  2018-08-01 648913.79
+#> 9  2018-09-01 754147.47
+#> 10 2018-10-01 771767.76
+#> 11 2018-11-01 848842.98
+#> 12 2018-12-01 860391.88
 ```
 
 3.  You can pass any `character` object with text in the
@@ -586,8 +580,8 @@ building_levels |>
 #>  5 2015-01-01 00:00:00 DE241 building.levels.4   745
 #>  6 2015-01-01 00:00:00 DE241 building.levels.5    96
 #>  7 2015-01-01 00:00:00 DE241 building.levels.6    38
-#>  8 2015-01-01 00:00:00 DE241 building.levels.9     7
-#>  9 2015-01-01 00:00:00 DE241 building.levels.0     0
+#>  8 2015-01-01 00:00:00 DE241 building.levels.0     0
+#>  9 2015-01-01 00:00:00 DE241 building.levels.9     7
 #> 10 2015-01-01 00:00:00 DE241 building.levels.7    32
 #> # … with 3,986 more rows
 ```
@@ -599,11 +593,7 @@ information provided through `citation("ohsome")`.
 
 ------------------------------------------------------------------------
 
-[1] When the `strict` argument is set to TRUE (default), `ohsome_post`
-throws an error on a missing `time` parameter and does not send the
-request to the API at all.
-
-[2] Instead of the new R native pipe `|>` you may choose to use
+[1] Instead of the new R native pipe `|>` you may choose to use
 `magrittr`’s `%>%`.
 
-[3] The order of the elements in the character vector is critical!
+[2] The order of the elements in the character vector is critical!

@@ -23,7 +23,7 @@ NULL
 #' @format An `ohsome_metadata` object. This is a named list with the 
 #'   attributes `date`, `status_code` (of the GET request) and the following list 
 #'   elements:
-#'   * `attribution`: characer; `url` and `text` of OSM data copyrights and 
+#'   * `attribution`: character; `url` and `text` of OSM data copyrights and 
 #'   attribution 
 #'   * `apiVersion`: numeric_version; Version of the ohsome API
 #'   * `timeout`: numeric; limit of the processing time in seconds
