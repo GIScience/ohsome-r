@@ -31,6 +31,7 @@
 #' @export
 #' @family Aggregate elements
 #' @examples
+#' \donttest{
 #' # Count of breweries in Franconia
 #' ohsome_aggregate_elements(
 #'     mapview::franconia, 
@@ -83,6 +84,7 @@
 #'     filter = "highway=* and geometry:line",
 #'     time = "2022-01-01"
 #' )
+#' }
 #'
 ohsome_aggregate_elements <- function(
 	boundary = NULL,
