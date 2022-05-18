@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "figures/", 
-  out.width = "100%"
+  out.width = "100%",
+  screenshot.opts = list(vwidth = 1000, vheight = 600), 
+  screenshot.force = TRUE
 )
 ```
 
