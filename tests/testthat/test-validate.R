@@ -124,3 +124,24 @@ test_that("issues specific warning on endpoint that allows no grouping", {
 	)
 	expect_false(suppressWarnings(validate_query(q)))
 })
+
+# original_query
+# q <- ohsome_elements_geometry(
+# 	rgeoboundaries::gb_adm0("Germany"), 
+# 	filter ="amenity=hospital", 
+# 	time="2022-01-01",
+# 	timeout = 200
+# )
+# r <- ohsome_post(q, parse = FALSE, validate = FALSE)
+# content <- httr::content(r, as = "text", encoding = "utf-8")
+
+content <- readRDS("data/elements-geometry-amenity-hospitals-Germany-content.rds")
+
+test_that(
+	"throws error on invalid JSON with 413 timeout message", {
+		expect_error(
+			validate_json(content),
+			"Invalid JSON in ohsome API response.\nThe given query is too large"
+		)
+	}
+)

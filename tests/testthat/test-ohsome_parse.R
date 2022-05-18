@@ -112,23 +112,3 @@ test_that(
 	"issues warning when omitting empty geometry features", {
 		expect_warning(ohsome_parse(r, returnclass = "sf"))
 })
-
-# original_query
-# q <- ohsome_elements_geometry(
-# 	rgeoboundaries::gb_adm0("Germany"), 
-# 	filter ="amenity=hospital", 
-# 	time="2022-01-01",
-# 	timeout = 200
-# )
-# r <- ohsome_post(q, parse = FALSE, validate = FALSE)
-
-r <- readRDS("data/elements-geometry-amenity-hospitals-Germany.rds")
-
-test_that(
-	"throws error on status 413 in response content", {
-		expect_error(
-			ohsome_parse(r),
-			"A broken response has been received. The given query is too large"
-		)
-	}
-)

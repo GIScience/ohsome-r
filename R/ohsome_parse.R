@@ -52,15 +52,6 @@ ohsome_parse <- function(
 	type <- httr::http_type(response)
 	content <- httr::content(response, as = "text", encoding = "utf-8")
 	
-	if(grepl('\"status\" : 413', content)) {
-		stop(
-			"A broken response has been received. ",
-			"The given query is too large in respect to the given timeout. ", 
-			"Please use a smaller region and/or coarser time period.",
-			call. = FALSE
-		)
-	} 
-
 	if(returnclass == "character") {
 
 		return(content)
@@ -71,6 +62,7 @@ ohsome_parse <- function(
 		type == "application/geo+json"
 
 	) {
+		validate_json(content)
 		content <- jsonlite::minify(content)
 		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
 		loc <- gregexpr(pattern = pattern, text = content)
@@ -115,7 +107,8 @@ ohsome_parse <- function(
 		}
 
 	} else if(type == "application/json") {
-
+		
+		validate_json(content)
 		p <- jsonlite::fromJSON(content, simplifyVector = TRUE)
 
 		if(returnclass == "list") {

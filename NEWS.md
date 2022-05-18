@@ -41,8 +41,7 @@ aggregation endpoints of ohsome API
 attaching) the package
 * Added endpoint-specific check for missing required parameters to query 
 validation
-* `ohsome_parse()` throws appropriate error if the response content contains a 
-status code 413 message (timeout)
+* Added validation of JSON response content
 * Updated `README` to reflect new features, added hints on boundary polygon
 acquisition through third-party packages
 * Added `CITATION` file with reference to OSHDB/ohsome API and technical paper
