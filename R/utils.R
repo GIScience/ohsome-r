@@ -3,6 +3,7 @@
 #' @param endpoint character (atomic or vector)
 #' @return character
 #' @keywords Internal
+#' @noRd
 build_endpoint_url <- function(endpoint) {
 	trimws(
 		httr::modify_url(
@@ -19,6 +20,7 @@ build_endpoint_url <- function(endpoint) {
 #'   parsed content of a response from the metadata endpoint of ohsome API
 #' @return An `sfc_POLYGON` object
 #' @keywords Internal
+#' @noRd
 convert_spatialExtent <- function(spatialExtent) {
 
 	if(spatialExtent$type != "Polygon") return(spatialExtent)
@@ -34,6 +36,7 @@ convert_spatialExtent <- function(spatialExtent) {
 #'   parsed content of a response from the metadata endpoint of ohsome API
 #' @return A `POSIXct` vector
 #' @keywords Internal
+#' @noRd
 convert_temporalExtent <- function(temporalExtent) {
 	lubridate::ymd_hms(unlist(temporalExtent), truncated = 3)
 }
@@ -49,6 +52,7 @@ convert_temporalExtent <- function(temporalExtent) {
 #'   endpoint of ohsome API
 #' @return A list (parsed and converted content of ohsome metadata)
 #' @keywords Internal
+#' @noRd
 convert_metadata <- function(parsed) {
 
 	spex <- parsed$extractRegion$spatialExtent
@@ -69,6 +73,7 @@ convert_metadata <- function(parsed) {
 #' @param meta An [ohsome_metadata] object
 #' @return character
 #' @keywords Internal
+#' @noRd
 create_metadata_message  <- function(meta) {
 	sprintf(
 		"Data: %s %s\nohsome API version: %s\nTemporal extent: %s to %s",
@@ -87,6 +92,7 @@ create_metadata_message  <- function(meta) {
 #' @inheritParams ohsome_post
 #' @return character
 #' @keywords Internal
+#' @noRd
 extract_endpoint <- function(query) {
 	gsub("^.*?/", "", httr::parse_url(query$url)$path)
 }
@@ -100,6 +106,7 @@ extract_endpoint <- function(query) {
 #' @param df data.frame
 #' @return data.frame
 #' @keywords Internal
+#' @noRd
 convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
 
 
@@ -112,4 +119,5 @@ convert_quietly <- function(df) suppressMessages(readr::type_convert(df))
 #' @param a left-side argument
 #' @param b right-side argument
 #' @keywords Internal
+#' @noRd
 `%||%` <- function(a, b) if (is.null(a)) b else a

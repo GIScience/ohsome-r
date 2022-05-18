@@ -9,6 +9,7 @@
 #'   (e.g. `"elements/count"`)
 #' @param body A list of named parameters to the ohsome API request
 #' @keywords Internal
+#' @noRd
 validate_parameters <- function(endpoint, body) {
 	
 	valid <- TRUE
@@ -98,6 +99,7 @@ validate_parameters <- function(endpoint, body) {
 #' @inheritParams validate_parameters
 #' @inherit validate_query return
 #' @keywords Internal
+#' @noRd
 validate_endpoint <- function(endpoint) {
 	
 	endpoint <- gsub("/$", "", endpoint)
@@ -145,6 +147,7 @@ validate_endpoint <- function(endpoint) {
 #' @inheritParams ohsome_post
 #' @return logical
 #' @keywords Internal
+#' @noRd
 validate_query <- function(query) {
 	
 	endpoint <- gsub("^.*?/", "", httr::parse_url(query$url)$path)
@@ -164,6 +167,7 @@ validate_query <- function(query) {
 #' @param json A JSON text string
 #' @return logical
 #' @keywords Internal
+#' @noRd
 validate_json <- function(json) {
 	
 	valid_json <- jsonlite::validate(json)
