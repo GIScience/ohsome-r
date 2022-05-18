@@ -154,3 +154,30 @@ validate_query <- function(query) {
 	}
 	return(valid_endpoint && valid_params)
 }
+
+#' Validate JSON response
+#'
+#' Validates ohsome API response content of type (Geo)JSON. Specifically checks 
+#' for HTTP status messages in the content and uses any message to issue a 
+#' warning. Returns a logical that indicates the validity of the JSON.
+#'
+#' @param json A JSON text string
+#' @return logical
+#' @keywords Internal
+validate_json <- function(json) {
+	
+	valid_json <- jsonlite::validate(json)
+	status_message_pattern <- '.*status\" : [0-9]{3},\n  \"message\" : \"'
+	
+	if(!valid_json && grepl(status_message_pattern, json)) {
+		warning(
+			paste(
+				"HTTP status message in ohsome API response content:",
+				sub('\".*$', "", sub(status_message_pattern, "", json)),
+				sep = "\n"
+			),
+			call. = FALSE
+		)
+	}
+	return(valid_json)
+}

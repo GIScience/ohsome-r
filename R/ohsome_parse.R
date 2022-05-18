@@ -62,7 +62,11 @@ ohsome_parse <- function(
 		type == "application/geo+json"
 
 	) {
-		validate_json(content)
+		if(!validate_json(content)) {
+			warning("Invalid JSON in ohsome API response. Returning character.")
+			return(content)
+		}
+		
 		content <- jsonlite::minify(content)
 		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
 		loc <- gregexpr(pattern = pattern, text = content)
@@ -108,7 +112,11 @@ ohsome_parse <- function(
 
 	} else if(type == "application/json") {
 		
-		validate_json(content)
+		if(!validate_json(content)) {
+			warning("Invalid JSON in ohsome API response. Returning character.")
+			return(content)
+		}
+		
 		p <- jsonlite::fromJSON(content, simplifyVector = TRUE)
 
 		if(returnclass == "list") {

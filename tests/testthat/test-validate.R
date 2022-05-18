@@ -138,10 +138,11 @@ test_that("issues specific warning on endpoint that allows no grouping", {
 content <- readRDS("data/elements-geometry-amenity-hospitals-Germany-content.rds")
 
 test_that(
-	"throws error on invalid JSON with 413 timeout message", {
-		expect_error(
+	"issues specific warning on invalid JSON with 413 timeout message", {
+		expect_warning(
 			validate_json(content),
-			"Invalid JSON in ohsome API response.\nThe given query is too large"
+			"response content:\nThe given query is too large"
 		)
+		expect_false(suppressWarnings(validate_json(content)))
 	}
 )
