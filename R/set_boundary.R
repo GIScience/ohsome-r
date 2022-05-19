@@ -20,10 +20,14 @@
 #' )
 #'
 #' # Use franconia from the mapview package as bounding polygons
+#' \donttest{
 #' set_boundary(q, mapview::franconia, digits = 4)
+#' }
 #' 
 #' # Use the bounding box of franconia
+#' \donttest{
 #' set_boundary(q, sf::st_bbox(mapview::franconia))
+#' }
 #' 
 #' \dontrun{
 #' # Get bounding box of the city of Kigali from OSM

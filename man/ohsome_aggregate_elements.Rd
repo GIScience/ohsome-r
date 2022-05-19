@@ -124,6 +124,7 @@ endpoints. Boundary objects are passed via \code{\link[=set_boundary]{set_bounda
 \code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
+\donttest{
 # Count of breweries in Franconia
 ohsome_aggregate_elements(
     mapview::franconia, 
@@ -176,6 +177,7 @@ ohsome_elements_length(
     filter = "highway=* and geometry:line",
     time = "2022-01-01"
 )
+}
 
 }
 \seealso{

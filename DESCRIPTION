@@ -6,11 +6,11 @@ Authors@R: c(
     person("Oliver", "Fritz", , "oliver.fritz@heigit.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6324-7295"))
   )
-Description: A client that grants access to the power of the
-    'ohsome API' from R. It lets you analyze the rich data source of the
-    'OpenStreetMap (OSM)' history. You can retrieve the geometry of 'OSM' data
-    at specific points in time, and you can get aggregated statistics on
-    the evolution of 'OSM' elements and specify your own temporal, spatial
+Description: A client that grants access to the power of the 'ohsome API'
+    from R. It lets you analyze the rich data source of the 
+    'OpenStreetMap (OSM)' history. You can retrieve the geometry of 'OSM' data 
+    at specific points in time, and you can get aggregated statistics on the
+    evolution of 'OSM' elements and specify your own temporal, spatial
     and/or thematic filters.
 License: GPL (>= 3)
 URL: 
@@ -39,12 +39,13 @@ Suggests:
     rmarkdown,
     spelling,
     testthat (>= 3.0.0),
-    tidyr
+    tidyr,
+    tmaptools
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
-Language: en-US

@@ -88,10 +88,14 @@ ohsome_boundary("Circle 1:8.6528,49.3683,1000|Circle 2:8.7294,49.4376,1000")
 ohsome_boundary(c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
 
 # Use franconia from the mapview package as bounding polygons
+\donttest{
 ohsome_boundary(mapview::franconia, digits = 4)
-
+}
+ 
 # Use the bounding box of franconia
+\donttest{
 ohsome_boundary(sf::st_bbox(mapview::franconia))
+}
 
 # Get bounding box of the city of Berlin from OSM
 \dontrun{

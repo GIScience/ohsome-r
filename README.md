@@ -94,7 +94,7 @@ response. In this case, this is a simple `data.frame` of only one row.
 ``` r
 ohsome_post(q)
 #>             timestamp value
-#> 1 2022-05-02 06:00:00   145
+#> 1 2022-05-15 20:00:00   146
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -254,7 +254,7 @@ building features with their year of creation:
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.3
-#> Temporal extent: 2007-10-08 to 2022-05-02 06:00:00
+#> Temporal extent: 2007-10-08 to 2022-05-15 20:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
