@@ -12,9 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "figures/", 
-  out.width = "100%",
-  screenshot.opts = list(vwidth = 1000, vheight = 600), 
-  screenshot.force = TRUE
+  out.width = "100%"
 )
 ```
 
@@ -207,8 +205,10 @@ Heidelberg main station with their tags. The response is used to visualize
 the buildings and the values of their `building:levels` tag (if available):
 
 ```{r building_levels, warning = FALSE}
+hd_station_1km <- ohsome_boundary("8.67542,49.40347,1000")
+
 ohsome_elements_geometry(
-	boundary = "8.67542,49.40347,1000", 
+	boundary = hd_station_1km, 
 	filter = "building=* and type:way", 
 	time = "2021-12-01",
 	properties = "tags", 
@@ -233,19 +233,17 @@ elements at specific timestamps, results of queries to the
 will include all changes to matching OSM features with corresponding 
 `validFrom` and `validTo` timestamps.
 
-Here, we request the full history of OSM buildings for the district of Schweinfurt
-City, filter for features that still exist and visualize all building features 
-with their year of creation:
+Here, we request the full history of OSM buildings within 1000 m of Heidelberg
+main station, filter for features that still exist and visualize all building 
+features with their year of creation:
 
 ```{r buildings}
 meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
-schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
-
-m <- schweinfurt %>%
-	ohsome_elementsFullHistory_geometry(
+m <- ohsome_elementsFullHistory_geometry(
+		boundary = hd_station_1km,
 		time = c(start, end),
 		filter = "building=* and geometry:polygon", 
 		clipGeometry = FALSE,
@@ -257,15 +255,12 @@ m <- schweinfurt %>%
 	mutate(year = min(format(valid_from, "%Y"))) |>
 	filter(valid_to == end) |>
 	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
-
-m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
 
 You may find using `clean_names()` from the 
 [janitor](https://github.com/sfirke/janitor){target=blank} 
-package helpful in order
-to remove special characters from column names in the parsed ohsome API 
-response -- just as in the example above.
+package helpful in order to remove special characters from column names in the 
+parsed ohsome API response -- just as in the example above.
 
 ### OSM contributions
 

@@ -218,8 +218,10 @@ visualize the buildings and the values of their `building:levels` tag
 (if available):
 
 ``` r
+hd_station_1km <- ohsome_boundary("8.67542,49.40347,1000")
+
 ohsome_elements_geometry(
-    boundary = "8.67542,49.40347,1000", 
+    boundary = hd_station_1km, 
     filter = "building=* and type:way", 
     time = "2021-12-01",
     properties = "tags", 
@@ -246,9 +248,9 @@ the
 will include all changes to matching OSM features with corresponding
 `validFrom` and `validTo` timestamps.
 
-Here, we request the full history of OSM buildings for the district of
-Schweinfurt City, filter for features that still exist and visualize all
-building features with their year of creation:
+Here, we request the full history of OSM buildings within 1000 m of
+Heidelberg main station, filter for features that still exist and
+visualize all building features with their year of creation:
 
 ``` r
 meta <- ohsome_get_metadata()
@@ -258,10 +260,8 @@ meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
-schweinfurt <- franconia |> filter(NAME_ASCI == "Schweinfurt, Kreisfreie Stadt")
-
-m <- schweinfurt %>%
-    ohsome_elementsFullHistory_geometry(
+m <- ohsome_elementsFullHistory_geometry(
+        boundary = hd_station_1km,
         time = c(start, end),
         filter = "building=* and geometry:polygon", 
         clipGeometry = FALSE,
@@ -273,11 +273,7 @@ m <- schweinfurt %>%
     mutate(year = min(format(valid_from, "%Y"))) |>
     filter(valid_to == end) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
-
-m@map %>% leaflet::setView(10.23, 50.04, zoom = 13)
 ```
-
-<img src="man/figures/README-buildings-1.png" width="900" />
 
 You may find using `clean_names()` from the
 <a href="https://github.com/sfirke/janitor" target="blank">janitor</a>
@@ -429,15 +425,15 @@ osmdata::getbb("Kigali") |>
 #> 1  2018-01-01  28251.24
 #> 2  2018-02-01  28251.24
 #> 3  2018-03-01  29103.11
-#> 4  2018-04-01 187174.31
-#> 5  2018-05-01 378714.14
-#> 6  2018-06-01 473593.82
-#> 7  2018-07-01 616330.57
-#> 8  2018-08-01 648913.79
-#> 9  2018-09-01 754147.47
-#> 10 2018-10-01 771767.76
-#> 11 2018-11-01 848842.98
-#> 12 2018-12-01 860391.88
+#> 4  2018-04-01 186645.71
+#> 5  2018-05-01 378185.54
+#> 6  2018-06-01 473065.23
+#> 7  2018-07-01 615801.98
+#> 8  2018-08-01 648385.19
+#> 9  2018-09-01 753618.88
+#> 10 2018-10-01 771239.17
+#> 11 2018-11-01 847337.73
+#> 12 2018-12-01 858886.63
 ```
 
 3.  You can pass any `character` object with text in the
