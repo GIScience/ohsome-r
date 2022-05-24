@@ -114,20 +114,6 @@ test_that(
 })
 
 # original query:
-# ams <- paste(
-# 	"9.185889,49.3645403",
-# 	"7.1587437,48.8903497",
-# 	"5.0183038,49.7603079",
-# 	"4.8489984,51.1699332",
-# 	"6.9359937,51.7061912",
-# 	"9.1311843,50.7703946",
-# 	"9.185889,49.3645403",
-# 	sep = ","
-# )
-# q <- ohsome_elements_count(ams, filter = 'building=*', time = '2022-01')
-# r <- ohsome_post(q, parse = F)
-
-# original query:
 # boundary <- "6.75,51.4,500000"
 # q <- ohsome_elements_count(boundary, filter = 'building=*', time = '2022-01')
 # r <- ohsome_post(q, parse = F)
