@@ -112,3 +112,31 @@ test_that(
 	"issues warning when omitting empty geometry features", {
 		expect_warning(ohsome_parse(r, returnclass = "sf"))
 })
+
+# original query:
+# ams <- paste(
+# 	"9.185889,49.3645403",
+# 	"7.1587437,48.8903497",
+# 	"5.0183038,49.7603079",
+# 	"4.8489984,51.1699332",
+# 	"6.9359937,51.7061912",
+# 	"9.1311843,50.7703946",
+# 	"9.185889,49.3645403",
+# 	sep = ","
+# )
+# q <- ohsome_elements_count(ams, filter = 'building=*', time = '2022-01')
+# r <- ohsome_post(q, parse = F)
+
+# original query:
+# boundary <- "6.75,51.4,500000"
+# q <- ohsome_elements_count(boundary, filter = 'building=*', time = '2022-01')
+# r <- ohsome_post(q, parse = F)
+
+r <- readRDS("data/elements-count-buildings-csv.rds")
+
+test_that(
+	"correctly converts scientific notation value", {
+		p <- ohsome_parse(r)
+		expect_equal(p$value[1], 67003817L)
+	}
+)
