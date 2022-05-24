@@ -244,13 +244,13 @@ meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
-m <- ohsome_elementsFullHistory_geometry(
-		boundary = hd_station_1km,
-		time = c(start, end),
-		filter = "building=* and geometry:polygon", 
-		clipGeometry = FALSE,
-		properties = "metadata"
-	) |> 
+ohsome_elementsFullHistory_geometry(
+	boundary = hd_station_1km,
+	time = c(start, end),
+	filter = "building=* and geometry:polygon", 
+	clipGeometry = FALSE,
+	properties = "metadata"
+) |> 
 	ohsome_post() |>
 	janitor:: clean_names() |>
 	group_by(osm_id) |>

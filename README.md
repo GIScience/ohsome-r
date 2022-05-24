@@ -260,13 +260,13 @@ meta <- ohsome_get_metadata()
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
-m <- ohsome_elementsFullHistory_geometry(
-        boundary = hd_station_1km,
-        time = c(start, end),
-        filter = "building=* and geometry:polygon", 
-        clipGeometry = FALSE,
-        properties = "metadata"
-    ) |> 
+ohsome_elementsFullHistory_geometry(
+    boundary = hd_station_1km,
+    time = c(start, end),
+    filter = "building=* and geometry:polygon", 
+    clipGeometry = FALSE,
+    properties = "metadata"
+) |> 
     ohsome_post() |>
     janitor:: clean_names() |>
     group_by(osm_id) |>
@@ -274,6 +274,8 @@ m <- ohsome_elementsFullHistory_geometry(
     filter(valid_to == end) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 ```
+
+<img src="man/figures/README-buildings-1.png" width="900" />
 
 You may find using `clean_names()` from the
 <a href="https://github.com/sfirke/janitor" target="blank">janitor</a>
