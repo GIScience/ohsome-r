@@ -7,16 +7,16 @@
 
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
 [![status:
-experimental](https://github.com/GIScience/badges/raw/master/status/experimental.svg)](https://github.com/GIScience/badges#experimental)
+active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
 <!-- badges: end -->
 
 This ohsome R package grants access to the power of the
 <a href="https://api.ohsome.org" target="blank">ohsome API</a> from R.
 ohsome lets you analyze the rich data source of the
-<a href="https://www.openstreetmap.org/" target="blank">OpenStreetMap</a>
-(OSM) history. It aims to leverage the tools of the
-<a href="https://github.com/GIScience/oshdb" target="blank">OpenStreetMap History Database</a>
-(OSHDB).
+<a href="https://www.openstreetmap.org/"
+target="blank">OpenStreetMap</a> (OSM) history. It aims to leverage the
+tools of the <a href="https://github.com/GIScience/oshdb"
+target="blank">OpenStreetMap History Database</a> (OSHDB).
 
 With ohsome, you can …
 
@@ -34,7 +34,8 @@ With ohsome, you can …
 ## Installation
 
 You can install ohsome from
-<a href="https://github.com/GIScience/ohsome-r" target="blank">GitHub</a>:
+<a href="https://github.com/GIScience/ohsome-r"
+target="blank">GitHub</a>:
 
 ``` r
 remotes::install_github("GIScience/ohsome-r", ref = "dev-0.2.0")
@@ -58,8 +59,9 @@ You can create any ohsome API query using the generic `ohsome_query()`
 function. It takes the endpoint path and any query parameters as inputs.
 For information on all available endpoints with their parameters,
 consult the
-<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html" target="blank">ohsome API documentation</a>
-or print `ohsome_endpoints` to the console.
+<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html"
+target="blank">ohsome API documentation</a> or print `ohsome_endpoints`
+to the console.
 
 However, this ohsome R package provides specific wrapper functions for
 queries to all available endpoints.
@@ -68,18 +70,19 @@ queries to all available endpoints.
 
 #### Aggregating OSM elements
 
-The
-<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation" target="blank">elements aggregation endpoints</a>
-of the ohsome API allow querying for the aggregated amount, length, area
-or perimeter of OpenStreetMap elements with given properties, within
-given boundaries and at given points in time.
+The <a
+href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation"
+target="blank">elements aggregation endpoints</a> of the ohsome API
+allow querying for the aggregated amount, length, area or perimeter of
+OpenStreetMap elements with given properties, within given boundaries
+and at given points in time.
 
 Let us create a query for the total amount of breweries on OSM in the
 region of Franconia. The first argument to `ohsome_elements_count()` is
 the `sf` object `franconia` that is included in the
-<a href="https://r-spatial.github.io/mapview/" target="blank">mapview</a>
-package and contains boundary polygons of the 37 districts of the
-region:
+<a href="https://r-spatial.github.io/mapview/"
+target="blank">mapview</a> package and contains boundary polygons of the
+37 districts of the region:
 
 ``` r
 library(mapview)
@@ -94,7 +97,7 @@ response. In this case, this is a simple `data.frame` of only one row.
 ``` r
 ohsome_post(q)
 #>             timestamp value
-#> 1 2022-05-15 20:00:00   146
+#> 1 2022-05-22 20:00:00   146
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -104,16 +107,17 @@ OSHDB.
 
 Defining the `time` parameter unlocks the full power of ohsome API by
 giving access to the OSM history. It requires one or more
-<a href="https://docs.ohsome.org/ohsome-api/stable/time.html" target="blank">ISO-8601 conform timestring(s)</a>.
-Here is how to create a query for the number of breweries at the first
-of each month between 2010 and 2020:
+<a href="https://docs.ohsome.org/ohsome-api/stable/time.html"
+target="blank">ISO-8601 conform timestring(s)</a>. Here is how to create
+a query for the number of breweries at the first of each month between
+2010 and 2020:
 
 ``` r
 ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1M")
 ```
 
 Alternatively, we can update the existing `ohsome_query` object `q` with
-the `set_time()` function, pipe [1] the modified query directly into
+the `set_time()` function, pipe [^1] the modified query directly into
 `ohsome_post()` and make a quick visualization with `ggplot2`:
 
 ``` r
@@ -141,7 +145,7 @@ of an API request. In this case, we could append `groupBy/boundary` to
 the existing query to the `elements/count` endpoint. The endpoint path
 can either be given as a single string (`/groupBy/boundary`) or as a
 character vector:
-`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [2].
+`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [^2].
 
 More comfortably, however, is the use of either the grouping argument
 with an elements aggregation function (e.g. 
@@ -204,13 +208,14 @@ franconia |>
 
 #### Extracting OSM elements
 
-The
-<a href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction" target="blank">elements extraction endpoints</a>
-of the ohsome API allow obtaining geometries, bounding boxes or
-centroids of OSM elements with given properties, within given boundaries
-and at given points in time. Together with the elements, you can choose
-to query for their tags and/or their metadata such as the changeset ID,
-the time of the last edit or the version number.
+The <a
+href="https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-extraction"
+target="blank">elements extraction endpoints</a> of the ohsome API allow
+obtaining geometries, bounding boxes or centroids of OSM elements with
+given properties, within given boundaries and at given points in time.
+Together with the elements, you can choose to query for their tags
+and/or their metadata such as the changeset ID, the time of the last
+edit or the version number.
 
 The following query extracts the geometries of buildings within 1000 m
 of Heidelberg main station with their tags. The response is used to
@@ -243,10 +248,11 @@ results if querying for bounding boxes.
 
 While the elements extraction endpoints provide geometries and
 properties of OSM elements at specific timestamps, results of queries to
-the
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#elements-full-history-extraction" target="blank">full history endpoints</a>
-will include all changes to matching OSM features with corresponding
-`validFrom` and `validTo` timestamps.
+the <a
+href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#elements-full-history-extraction"
+target="blank">full history endpoints</a> will include all changes to
+matching OSM features with corresponding `validFrom` and `validTo`
+timestamps.
 
 Here, we request the full history of OSM buildings within 1000 m of
 Heidelberg main station, filter for features that still exist and
@@ -256,7 +262,7 @@ visualize all building features with their year of creation:
 meta <- ohsome_get_metadata()
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.6.3
-#> Temporal extent: 2007-10-08 to 2022-05-15 20:00:00
+#> Temporal extent: 2007-10-08 to 2022-05-22 20:00:00
 start <- as.Date(meta$extractRegion$temporalExtent[1])
 end <- as.Date(meta$extractRegion$temporalExtent[2])
 
@@ -286,13 +292,14 @@ in the parsed ohsome API response – just as in the example above.
 
 #### Aggregating OSM contributions
 
-With queries to the ohsome API’s
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation" target="blank">contributions aggregation endpoints</a>,
-you can get counts of the contributions provided by users to OSM. The
-following code requests the number of deletions of man-made objects at
-the location of the hypothetical
-<a href="https://en.wikipedia.org/wiki/Null_Island" target="blank">Null Island</a>
-per year between 2010 and 2020:
+With queries to the ohsome API’s <a
+href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation"
+target="blank">contributions aggregation endpoints</a>, you can get
+counts of the contributions provided by users to OSM. The following code
+requests the number of deletions of man-made objects at the location of
+the hypothetical
+<a href="https://en.wikipedia.org/wiki/Null_Island" target="blank">Null
+Island</a> per year between 2010 and 2020:
 
 ``` r
 ohsome_contributions_count(
@@ -322,10 +329,10 @@ intervals defined by a `fromTimestamp` and a `toTimestamp`.
 
 #### Extracting OSM contributions
 
-The
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extraction" target="blank">contributions extraction</a>
-endpoints of the ohsome API can be used to extract feature geometries of
-contributions.
+The <a
+href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extraction"
+target="blank">contributions extraction</a> endpoints of the ohsome API
+can be used to extract feature geometries of contributions.
 
 In the following example, we extract the centroids all amenities in the
 Berlin city district of Neukölln that have had contributions in March
@@ -349,9 +356,9 @@ nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
 ### OSM users
 
 You can get statistics on the number of users editing specific features
-through the
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#users-aggregation" target="blank">users aggregation</a>
-endpoints of the ohsome API.
+through the <a
+href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#users-aggregation"
+target="blank">users aggregation</a> endpoints of the ohsome API.
 
 Here, we show the number of users editing buildings before, during and
 after Nepal earthquake 2015:
@@ -376,10 +383,11 @@ ohsome_users_count(
 The ohsome API requires bounding geometries either as bounding polygons
 (`bpolys`), bounding boxes (`bboxes`) or bounding circles (`bcircles`)
 parameters to the query in a textual form (see
-<a href="https://docs.ohsome.org/ohsome-api/stable/boundaries.html" target="blank">ohsome API documentation</a>).
-The ohsome R package uses the generic function `ohsome_boundary()` under
-the hood to make your life easier. It accepts a wider range of input
-geometry formats, while guessing the right type of bounding geometry.
+<a href="https://docs.ohsome.org/ohsome-api/stable/boundaries.html"
+target="blank">ohsome API documentation</a>). The ohsome R package uses
+the generic function `ohsome_boundary()` under the hood to make your
+life easier. It accepts a wider range of input geometry formats, while
+guessing the right type of bounding geometry.
 
 As seen above, `sf` objects can be passed into the `boundary` argument
 of `ohsome_query()` and any of its wrapper functions. You can also
@@ -388,16 +396,16 @@ into GeoJSON and passed into the `bpolys` parameter of the query.
 
 If you wish to aggregate or extract OSM elements on administrative
 boundaries in the `sf` format, you might want to check out packages such
-as
-<a href="https://github.com/ropensci/rnaturalearth" target="blank">rnaturalearth</a>,
+as <a href="https://github.com/ropensci/rnaturalearth"
+target="blank">rnaturalearth</a>,
 <a href="https://github.com/rspatial/geodata" target="blank">geodata</a>,
 <a href="https://github.com/rspatial/raster" target="blank">raster</a>
 (in particular its `getData()` function),
-<a href="https://gitlab.com/dickoa/rgeoboundaries" target="blank">rgeoboundaries</a>
-or
-<a href="https://github.com/dieghernan/nominatimlite" target="blank">nominatimlite</a>
-for the acquisition of boundary data that can be used with
-`ohsome_boundary()`.
+<a href="https://gitlab.com/dickoa/rgeoboundaries"
+target="blank">rgeoboundaries</a> or
+<a href="https://github.com/dieghernan/nominatimlite"
+target="blank">nominatimlite</a> for the acquisition of boundary data
+that can be used with `ohsome_boundary()`.
 
 There are also the following methods of `ohsome_boundary()` for other
 classes of input geometry objects:
@@ -439,8 +447,9 @@ osmdata::getbb("Kigali") |>
 ```
 
 3.  You can pass any `character` object with text in the
-    <a href="https://docs.ohsome.org/ohsome-api/stable/boundaries.html" target="blank">format allowed by the ohsome API</a>
-    to `ohsome_boundary()` – even GeoJSON FeatureCollections. It will
+    <a href="https://docs.ohsome.org/ohsome-api/stable/boundaries.html"
+    target="blank">format allowed by the ohsome API</a> to
+    `ohsome_boundary()` – even GeoJSON FeatureCollections. It will
     automatically detect whether you have passed the definition of
     `bpolys`, `bboxes` or `bcircles`. It is possible to use `character`
     vectors where each element represents one geometry:
@@ -493,9 +502,9 @@ q |>
 
 ### Grouping
 
-<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html" target="blank">Grouping endpoints</a>
-are available for aggregation resources and can be used to compute the
-aggregated results grouped by:
+<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html"
+target="blank">Grouping endpoints</a> are available for aggregation
+resources and can be used to compute the aggregated results grouped by:
 
 -   boundary,
 -   key,
@@ -507,8 +516,8 @@ by `tag`. Some of the grouping endpoints require additional query
 parameters, e.g. `tag` groupings require a `groupByKey` parameter. Not
 all grouping endpoints are available for all aggregation resources –
 please consult the
-<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html" target="blank">ohsome API documentation</a>
-for details.
+<a href="https://docs.ohsome.org/ohsome-api/v1/group-by.html"
+target="blank">ohsome API documentation</a> for details.
 
 You can set the `grouping` argument to any aggregation endpoint wrapper
 function (e.g. `ohsome_elements_count(grouping = c("boundary", "tag"))`)
@@ -516,21 +525,21 @@ or use `set_grouping()` to modify existing query objects.
 
 ### Density and ratio requests
 
-Many
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html" target="blank">aggregation resources</a>
-have endpoints for requesting density (i.e. count, length, perimeter or
-area of features **per area**) or ratios (of OSM elements satisfying a
-`filter2` to elements satisfying a `filter`) instead of or in addition
-to absolute values.
+Many <a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html"
+target="blank">aggregation resources</a> have endpoints for requesting
+density (i.e. count, length, perimeter or area of features **per area**)
+or ratios (of OSM elements satisfying a `filter2` to elements satisfying
+a `filter`) instead of or in addition to absolute values.
 
 You can request density or ratio values by setting the `return_value`
 argument to aggregation endpoint wrapper functions (e.g. 
 `ohsome_elements_count(return_value = "density")`). Mind that ratio
 endpoints require an additional `filter2` query parameter. Please
 consult the
-<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html" target="blank">ohsome API documentation</a>
-or print `names(ohsome_endpoints)` to the console in order to check for
-the availability of specific density and ratio endpoints.
+<a href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html"
+target="blank">ohsome API documentation</a> or print
+`names(ohsome_endpoints)` to the console in order to check for the
+availability of specific density and ratio endpoints.
 
 ### Dealing with complex API responses
 
@@ -591,7 +600,7 @@ information provided through `citation("ohsome")`.
 
 ------------------------------------------------------------------------
 
-[1] Instead of the new R native pipe `|>` you may choose to use
-`magrittr`’s `%>%`.
+[^1]: Instead of the new R native pipe `|>` you may choose to use
+    `magrittr`’s `%>%`.
 
-[2] The order of the elements in the character vector is critical!
+[^2]: The order of the elements in the character vector is critical!
