@@ -12,7 +12,7 @@ Description: A client that grants access to the power of the 'ohsome API'
     at specific points in time, and you can get aggregated statistics on the
     evolution of 'OSM' elements and specify your own temporal, spatial
     and/or thematic filters.
-License: GPL (>= 3)
+License: LGPL (>= 3)
 URL: 
     https://github.com/GIScience/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
 BugReports: https://github.com/GIScience/ohsome-r/issues
