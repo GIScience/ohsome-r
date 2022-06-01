@@ -8,6 +8,7 @@
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
 [![status:
 active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
+![CRAN status](https://www.r-pkg.org/badges/version-ago/ohsome)
 <!-- badges: end -->
 
 This ohsome R package grants access to the power of the
@@ -38,7 +39,7 @@ You can install ohsome from
 target="blank">GitHub</a>:
 
 ``` r
-remotes::install_github("GIScience/ohsome-r", ref = "dev-0.2.0")
+remotes::install_github("GIScience/ohsome-r", ref = "main")
 ```
 
 ## Getting started
@@ -147,7 +148,7 @@ can either be given as a single string (`/groupBy/boundary`) or as a
 character vector:
 `set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [^2].
 
-More comfortably, however, is the use of either the grouping argument
+More comfortable, however, is the use of either the grouping argument
 with an elements aggregation function (e.g. 
 `ohsome_elements_count(grouping = "boundary)`) or of the
 `set_grouping()` function to modify an existing query object:
@@ -191,7 +192,7 @@ extraction queries as well as for aggregations grouped by boundaries.
 
 Thus, you can easily create a choropleth map from the query results. In
 addition, you can set the argument `return_value` to `density`. This
-will modify the endpoint path of the query so that ohsome return the
+will modify the endpoint path of the query so that ohsome returns the
 number of breweries per area instead of the absolute value:
 
 ``` r
@@ -334,10 +335,10 @@ href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-extract
 target="blank">contributions extraction</a> endpoints of the ohsome API
 can be used to extract feature geometries of contributions.
 
-In the following example, we extract the centroids all amenities in the
-Berlin city district of Neukölln that have had contributions in March
-2020. Consequently, we filter for features that have had tags changed
-and visualize their locations:
+In the following example, we extract the centroids of all amenities in
+the Berlin city district of Neukölln that have had contributions in
+March 2020. Consequently, we filter for features that have had tags
+changed and visualize their locations:
 
 ``` r
 nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
@@ -361,7 +362,7 @@ href="https://docs.ohsome.org/ohsome-api/v1/endpoints.html#users-aggregation"
 target="blank">users aggregation</a> endpoints of the ohsome API.
 
 Here, we show the number of users editing buildings before, during and
-after Nepal earthquake 2015:
+after the Nepal earthquake 2015:
 
 ``` r
 ohsome_users_count(
