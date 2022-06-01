@@ -7,11 +7,11 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-6324-7295"))
   )
 Description: A client that grants access to the power of the 'ohsome API'
-    from R. It lets you analyze the rich data source of the 'OpenStreetMap
-    (OSM)' history. You can retrieve the geometry of 'OSM' data at
-    specific points in time, and you can get aggregated statistics on the
-    evolution of 'OSM' elements and specify your own temporal, spatial
-    and/or thematic filters.
+    from R. It lets you analyze the rich data source of the 
+    'OpenStreetMap (OSM)' history. You can retrieve the geometry of 'OSM' 
+    data at specific points in time, and you can get aggregated statistics 
+    on the evolution of 'OSM' elements and specify your own temporal, 
+    spatial and/or thematic filters.
 License: LGPL (>= 3)
 URL: 
     https://github.com/GIScience/ohsome-r,https://docs.ohsome.org/ohsome-api/stable/
@@ -38,6 +38,7 @@ Suggests:
     rmarkdown,
     spelling,
     testthat (>= 3.0.0),
+    tmaptools,
     tidyr
 VignetteBuilder: 
     knitr
