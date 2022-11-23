@@ -6,7 +6,7 @@ with_mock_api({
 	test_that(
 		"returns metadata", {
 			meta <- ohsome_get_metadata(quiet = T)
-			expect_equal(meta$apiVersion, numeric_version("99999"))
+			expect_equal(meta$apiVersion, "1.8.0-RC1")
 			expect_type(meta, "list")
 			expect_s3_class(meta, "ohsome_metadata")
 	})
