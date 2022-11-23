@@ -12,7 +12,7 @@
 #'   elements:
 #'   * `attribution`: character; `url` and `text` of OSM data copyrights and 
 #'   attribution 
-#'   * `apiVersion`: numeric_version; Version of the ohsome API
+#'   * `apiVersion`: character; Version of the ohsome API
 #'   * `timeout`: numeric; limit of the processing time in seconds
 #'   * `extractRegion`:
 #'     * `spatialExtent`: sfc_POLYGON; spatial boundary of the OSM data in the 

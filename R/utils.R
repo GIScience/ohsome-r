@@ -45,8 +45,8 @@ convert_temporalExtent <- function(temporalExtent) {
 #' Convert ohsome metadata content
 #'
 #' Converts the following elements of a response from the metadata endpoint of 
-#' ohsome API: `apiVersion` to `numeric_version`, `spatialExtent` to 
-#' `sfc_POLYGON` and `temporalExtent` to a vector of `POSIXct`
+#' ohsome API: `spatialExtent` to `sfc_POLYGON` and `temporalExtent` to a 
+#' vector of `POSIXct`
 #'
 #' @param parsed The parsed content of a response object from the metadata 
 #'   endpoint of ohsome API
@@ -58,7 +58,6 @@ convert_metadata <- function(parsed) {
 	spex <- parsed$extractRegion$spatialExtent
 	tex <- parsed$extractRegion$temporalExtent
 
-	parsed$apiVersion <- numeric_version(parsed$apiVersion)
 	parsed$extractRegion$spatialExtent <- convert_spatialExtent(spex)
 	parsed$extractRegion$temporalExtent <- convert_temporalExtent(tex)
 
