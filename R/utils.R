@@ -38,7 +38,21 @@ convert_spatialExtent <- function(spatialExtent) {
 #' @keywords Internal
 #' @noRd
 convert_temporalExtent <- function(temporalExtent) {
-	lubridate::ymd_hms(unlist(temporalExtent), truncated = 3)
+	
+	l <- lapply(
+		temporalExtent, 
+		as.POSIXct,
+		tz = "UTC",
+		tryFormats = c(
+			"%Y-%m-%dT%H:%M:%OSZ",
+			"%Y-%m-%dT%H:%MZ", 
+			"%Y-%m-%dT%HZ",
+			"%Y-%m-%dZ",
+			"%Y-%m-%d"
+		)
+	)
+	
+	do.call("c", l)
 }
 
 

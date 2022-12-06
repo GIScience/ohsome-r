@@ -17,7 +17,7 @@ elements:
 \itemize{
 \item \code{attribution}: character; \code{url} and \code{text} of OSM data copyrights and
 attribution
-\item \code{apiVersion}: numeric_version; Version of the ohsome API
+\item \code{apiVersion}: character; Version of the ohsome API
 \item \code{timeout}: numeric; limit of the processing time in seconds
 \item \code{extractRegion}:
 \itemize{
