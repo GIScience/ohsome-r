@@ -43,8 +43,9 @@ Extracts and parses the content from an ohsome API response
 \details{
 \code{ohsome_parse()} parses an \code{ohsome_response} object into an object of the
 specified class. By default, this is an \code{sf} object if the ohsome API
-response contains GeoJSON data or else a \code{data.frame}. \code{ohsome_sf()} and
-\code{ohsome_df()} wrapper functions for specific return classes.
+response contains GeoJSON data or a \code{data.frame} if it does not.
+\code{ohsome_sf()} and \code{ohsome_df()} wrapper functions for specific return
+classes.
 }
 \examples{
 \dontrun{

@@ -4,8 +4,9 @@
 #'
 #' `ohsome_parse()` parses an `ohsome_response` object into an object of the 
 #' specified class. By default, this is an `sf` object if the ohsome API 
-#' response contains GeoJSON data or else a `data.frame`. `ohsome_sf()` and 
-#' `ohsome_df()` wrapper functions for specific return classes.
+#' response contains GeoJSON data or a `data.frame` if it does not. 
+#' `ohsome_sf()` and `ohsome_df()` wrapper functions for specific return 
+#' classes.
 #'
 #' @param response An `ohsome_response` object
 #' @param returnclass character; one of the following:

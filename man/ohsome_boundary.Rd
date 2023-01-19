@@ -73,7 +73,7 @@ An \code{ohsome_boundary} object which contains the following elements:
 }
 }
 \description{
-Creates an \code{ohsome_boundary} object from input geometries of various classes.
+Creates an \code{ohsome_boundary} object from various classes of input geometries.
 The \code{ohsome_boundary} object is used to set the \code{bpolys}, \code{bboxes} or
 \code{bcircles} parameter of an \code{ohsome_query} object.
 }

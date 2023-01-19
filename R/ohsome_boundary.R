@@ -1,6 +1,6 @@
 #' Create an `ohsome_boundary` object
 #'
-#' Creates an `ohsome_boundary` object from input geometries of various classes. 
+#' Creates an `ohsome_boundary` object from various classes of input geometries. 
 #' The `ohsome_boundary` object is used to set the `bpolys`, `bboxes` or
 #' `bcircles` parameter of an `ohsome_query` object.
 #'
