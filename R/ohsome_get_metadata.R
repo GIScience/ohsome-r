@@ -17,8 +17,8 @@
 #'   * `extractRegion`:
 #'     * `spatialExtent`: sfc_POLYGON; spatial boundary of the OSM data in the 
 #'     underlying OSHDB
-#'     * `temporalExtent`: vector of POSIXct; timeframe of the OSM data in the
-#'     underlying OSHDB data 
+#'     * `temporalExtent`: vector of ISO 8601 character; start and end of the temporal extent of OSM data in the
+#'     underlying OSHDB
 #'     * `replicationSequenceNumber`: numeric; precise state of the OSM data
 #'     contained in the underlying OSHDB, expressed as the id of the last 
 #'     applied (hourly) diff file from [Planet OSM](planet.openstreetmap.org)
@@ -39,11 +39,13 @@ ohsome_get_metadata <- function(quiet = FALSE) {
 	httr::stop_for_status(response)
 
 	parsed <- ohsome_parse(response, returnclass = "list")
+	spatialExtent <- parsed$extractRegion$spatialExtent
+	parsed$extractRegion$spatialExtent <- convert_spatialExtent(spatialExtent)
 
 	ohsome_metadata <- structure(
-		.Data = convert_metadata(parsed),
+		.Data = parsed,
 		status_code = httr::status_code(response),
-		date = lubridate::dmy_hms(httr::headers(response)$date),
+		date = httr::headers(response)$date,
 		class = "ohsome_metadata"
 	)
 

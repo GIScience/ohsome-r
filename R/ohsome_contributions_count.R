@@ -35,7 +35,7 @@ ohsome_contributions_count <- function(
 	boundary = NULL,
 	latest = FALSE,
 	return_value = c("absolute", "density"),
-	time = lubridate::format_ISO8601(ohsome_temporalExtent),
+	time = ohsome_temporalExtent,
 	...
 ) {
 	return_value <- match.arg(return_value)

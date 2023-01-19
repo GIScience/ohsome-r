@@ -39,6 +39,8 @@ contributions aggregation endpoints of ohsome API
 aggregation endpoints of ohsome API
 * `ohsome_medata` and `ohsome_temporalExtent` are assigned on loading (not on
 attaching) the package
+* `ohsome_metadata$extractRegion$temporalExtent` and `ohsome_temporalExtent` are 
+no longer converted to POSIXct, but provided as ISO 8601 strings
 * Added endpoint-specific check for missing required parameters to query 
 validation
 * Added validation of JSON response content

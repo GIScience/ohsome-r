@@ -22,7 +22,7 @@ ohsome_users_count <- function(
 	boundary = NULL,
 	return_value = c("absolute", "density"),
 	grouping = NULL,
-	time = lubridate::format_ISO8601(ohsome_temporalExtent),
+	time = ohsome_temporalExtent,
 	...
 ) {
 	return_value <- match.arg(return_value)

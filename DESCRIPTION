@@ -22,7 +22,6 @@ Imports:
     geojsonsf,
     httr,
     jsonlite,
-    lubridate,
     readr,
     sf,
     utils

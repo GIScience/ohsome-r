@@ -23,8 +23,8 @@ attribution
 \itemize{
 \item \code{spatialExtent}: sfc_POLYGON; spatial boundary of the OSM data in the
 underlying OSHDB
-\item \code{temporalExtent}: vector of POSIXct; timeframe of the OSM data in the
-underlying OSHDB data
+\item \code{temporalExtent}: vector of ISO 8601 character; start and end of the temporal extent of OSM data in the
+underlying OSHDB
 \item \code{replicationSequenceNumber}: numeric; precise state of the OSM data
 contained in the underlying OSHDB, expressed as the id of the last
 applied (hourly) diff file from \href{planet.openstreetmap.org}{Planet OSM}

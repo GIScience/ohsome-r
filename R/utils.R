@@ -14,6 +14,7 @@ build_endpoint_url <- function(endpoint) {
 	)
 }
 
+
 #' Convert spatialExtent of ohsome metadata
 #'
 #' @param spatialExtent The `$extractRegion$spatialExtent` element of the
@@ -22,60 +23,11 @@ build_endpoint_url <- function(endpoint) {
 #' @keywords Internal
 #' @noRd
 convert_spatialExtent <- function(spatialExtent) {
-
+	
 	if(spatialExtent$type != "Polygon") return(spatialExtent)
-
+	
 	coords <- list(matrix(spatialExtent$coordinates, ncol = 2))
 	sf::st_sfc(sf::st_polygon(coords), crs = 4326)
-}
-
-
-#' Convert temporalExtent of ohsome metadata
-#'
-#' @param temporalExtent The `$extractRegion$temporalExtent` element of the
-#'   parsed content of a response from the metadata endpoint of ohsome API
-#' @return A `POSIXct` vector
-#' @keywords Internal
-#' @noRd
-convert_temporalExtent <- function(temporalExtent) {
-	
-	l <- lapply(
-		temporalExtent, 
-		as.POSIXct,
-		tz = "UTC",
-		tryFormats = c(
-			"%Y-%m-%dT%H:%M:%OSZ",
-			"%Y-%m-%dT%H:%MZ", 
-			"%Y-%m-%dT%HZ",
-			"%Y-%m-%dZ",
-			"%Y-%m-%d"
-		)
-	)
-	
-	do.call("c", l)
-}
-
-
-#' Convert ohsome metadata content
-#'
-#' Converts the following elements of a response from the metadata endpoint of 
-#' ohsome API: `spatialExtent` to `sfc_POLYGON` and `temporalExtent` to a 
-#' vector of `POSIXct`
-#'
-#' @param parsed The parsed content of a response object from the metadata 
-#'   endpoint of ohsome API
-#' @return A list (parsed and converted content of ohsome metadata)
-#' @keywords Internal
-#' @noRd
-convert_metadata <- function(parsed) {
-
-	spex <- parsed$extractRegion$spatialExtent
-	tex <- parsed$extractRegion$temporalExtent
-
-	parsed$extractRegion$spatialExtent <- convert_spatialExtent(spex)
-	parsed$extractRegion$temporalExtent <- convert_temporalExtent(tex)
-
-	return(parsed)
 }
 
 

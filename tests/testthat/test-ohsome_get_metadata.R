@@ -12,9 +12,8 @@ with_mock_api({
 	})
 
 	test_that(
-		"converts spatial and temporal extent", {
+		"converts spatial extent", {
 			meta <- ohsome_get_metadata(quiet = T)
-			expect_s3_class(meta$extractRegion$temporalExtent, "POSIXct")
 			expect_s3_class(meta$extractRegion$spatialExtent, "sfc_POLYGON")
 			expect_equal(
 				sf::st_bbox(meta$extractRegion$spatialExtent),

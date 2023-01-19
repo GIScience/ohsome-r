@@ -38,7 +38,7 @@ ohsome_extract_contributions <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
 	latest = FALSE, 
-	time = lubridate::format_ISO8601(ohsome_temporalExtent),
+	time = ohsome_temporalExtent,
 	properties = NULL,
 	clipGeometry = TRUE,
 	...

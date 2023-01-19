@@ -1,19 +1,19 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.2.0
+# CITATION file created with {cffr} R package, v0.4.0
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "ohsome" in publications use:'
 type: software
-license: GPL-3.0-or-later
-title: 'ohsome: An ohsome API client for R'
+license: LGPL-3.0-or-later
+title: 'ohsome: An ''ohsome API'' Client'
 version: 0.2.0
 doi: 10.5281/zenodo.5512545
-abstract: This ohsome R package grants access to the power of the ohsome API from
-  R. It lets you analyze the rich data source of the OpenStreetMap (OSM) history.
-  You can retrieve the geometry of OSM data at specific points in time, and you can
-  get aggregated statistics on the evolution of OSM elements and specify your own
+abstract: A client that grants access to the power of the 'ohsome API' from R. It
+  lets you analyze the rich data source of the 'OpenStreetMap (OSM)' history. You
+  can retrieve the geometry of 'OSM' data at specific points in time, and you can
+  get aggregated statistics on the evolution of 'OSM' elements and specify your own
   temporal, spatial and/or thematic filters.
 authors:
 - family-names: Fritz
@@ -88,19 +88,97 @@ references:
   url: https://doi.org/10.1186/s40965-019-0061-3
   start: '3'
 - type: software
-  title: 'data.table: Extension of `data.frame`'
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
   authors:
-  - family-names: Dowle
-    given-names: Matt
-    email: mattjdowle@gmail.com
-  - family-names: Srinivasan
-    given-names: Arun
-    email: asrini@pm.me
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=data.table
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2023'
+  institution:
+    name: R Foundation for Statistical Computing
+  version: '>= 2.10'
 - type: software
-  title: 'dplyr: A Grammar of Data Manipulation'
+  title: geojsonsf
+  abstract: 'geojsonsf: GeoJSON to Simple Feature Converter'
+  notes: Imports
+  url: https://github.com/SymbolixAU/geojsonsf
+  repository: https://CRAN.R-project.org/package=geojsonsf
+  authors:
+  - family-names: Cooley
+    given-names: David
+    email: dcooley@symbolix.com.au
+  year: '2023'
+- type: software
+  title: httr
+  abstract: 'httr: Tools for Working with URLs and HTTP'
+  notes: Imports
+  url: https://httr.r-lib.org/
+  repository: https://CRAN.R-project.org/package=httr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2023'
+- type: software
+  title: jsonlite
+  abstract: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
+  notes: Imports
+  url: https://arxiv.org/abs/1403.2805
+  repository: https://CRAN.R-project.org/package=jsonlite
+  authors:
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+    orcid: https://orcid.org/0000-0002-4035-0289
+  year: '2023'
+- type: software
+  title: readr
+  abstract: 'readr: Read Rectangular Text Data'
+  notes: Imports
+  url: https://readr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=readr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Bryan
+    given-names: Jennifer
+    email: jenny@rstudio.com
+    orcid: https://orcid.org/0000-0002-6983-2759
+  year: '2023'
+- type: software
+  title: sf
+  abstract: 'sf: Simple Features for R'
+  notes: Imports
+  url: https://r-spatial.github.io/sf/
+  repository: https://CRAN.R-project.org/package=sf
+  authors:
+  - family-names: Pebesma
+    given-names: Edzer
+    email: edzer.pebesma@uni-muenster.de
+    orcid: https://orcid.org/0000-0001-8049-7069
+  year: '2023'
+- type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2023'
+  institution:
+    name: R Foundation for Statistical Computing
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Suggests
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
   authors:
   - family-names: Wickham
     given-names: Hadley
@@ -114,52 +192,82 @@ references:
   - family-names: Müller
     given-names: Kirill
     orcid: https://orcid.org/0000-0002-1416-3412
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=dplyr
+  year: '2023'
 - type: software
-  title: 'httptest: A Test Environment for HTTP Requests'
+  title: ggplot2
+  abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
+  notes: Suggests
+  url: https://ggplot2.tidyverse.org
+  repository: https://CRAN.R-project.org/package=ggplot2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Chang
+    given-names: Winston
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@rstudio.com
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Takahashi
+    given-names: Kohske
+  - family-names: Wilke
+    given-names: Claus
+    orcid: https://orcid.org/0000-0002-7470-9261
+  - family-names: Woo
+    given-names: Kara
+    orcid: https://orcid.org/0000-0002-5125-4188
+  - family-names: Yutani
+    given-names: Hiroaki
+    orcid: https://orcid.org/0000-0002-3385-7233
+  - family-names: Dunnington
+    given-names: Dewey
+    orcid: https://orcid.org/0000-0002-9415-4582
+  year: '2023'
+- type: software
+  title: httptest
+  abstract: 'httptest: A Test Environment for HTTP Requests'
+  notes: Suggests
+  url: https://enpiar.com/r/httptest/
+  repository: https://CRAN.R-project.org/package=httptest
   authors:
   - family-names: Richardson
     given-names: Neal
     email: neal.p.richardson@gmail.com
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=httptest
+  year: '2023'
 - type: software
-  title: 'janitor: Simple Tools for Examining and Cleaning Dirty Data'
+  title: janitor
+  abstract: 'janitor: Simple Tools for Examining and Cleaning Dirty Data'
+  notes: Suggests
+  url: https://github.com/sfirke/janitor
+  repository: https://CRAN.R-project.org/package=janitor
   authors:
   - family-names: Firke
     given-names: Sam
     email: samuel.firke@gmail.com
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=janitor
+  year: '2023'
 - type: software
-  title: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
   authors:
   - family-names: Xie
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=knitr
+  year: '2023'
 - type: software
-  title: 'leaflet: Create Interactive Web Maps with the JavaScript ''Leaflet'' Library'
-  authors:
-  - family-names: Cheng
-    given-names: Joe
-    email: joe@rstudio.com
-  - family-names: Karambelkar
-    given-names: Bhaskar
-  - family-names: Xie
-    given-names: Yihui
-  year: '2022'
+  title: mapview
+  abstract: 'mapview: Interactive Viewing of Spatial Data in R'
   notes: Suggests
-  url: https://CRAN.R-project.org/package=leaflet
-- type: software
-  title: 'mapview: Interactive Viewing of Spatial Data in R'
+  url: https://github.com/r-spatial/mapview
+  repository: https://CRAN.R-project.org/package=mapview
   authors:
   - family-names: Appelhans
     given-names: Tim
@@ -173,11 +281,26 @@ references:
   - family-names: Woellauer
     given-names: Stefan
     email: stephan.woellauer@geo.uni-marburg.de
-  year: '2022'
-  notes: Suggests
-  url: https://github.com/r-spatial/mapview
+  year: '2023'
 - type: software
-  title: 'osmdata: Import ''OpenStreetMap'' Data as Simple Features or Spatial Objects'
+  title: nominatimlite
+  abstract: 'nominatimlite: Interface with ''Nominatim'' API Service'
+  notes: Suggests
+  url: https://dieghernan.github.io/nominatimlite/
+  repository: https://CRAN.R-project.org/package=nominatimlite
+  authors:
+  - family-names: Hernangómez
+    given-names: Diego
+    email: diego.hernangomezherrero@gmail.com
+    orcid: https://orcid.org/0000-0001-8457-4658
+  year: '2023'
+- type: software
+  title: osmdata
+  abstract: 'osmdata: Import ''OpenStreetMap'' Data as Simple Features or Spatial
+    Objects'
+  notes: Suggests
+  url: https://docs.ropensci.org/osmdata/
+  repository: https://CRAN.R-project.org/package=osmdata
   authors:
   - family-names: Padgham
     given-names: Mark
@@ -188,20 +311,13 @@ references:
     given-names: Robin
   - family-names: Salmon
     given-names: Maëlle
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=osmdata
+  year: '2023'
 - type: software
-  title: 'rapiclient: Dynamic OpenAPI/Swagger Client'
-  authors:
-  - family-names: Bergant
-    given-names: Darko
-    email: darko.bergant@gmail.com
-  year: '2022'
+  title: rmarkdown
+  abstract: 'rmarkdown: Dynamic Documents for R'
   notes: Suggests
-  url: https://CRAN.R-project.org/package=rapiclient
-- type: software
-  title: 'rmarkdown: Dynamic Documents for R'
+  url: https://pkgs.rstudio.com/rmarkdown/
+  repository: https://CRAN.R-project.org/package=rmarkdown
   authors:
   - family-names: Allaire
     given-names: JJ
@@ -235,94 +351,55 @@ references:
     given-names: Richard
     email: rich@rstudio.com
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2022'
+  year: '2023'
+- type: software
+  title: spelling
+  abstract: 'spelling: Tools for Spell Checking in R'
   notes: Suggests
-  url: https://CRAN.R-project.org/package=rmarkdown
-- type: software
-  title: 'testthat: Unit Testing for R'
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
-  year: '2022'
-  notes: Suggests
-  url: https://CRAN.R-project.org/package=testthat
-  version: '>= 3.0.0'
-- type: software
-  title: 'sf: Simple Features for R'
-  authors:
-  - family-names: Pebesma
-    given-names: Edzer
-    email: edzer.pebesma@uni-muenster.de
-    orcid: https://orcid.org/0000-0001-8049-7069
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=sf
-- type: software
-  title: 'httr: Tools for Working with URLs and HTTP'
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=httr
-- type: software
-  title: 'geojsonsf: GeoJSON to Simple Feature Converter'
-  authors:
-  - family-names: Cooley
-    given-names: David
-    email: dcooley@symbolix.com.au
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=geojsonsf
-- type: software
-  title: 'lubridate: Make Dealing with Dates a Little Easier'
-  authors:
-  - family-names: Spinu
-    given-names: Vitalie
-    email: spinuvit@gmail.com
-  - family-names: Grolemund
-    given-names: Garrett
-  - family-names: Wickham
-    given-names: Hadley
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=lubridate
-- type: software
-  title: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
+  url: https://docs.ropensci.org/spelling/
+  repository: https://CRAN.R-project.org/package=spelling
   authors:
   - family-names: Ooms
     given-names: Jeroen
     email: jeroen@berkeley.edu
     orcid: https://orcid.org/0000-0002-4035-0289
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=jsonlite
+  - family-names: Hester
+    given-names: Jim
+    email: james.hester@rstudio.com
+  year: '2023'
 - type: software
-  title: 'readr: Read Rectangular Text Data'
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
   authors:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  - family-names: Hester
-    given-names: Jim
-  - family-names: Bryan
-    given-names: Jennifer
-    email: jenny@rstudio.com
-    orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2022'
-  notes: Imports
-  url: https://CRAN.R-project.org/package=readr
+  year: '2023'
+  version: '>= 3.0.0'
 - type: software
-  title: 'R: A Language and Environment for Statistical Computing'
+  title: tmaptools
+  abstract: 'tmaptools: Thematic Map Tools'
+  notes: Suggests
+  url: https://github.com/mtennekes/tmaptools
+  repository: https://CRAN.R-project.org/package=tmaptools
   authors:
-  - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2022'
-  url: https://www.R-project.org/
-  institution:
-    name: R Foundation for Statistical Computing
-  version: '>= 2.10'
-  notes: Depends
+  - family-names: Tennekes
+    given-names: Martijn
+    email: mtennekes@gmail.com
+  year: '2023'
+- type: software
+  title: tidyr
+  abstract: 'tidyr: Tidy Messy Data'
+  notes: Suggests
+  url: https://tidyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=tidyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Girlich
+    given-names: Maximilian
+  year: '2023'
