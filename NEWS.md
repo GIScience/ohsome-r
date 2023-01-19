@@ -5,9 +5,6 @@
 is thrown on invalid queries and the request is **not** sent to the API. Queries 
 with undefined filter or time parameters are considered as invalid in strict 
 mode.
-* All `ohsome_query()` wrapper functions (but not `ohsome_query()` itself) are 
-defined with an appropriate default for the `time` parameter. The default values
-are drawn from ohsome API metadata requested on loading the package.
 * Changed behavior of `set_properties()`: Removes properties parameter from 
 query body by default, accepts *tags* and/or *metadata* and/or 
 *contributionTypes* as properties argument (multiple values provided as 

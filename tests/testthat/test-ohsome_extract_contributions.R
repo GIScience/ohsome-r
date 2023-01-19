@@ -16,10 +16,3 @@ test_that("correctly sets clipGeometry parameter", {
 	q <- ohsome_contributions_geometry(clipGeometry = FALSE)
 	expect_equal(q$body$clipGeometry, "FALSE")
 })
-
-test_that("uses full temporal extent if time parameter is missing", {
-	expect_equal(
-		ohsome_extract_contributions()$body$time,
-		paste(ohsome_temporalExtent, collapse = ",")
-	)
-})

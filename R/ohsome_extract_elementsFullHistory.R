@@ -29,7 +29,7 @@
 ohsome_extract_elementsFullHistory <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
-	time = ohsome_temporalExtent,
+	time = NULL,
 	properties = NULL,
 	clipGeometry = TRUE,
 	...

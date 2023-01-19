@@ -15,7 +15,6 @@
 #'   * `"density"` returns the number of contributions per square kilometer.
 #' @param time character; `time` parameter of the query (see 
 #'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html)). 
-#'   This defaults to the temporal extent of the underlying OSHDB.
 #' @inherit ohsome_query return
 #' @seealso [ohsome API Endpoints - Contributions Aggregation](https://docs.ohsome.org/ohsome-api/v1/endpoints.html#contributions-aggregation)
 #' @export
@@ -35,7 +34,7 @@ ohsome_contributions_count <- function(
 	boundary = NULL,
 	latest = FALSE,
 	return_value = c("absolute", "density"),
-	time = ohsome_temporalExtent,
+	time = NULL,
 	...
 ) {
 	return_value <- match.arg(return_value)

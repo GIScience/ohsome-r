@@ -38,7 +38,7 @@ ohsome_extract_contributions <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
 	latest = FALSE, 
-	time = ohsome_temporalExtent,
+	time = NULL,
 	properties = NULL,
 	clipGeometry = TRUE,
 	...

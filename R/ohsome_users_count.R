@@ -22,7 +22,7 @@ ohsome_users_count <- function(
 	boundary = NULL,
 	return_value = c("absolute", "density"),
 	grouping = NULL,
-	time = ohsome_temporalExtent,
+	time = NULL,
 	...
 ) {
 	return_value <- match.arg(return_value)

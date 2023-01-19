@@ -41,7 +41,7 @@
 ohsome_extract_elements <- function(
 	boundary = NULL,
 	geometryType = c("centroid", "bbox", "geometry"),
-	time = ohsome_temporalExtent[2],
+	time = NULL,
 	properties = NULL,
 	clipGeometry = TRUE,
 	...

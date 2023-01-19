@@ -11,10 +11,3 @@ test_that("correctly sets clipGeometry parameter", {
 	q <- ohsome_elementsFullHistory_geometry(time = "2010,2020", clipGeometry = FALSE)
 	expect_equal(q$body$clipGeometry, "FALSE")
 })
-
-test_that("uses full temporal extent if time parameter is missing", {
-	expect_equal(
-		ohsome_extract_elementsFullHistory()$body$time,
-		paste(ohsome_temporalExtent, collapse = ",")
-	)
-})

@@ -8,7 +8,7 @@ ohsome_contributions_count(
   boundary = NULL,
   latest = FALSE,
   return_value = c("absolute", "density"),
-  time = ohsome_temporalExtent,
+  time = NULL,
   ...
 )
 }
@@ -53,8 +53,7 @@ default.
 }}
 
 \item{time}{character; \code{time} parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
-This defaults to the temporal extent of the underlying OSHDB.}
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
 
 \item{...}{Parameters of the request to the ohsome API endpoint.}
 }

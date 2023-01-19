@@ -25,8 +25,6 @@
 #'   `filter2` argument, and the `ratio` of `value2` to `value`.
 #' @param time character; `time` parameter of the query (see 
 #'   [Supported time formats](https://docs.ohsome.org/ohsome-api/v1/time.html)). 
-#'   This defaults to the most recent available timestamp in the underlying 
-#'   OSHDB.
 #' @seealso [ohsome API Endpoints - Elements Aggregation](https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation)
 #' @export
 #' @family Aggregate elements
@@ -91,7 +89,7 @@ ohsome_aggregate_elements <- function(
 	aggregation = c("count", "length", "perimeter", "area"),
 	return_value = c("absolute", "density", "ratio"),
 	grouping = NULL,
-	time = ohsome_temporalExtent[2],
+	time = NULL,
 	...
 ) {
 	aggregation <- match.arg(aggregation)

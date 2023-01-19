@@ -11,7 +11,7 @@ ohsome_extract_contributions(
   boundary = NULL,
   geometryType = c("centroid", "bbox", "geometry"),
   latest = FALSE,
-  time = ohsome_temporalExtent,
+  time = NULL,
   properties = NULL,
   clipGeometry = TRUE,
   ...
@@ -67,8 +67,7 @@ boxes.}
 provided to each OSM element.}
 
 \item{time}{character; \code{time} parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
-This defaults to the temporal extent of the underlying OSHDB.}
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
 
 \item{properties}{character; properties to be extracted with the
 contributions:

@@ -8,7 +8,7 @@ ohsome_users_count(
   boundary = NULL,
   return_value = c("absolute", "density"),
   grouping = NULL,
-  time = ohsome_temporalExtent,
+  time = NULL,
   ...
 )
 }
@@ -70,8 +70,7 @@ endpoints. Check
 for available group types.}
 
 \item{time}{character; \code{time} parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
-This defaults to the temporal extent of the underlying OSHDB.}
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
 
 \item{...}{Parameters of the request to the ohsome API endpoint.}
 }

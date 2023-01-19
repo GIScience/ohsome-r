@@ -10,7 +10,7 @@
 ohsome_extract_elements(
   boundary = NULL,
   geometryType = c("centroid", "bbox", "geometry"),
-  time = ohsome_temporalExtent[2],
+  time = NULL,
   properties = NULL,
   clipGeometry = TRUE,
   ...
@@ -63,9 +63,7 @@ Caveat: Node elements are omitted from results in queries for bounding
 boxes.}
 
 \item{time}{character; \code{time} parameter of the query (see
-\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).
-This defaults to the most recent available timestamp in the underlying
-OSHDB.}
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
 
 \item{properties}{character; properties to be extracted with the features:
 \itemize{
