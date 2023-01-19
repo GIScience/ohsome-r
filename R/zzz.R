@@ -25,7 +25,7 @@
 }
 
 .onAttach <- function(libname, pkgname) {
-	if(exists("ohsome_metadata", where = "package:ohsome")) {
+	if(exists("ohsome_metadata", where = parent.env(environment()))) {
 		packageStartupMessage(create_metadata_message(ohsome_metadata))
 	}
 }
