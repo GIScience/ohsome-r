@@ -11,8 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-", 
   out.width = 900
 )
-
-library("webshot2") # use webshot2::webshot for mapview screenshots 
 ```
 
 # ohsome: An R package to interact with the ohsome API for OpenStreetMap history data aggregation and extraction
@@ -242,10 +240,10 @@ Here, we request the full history of OSM buildings within 1000 m of Heidelberg
 main station, filter for features that still exist and visualize all building 
 features with their year of creation:
 
-```{r buildings}
+```{r buildings, eval = F}
 meta <- ohsome_get_metadata()
-start <- as.Date(meta$extractRegion$temporalExtent[1])
-end <- as.Date(meta$extractRegion$temporalExtent[2])
+start <- meta$extractRegion$temporalExtent[1]
+end <- "2023-01-01"
 
 ohsome_elementsFullHistory_geometry(
 	boundary = hd_station_1km,
@@ -255,10 +253,10 @@ ohsome_elementsFullHistory_geometry(
 	properties = "metadata"
 ) |> 
 	ohsome_post() |>
-	janitor:: clean_names() |>
+	janitor::clean_names() |>
 	group_by(osm_id) |>
 	mutate(year = min(format(valid_from, "%Y"))) |>
-	filter(valid_to == end) |>
+	filter(valid_to == lubridate::ymd(end)) |>
 	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 ```
 

@@ -21,16 +21,16 @@ target="blank">OpenStreetMap History Database</a> (OSHDB).
 
 With ohsome, you can …
 
--   Get **aggregated statistics** on the evolution of OpenStreetMap
-    elements and specify your own temporal, spatial and/or thematic
-    filters. The data aggregation endpoint allows you to access
-    functions, e.g., to calculate the area of buildings or the length of
-    streets at any given timestamp.
+- Get **aggregated statistics** on the evolution of OpenStreetMap
+  elements and specify your own temporal, spatial and/or thematic
+  filters. The data aggregation endpoint allows you to access functions,
+  e.g., to calculate the area of buildings or the length of streets at
+  any given timestamp.
 
--   Retrieve the **geometry** of the historical OpenStreetMap data,
-    e.g., to visualize the evolution of certain OpenStreetMap elements
-    over time. You can get the geometries for specific points in time or
-    all changes within a timespan (full-history).
+- Retrieve the **geometry** of the historical OpenStreetMap data, e.g.,
+  to visualize the evolution of certain OpenStreetMap elements over
+  time. You can get the geometries for specific points in time or all
+  changes within a timespan (full-history).
 
 ## Installation
 
@@ -51,6 +51,9 @@ OSHDB:
 
 ``` r
 library(ohsome)
+#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
+#> ohsome API version: 1.8.0
+#> Temporal extent: 2007-10-08T00:00:00Z to 2023-01-16T10:00Z
 ```
 
 The metadata is stored in `ohsome_metadata`. You can print it to the
@@ -98,7 +101,7 @@ response. In this case, this is a simple `data.frame` of only one row.
 ``` r
 ohsome_post(q)
 #>             timestamp value
-#> 1 2022-05-22 20:00:00   146
+#> 1 2023-01-16 10:00:00   152
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -261,11 +264,8 @@ visualize all building features with their year of creation:
 
 ``` r
 meta <- ohsome_get_metadata()
-#> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.6.3
-#> Temporal extent: 2007-10-08 to 2022-05-22 20:00:00
-start <- as.Date(meta$extractRegion$temporalExtent[1])
-end <- as.Date(meta$extractRegion$temporalExtent[2])
+start <- meta$extractRegion$temporalExtent[1]
+end <- "2023-01-01"
 
 ohsome_elementsFullHistory_geometry(
     boundary = hd_station_1km,
@@ -275,14 +275,12 @@ ohsome_elementsFullHistory_geometry(
     properties = "metadata"
 ) |> 
     ohsome_post() |>
-    janitor:: clean_names() |>
+    janitor::clean_names() |>
     group_by(osm_id) |>
     mutate(year = min(format(valid_from, "%Y"))) |>
-    filter(valid_to == end) |>
+    filter(valid_to == lubridate::ymd(end)) |>
     mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
 ```
-
-<img src="man/figures/README-buildings-1.png" width="900" />
 
 You may find using `clean_names()` from the
 <a href="https://github.com/sfirke/janitor" target="blank">janitor</a>
@@ -433,18 +431,18 @@ osmdata::getbb("Kigali") |>
     ohsome_elements_length(time = "2018/2018-12/P1M", filter = "route=bus") |>
     ohsome_post()
 #>     timestamp     value
-#> 1  2018-01-01  28251.24
-#> 2  2018-02-01  28251.24
-#> 3  2018-03-01  29103.11
-#> 4  2018-04-01 186645.71
-#> 5  2018-05-01 378185.54
-#> 6  2018-06-01 473065.23
-#> 7  2018-07-01 615801.98
-#> 8  2018-08-01 648385.19
-#> 9  2018-09-01 753618.88
-#> 10 2018-10-01 771239.17
-#> 11 2018-11-01 847337.73
-#> 12 2018-12-01 858886.63
+#> 1  2018-01-01  11968.48
+#> 2  2018-02-01  11968.48
+#> 3  2018-03-01  11968.48
+#> 4  2018-04-01  82141.18
+#> 5  2018-05-01 175560.02
+#> 6  2018-06-01 226777.53
+#> 7  2018-07-01 278507.33
+#> 8  2018-08-01 310316.53
+#> 9  2018-09-01 373798.30
+#> 10 2018-10-01 387968.51
+#> 11 2018-11-01 401921.03
+#> 12 2018-12-01 413469.93
 ```
 
 3.  You can pass any `character` object with text in the
@@ -507,10 +505,10 @@ q |>
 target="blank">Grouping endpoints</a> are available for aggregation
 resources and can be used to compute the aggregated results grouped by:
 
--   boundary,
--   key,
--   tag, and
--   type.
+- boundary,
+- key,
+- tag, and
+- type.
 
 In many cases, a grouping by `boundary` can be combined with a grouping
 by `tag`. Some of the grouping endpoints require additional query

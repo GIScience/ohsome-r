@@ -228,23 +228,18 @@ main station, filter for features that still exist and visualize all building
 features with their year of creation:
 
 ```{r buildings}
-meta <- ohsome_get_metadata()
-start <- as.Date(meta$extractRegion$temporalExtent[1])
-end <- as.Date(meta$extractRegion$temporalExtent[2])
+hd_station_1km <- ohsome_boundary("8.67542,49.40347,1000")
 
-ohsome_elementsFullHistory_geometry(
-	boundary = hd_station_500m,
-	time = c(start, end),
-	filter = "building=* and geometry:polygon", 
-	clipGeometry = FALSE,
-	properties = "metadata"
-) |> 
+ohsome_elements_geometry(
+	boundary = hd_station_1km, 
+	filter = "building=* and type:way", 
+	time = "2021-12-01",
+	properties = "tags", 
+	clipGeometry = FALSE
+) |>
 	ohsome_post() |>
-	janitor:: clean_names() |>
-	group_by(osm_id) |>
-	mutate(year = min(format(valid_from, "%Y"))) |>
-	filter(valid_to == end) |>
-	mapview(zcol = "year", lwd = 0, layer.name = "Year of Feature Creation")
+	transmute(level = factor(`building:levels`)) |>
+	mapview(zcol = "level", lwd = 0, layer.name = "Building level")
 ```
 
 You may find using `clean_names()` from the 
