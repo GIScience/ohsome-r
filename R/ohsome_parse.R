@@ -1,39 +1,47 @@
 #' Parse content from an ohsome API response
 #'
-#' Extract and parse the content from an ohsome API response
+#' Extracts and parses the content from an ohsome API response
 #'
-#' \code{ohsome_parse()} parses an \code{ohsome_response} object into
-#' an object of the specified class. By default, this is an \code{sf} object if
-#' the ohsome API response contains GeoJSON data or a \code{data.frame} if it
-#' does not. \code{ohsome_sf()}  and \code{ohsome_df()} are wrapper functions.
+#' `ohsome_parse()` parses an `ohsome_response` object into an object of the 
+#' specified class. By default, this is an `sf` object if the ohsome API 
+#' response contains GeoJSON data or a `data.frame` if it does not. 
+#' `ohsome_sf()` and `ohsome_df()` wrapper functions for specific return 
+#' classes.
 #'
-#' @param response A response object
-#' @param returnclass One of the following:
-#'     \describe{
-#'         \item{default}{returns \code{sf} if ohsome API response is GeoJSON,
-#'             else a \code{data.frame}}
-#'         \item{sf}{returns \code{sf} if ohsome API response is GeoJSON,
-#'             else issues a warning and returns a \code{data.frame}}
-#'         \item{data.frame}{returns a \code{data.frame}}
-#'         \item{list}{returns a \code{list}}
-#'         \item{character}{returns the ohsome API response as text (JSON or
-#'             semicolon-separated values)}
-#'     }
-#' @param omit_empty logical omit features with empty geometries 
-#'     (only if returnclass="sf")
+#' @param response An `ohsome_response` object
+#' @param returnclass character; one of the following:
+#'   * `"default"` returns `sf` if the `ohsome_response` contains GeoJSON, or 
+#'   else a `data.frame`.
+#'   * `"sf"` returns `sf` if the `ohsome_response` contains GeoJSON, else 
+#'   issues a warning and returns a `data.frame`.
+#'   * `"data.frame"` returns a `data.frame`.
+#'   * `"list"` returns a `list`.
+#'   * `"character"` returns the ohsome API response body as text (JSON or
+#'   semicolon-separated values)
+#' @param omit_empty logical; omit features with empty geometries (only if 
+#'   `returnclass = "sf"`)
 #' @family Extract and parse the content from an ohsome API response
-#' @return A list (if the response is of type "application/json"), an sf
-#'     object (if the response is of type "application/geo+json") or a
-#'     data.frame (if the response is of type "text/csv")
+#' @return An `sf` object, a `data.frame`, a `list` or a `character`
 #' @export
 #' @examples
-#' r <- ohsome_query("elements/centroid", filter = "amenity=*", properties = "tags") |>
+#' \dontrun{
+#' # Create and send a query to ohsome API
+#' r <- ohsome_query("elements/centroid", filter = "amenity=*") |>
 #'     set_boundary(osmdata::getbb("Heidelberg")) |>
+#'     set_time("2021") |>
+#'     set_properties("metadata") |>
 #'     ohsome_post(parse = FALSE)
 #'
+#' # Parse response to object of default class (here: sf)
 #' ohsome_parse(r)
+#' 
+#' # Parse response to data.frame
 #' ohsome_df(r)
+#' 
+#' # Parse response to sf
 #' ohsome_sf(r)
+#' }
+#' 
 ohsome_parse <- function(
 	response,
 	returnclass = c("default", "sf", "data.frame", "list", "character"),
@@ -44,7 +52,7 @@ ohsome_parse <- function(
 
 	type <- httr::http_type(response)
 	content <- httr::content(response, as = "text", encoding = "utf-8")
-
+	
 	if(returnclass == "character") {
 
 		return(content)
@@ -55,22 +63,27 @@ ohsome_parse <- function(
 		type == "application/geo+json"
 
 	) {
+		if(!validate_json(content)) {
+			warning("Invalid JSON in ohsome API response. Returning character.")
+			return(content)
+		}
+		
 		content <- jsonlite::minify(content)
 		pattern <- '\"(Multi)?(Point|LineString|Polygon)\",\"coordinates\":\\[+\\]+'
 		loc <- gregexpr(pattern = pattern, text = content)
-		empty <- sapply(loc, function(x) {
+		empty_coords <- sapply(loc, function(x) {
 			match.length <- attr(x, "match.length") 
 			length(match.length[match.length > 0])
 		})
 
 
-		if(empty > 0) {
+		if(empty_coords > 0) {
 			content <- gsub(pattern, '"Point","coordinates":[360, 360]', content)
 		}
 		
 		p <- geojsonsf::geojson_sf(content)
 		
-		if(empty > 0) {
+		if(empty_coords > 0) {
 			i <- suppressWarnings(suppressMessages(
 				sf::st_intersects(
 					p,
@@ -86,10 +99,11 @@ ohsome_parse <- function(
 			return(as.list(sf::st_sf(convert_quietly(as.data.frame(p)))))
 		} else {
 			
-			if(omit_empty & empty > 0) {
+			empty <- sf::st_is_empty(p)
+			if(omit_empty & sum(empty) > 0) {
 				p <- subset(p, !sf::st_is_empty(p))
 				warning(
-					paste(empty, "elements with empty geometries omitted."),
+					paste(sum(empty), "element(s) with empty geometries omitted."),
 					call. = FALSE
 				)
 			}
@@ -98,7 +112,12 @@ ohsome_parse <- function(
 		}
 
 	} else if(type == "application/json") {
-
+		
+		if(!validate_json(content)) {
+			warning("Invalid JSON in ohsome API response. Returning character.")
+			return(content)
+		}
+		
 		p <- jsonlite::fromJSON(content, simplifyVector = TRUE)
 
 		if(returnclass == "list") {

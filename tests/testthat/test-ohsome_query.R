@@ -2,8 +2,10 @@ test_that("requests geojson content with groupBy/boundary queries", {
 
 	q1 <- ohsome_query(c("elements", "count", "groupBy", "boundary"))
 	q2 <- ohsome_query("elements/length/density/groupBy/boundary")
+	q3 <- ohsome_query("elements/count", grouping = "boundary")
 	expect_equal(q1$body$format, "geojson")
 	expect_equal(q2$body$format, "geojson")
+	expect_equal(q3$body$format, "geojson")
 })
 
 test_that("requests csv content with aggregation not grouped by boundary", {
@@ -23,6 +25,11 @@ test_that("does not set format parameter with elements extraction queries", {
 	q2 <- ohsome_query("elements/centroid")
 	expect_null(q1$body$format)
 	expect_null(q2$body$format)
+})
+
+test_that("does not overwrite explicit format with groupBy/boundary", {
+	q <- ohsome_query("elements/count", grouping = "boundary", format = "csv")
+	expect_equal(q$body$format, "csv")
 })
 
 test_that("returns object of class ohsome_query", {
@@ -46,3 +53,4 @@ test_that("correctly sets bboxes param based on boundary argument", {
 	q <- ohsome_query("elements/count", boundary = bbox)
 	expect_equal(q$body$bboxes, bbox)
 })
+

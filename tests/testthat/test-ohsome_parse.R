@@ -112,3 +112,17 @@ test_that(
 	"issues warning when omitting empty geometry features", {
 		expect_warning(ohsome_parse(r, returnclass = "sf"))
 })
+
+# original query:
+# boundary <- "6.75,51.4,500000"
+# q <- ohsome_elements_count(boundary, filter = 'building=*', time = '2022-01')
+# r <- ohsome_post(q, parse = F)
+
+r <- readRDS("data/elements-count-buildings-csv.rds")
+
+test_that(
+	"correctly converts scientific notation value", {
+		p <- ohsome_parse(r)
+		expect_equal(p$value[1], 67003817L)
+	}
+)

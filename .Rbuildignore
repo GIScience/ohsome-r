@@ -3,3 +3,8 @@
 ^README\.Rmd$
 ^data-raw$
 ^LICENSE\.md$
+^CITATION\.cff$
+^ohsome-r\.Rproj$
+^doc$
+^Meta$
+^cran-comments\.md$

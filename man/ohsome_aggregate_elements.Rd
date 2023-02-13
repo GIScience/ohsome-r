@@ -11,6 +11,9 @@
 ohsome_aggregate_elements(
   boundary = NULL,
   aggregation = c("count", "length", "perimeter", "area"),
+  return_value = c("absolute", "density", "ratio"),
+  grouping = NULL,
+  time = NULL,
   ...
 )
 
@@ -23,35 +26,159 @@ ohsome_elements_perimeter(boundary = NULL, ...)
 ohsome_elements_area(boundary = NULL, ...)
 }
 \arguments{
-\item{boundary}{Boundary object that can be interpreted by
-\code{\link{ohsome_boundary}}}
+\item{boundary}{Bounding geometries specified by WGS84 coordinates in the
+order \verb{lon,lat}. The geometries of \code{sf} are transformed to WGS84 if the CRS
+of the object is known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
+circles as allowed by the ohsome API (see
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries}
+):
+\itemize{
+\item bboxes: WGS84 coordinates in the following format:
+\code{"id1:lon1,lat1,lon2,lat2|id2:lon1,lat1,lon2,lat2|..."} OR
+\code{"lon1,lat1,lon2,lat2|lon1,lat1,lon2,lat2|..."}
+\item bcircles: WGS84 coordinates + radius in meter in the following
+format: \code{"id1:lon,lat,r|id2:lon,lat,r|..."} OR
+\code{"lon,lat,r|lon,lat,r|..."}
+\item bpolys: WGS84 coordinates given as a list of coordinate pairs (as for
+bboxes) or GeoJSON FeatureCollection. The first point has to be the same
+as the last point and MultiPolygons are only supported in GeoJSON.
+}
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
+}}
 
-\item{aggregation}{Aggregation operation}
+\item{aggregation}{character; aggregation type:
+\itemize{
+\item \code{"count"} returns the total number of elements. This is the default.
+\item \code{"length"} returns the total length of elements in meters.
+\item \code{"perimeter"} returns the total perimeter of elements in meters.
+\item \code{"area"} returns the total area of elements in square meters.
+}}
 
-\item{...}{Parameters of the request to the ohsome API endpoint}
+\item{return_value}{character; the value to be returned by the ohsome API:
+\itemize{
+\item \code{"absolute"} returns the absolute number, length, perimeter or area of
+elements. This is the default.
+\item \code{"density"} returns the number, length, perimeter or area (in meters!) of
+elements per square kilometer.
+\item \code{"ratio"} returns an absolute \code{value} for elements satisfying the
+\code{filter} argument, an absolute \code{value2} for elements satisfying the
+\code{filter2} argument, and the \code{ratio} of \code{value2} to \code{value}.
+}}
+
+\item{grouping}{character; group type(s) for grouped aggregations (only
+available for queries to aggregation endpoints). The following group types
+are available:
+\itemize{
+\item \code{"boundary"} groups the result by the given boundaries that are defined
+through any of the \code{boundary} query parameters.
+\item \code{"key"} groups the result by the given keys that are defined through the
+\code{groupByKeys} query parameter.
+\item \code{"tag"} groups the result by the given tags that are defined through the
+\code{groupByKey} and \code{groupByValues} query parameters.
+\item \code{"type"} groups the result by OSM element type.
+\item \code{c("boundary", "tag")} groups the result by the given boundaries and
+tags.
+}
+
+Not all of these group types are accepted by all of the aggregation
+endpoints. Check
+\href{https://docs.ohsome.org/ohsome-api/v1/group-by.html}{Grouping}
+for available group types.}
+
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
+
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Create an \code{ohsome_query} object for OSM element aggregation
+Creates an \code{ohsome_query} object for OSM element aggregation
 }
 \details{
-\code{ohsome_aggregate_elements} creates an \code{ohsome_query} object for
-OSM element aggregation. \code{ohsome_elements_count},
-\code{ohsome_elements_length}, \code{ohsome_elements_perimeter} and
-\code{ohsome_elements_area} are wrapper functions for specific aggregation
-endpoints. Boundary objects are passed via \code{\link{set_boundary}} into
-\code{\link{ohsome_boundary}}.
+\code{ohsome_aggregate_elements()} creates an \code{ohsome_query} object for
+OSM element aggregation. \code{ohsome_elements_count()},
+\code{ohsome_elements_length()}, \code{ohsome_elements_perimeter()} and
+\code{ohsome_elements_area()} are wrapper functions for specific aggregation
+endpoints. Boundary objects are passed via \code{\link[=set_boundary]{set_boundary()}} into
+\code{\link[=ohsome_boundary]{ohsome_boundary()}}.
 }
 \examples{
+\donttest{
+# Count of breweries in Franconia
+ohsome_aggregate_elements(
+    mapview::franconia, 
+    aggregation = "count", 
+    filter = "craft=brewery",
+    time = "2022-01-01"
+)
 
-ohsome_aggregate_elements(mapview::franconia, "count", filter = "craft=brewery")
-ohsome_elements_count(mapview::franconia, filter = "craft=brewery")
-ohsome_elements_length(mapview::franconia, filter = "highway=*")
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery",
+    time = "2022-01-01"
+)
+
+# Monthly counts of breweries in Franconia from 2012 to 2022
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery", 
+    time = "2012/2022/P1M"
+)
+
+# Count of breweries per district of Franconia
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery", 
+    grouping = "boundary",
+    time = "2022-01-01"
+)
+
+# Number of breweries per square kilometer
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery", 
+    return_value = "density",
+    time = "2022-01-01"
+)
+
+# Proportion of breweries that are microbreweries
+ohsome_elements_count(
+    mapview::franconia, 
+    filter = "craft=brewery", 
+    filter2 = "craft=brewery and microbrewery=yes", 
+    return_value = "ratio",
+    time = "2022-01-01"
+) 
+
+# Total length of highway elements in Franconia
+ohsome_elements_length(
+    mapview::franconia, 
+    filter = "highway=* and geometry:line",
+    time = "2022-01-01"
+)
+}
 
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation}
+\href{https://docs.ohsome.org/ohsome-api/stable/endpoints.html#elements-aggregation}{ohsome API Endpoints - Elements Aggregation}
 }
 \concept{Aggregate elements}

@@ -1,41 +1,70 @@
-#' Create an \code{ohsome_query} object
+#' Create an `ohsome_query` object
 #'
-#' Creates an \code{ohsome_query} object specifying the ohsome API endpoint and
+#' Creates an `ohsome_query` object specifying the ohsome API endpoint and
 #' the request parameters.
 #'
-#' @param endpoint The path to the ohsome API endpoint. Either a single string
-#' (e.g. \code{"elements/count"}) or a character vector in the right order
-#' (e.g. \code{c("elements", "count")})
-#' @param boundary Boundary object that can be interpreted by
-#'     \code{\link{ohsome_boundary}}
-#' @param ... Parameters of the request to the ohsome API endpoint
-#' @param validate logical If TRUE, issues warning for invalid endpoint or
-#'      invalid/missing query parameters
-#' @return An \code{ohsome_query} object. The object consists of the following elements: 
-#' \describe{
-#'         \item{url}{The url of the endpoint.}
-#'         \item{encode}{The way the information is encoded then posted to the ohsome API. Set as "form".}
-#'         \item{body}{The parameters of the query such as \code{format}, 
-#'         \code{filter} or \code{bpolys}.}
-#'         }
-#' @seealso \url{https://docs.ohsome.org/ohsome-api/v1/}
+#' @inheritParams ohsome_boundary
+#' @inheritParams ohsome_post
+#' @param endpoint The path to the 
+#'   [ohsome API endpoint](https://docs.ohsome.org/ohsome-api/v1/endpoints.html). 
+#'   Either a single string (e.g. `"elements/count"`) or a vector of character 
+#'   in the right order (e.g. `c("elements", "count")`).
+#' @param grouping character; group type(s) for grouped aggregations (only 
+#'   available for queries to aggregation endpoints). The following group types 
+#'   are available:
+#'   * `"boundary"` groups the result by the given boundaries that are defined 
+#'   through any of the `boundary` query parameters.
+#'   * `"key"` groups the result by the given keys that are defined through the 
+#'   `groupByKeys` query parameter.
+#'   * `"tag"` groups the result by the given tags that are defined through the 
+#'   `groupByKey` and `groupByValues` query parameters.
+#'   * `"type"` groups the result by OSM element type.
+#'   * `c("boundary", "tag")` groups the result by the given boundaries and 
+#'   tags.
+#' 
+#'   Not all of these group types are accepted by all of the aggregation 
+#'   endpoints. Check 
+#'   [Grouping](https://docs.ohsome.org/ohsome-api/v1/group-by.html) 
+#'   for available group types.
+#' @param ... Parameters of the request to the ohsome API endpoint.
+#' @return An `ohsome_query` object. The object can be sent to the ohsome API 
+#'   with [ohsome_post()]. It consists of the following elements:
+#'   * `url`: The URL of the endpoint.
+#'   * `encode`: The way the information is encoded and then posted to the
+#'   ohsome API. Set as `"form"`.
+#'   * `body`: The parameters of the query such as `format`, `filter` or 
+#'   `bpolys`.
+#' @seealso [ohsome API documentation](https://docs.ohsome.org/ohsome-api/v1/)
 #' @export
 #' @examples
-#' # setting bbox parameter manually
-#' ohsome_query("elements/geometry", bboxes = "8.6,49.36,8.75,49.44", filter = "building=*")
+#' # Extract building geometries with manually set bboxes parameter
+#' ohsome_query(
+#'     "elements/geometry", 
+#'     bboxes = "8.6,49.36,8.75,49.44", 
+#'     time = "2022-01-01",
+#'     filter = "building=*"
+#' )
 #' 
-#' # using a boundary object:
-#' ohsome_query("elements/geometry", boundary = "8.6,49.36,8.75,49.44", filter = "building=*")
+#' # Extract building geometries using a boundary object:
+#' ohsome_query(
+#'     "elements/geometry", 
+#'     boundary = "8.6,49.36,8.75,49.44", 
+#'     time = "2022-01-01",
+#'     filter = "building=*"
+#' )
+#' 
 ohsome_query <- function(
 	endpoint,
 	boundary = NULL,
+	grouping = NULL,
 	...,	
 	validate = FALSE) {
 
 	body <- lapply(list(...), paste, collapse=",")
+	explicit_format <- !is.null(body[["format"]])
 
 	if(
-		is.null(body[["format"]]) &&
+		!explicit_format &&
 		!any(grepl("(centroid|bbox|geometry)", endpoint))
 	) {
 		if(any(grepl("boundary", endpoint))) {
@@ -54,6 +83,10 @@ ohsome_query <- function(
 		class = "ohsome_query"
 	)
 
+	if(!is.null(grouping)) {
+		query <- set_grouping(query, grouping, reset_format = !explicit_format)
+	}
+
 	if(!is.null(boundary)) {
 		btypes <- c("bpolys", "bboxes", "bcircles")
 		check <- btypes %in% names(query$body)
@@ -68,7 +101,7 @@ ohsome_query <- function(
 		query <- set_boundary(query, boundary)
 		
 	}
-	
+
 	if(validate) validate_query(query)
 
 	return(query)

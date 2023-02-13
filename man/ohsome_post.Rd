@@ -8,44 +8,61 @@ ohsome_post(
   query,
   parse = TRUE,
   validate = TRUE,
+  strict = validate,
   additional_identifiers = NULL,
   ...
 )
 }
 \arguments{
-\item{query}{an ohsome_query object constructed with \code{\link{ohsome_query}}
-or any of its wrapper functions}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 
-\item{parse}{logical parse the ohsome API response?}
+\item{parse}{logical; if \code{TRUE}, parse the ohsome API response with
+\code{\link[=ohsome_parse]{ohsome_parse()}}}
 
-\item{validate}{logical If true, issues warning for invalid endpoint or
-invalid/missing query parameters}
+\item{validate}{logical; if \code{TRUE}, issues warning for invalid endpoint or
+invalid/missing query parameters.}
 
-\item{additional_identifiers}{optional user agent identifiers in addition to
-"ohsome-r/version" (a vector coercible to character)}
+\item{strict}{logical; If \code{TRUE}, throws error on invalid query. Overrules
+validate argument \code{TRUE}.}
 
-\item{...}{additional arguments passed to \code{\link{ohsome_parse}} \describe{
-\item{returnclass}{class of the returned object}
-\item{omit_empty}{logical omit features with empty geometries
-(only if returnclass="sf")}
+\item{additional_identifiers}{vector coercible to character; optional user
+agent identifiers in addition to \code{"ohsome-r/{version}"}.}
+
+\item{...}{Additional arguments passed to \code{\link[=ohsome_parse]{ohsome_parse()}}:
+\itemize{
+\item \code{returnclass}: class of the returned object
+\item \code{omit_empty}: logical; omit features with empty geometries (only if
+\code{returnclass = "sf"})
 }}
 }
 \value{
-\describe{
-\item{an \code{sf} object}{if parse = TRUE and ohsome API response is GeoJSON}
-\item{a \code{data.frame}}{if parse = TRUE and ohsome API response is not GeoJSON}
-\item{an \code{ohsome_response} object}{if parse = FALSE}
-}
+An \code{ohsome_response} object if \code{parse = FALSE}, else an \code{sf} object,
+a \code{data.frame}, a \code{list} or a \code{character}
 }
 \description{
-Sends an ohsome_query object as a POST request to the ohsome API and silently
-returns the unparsed response.
+Sends an \code{ohsome_query} object as a POST request to the ohsome API and
+returns the response.
 }
 \examples{
-q <- ohsome_elements_count(osmdata::getbb("Berlin"), filter = "amenity=cinema")
+\dontrun{
+# Get bounding box of the city of Berlin
+bbberlin <- osmdata::getbb("Berlin")
 
+# Query for cinema geometries within bounding box
+q <- ohsome_elements_geometry(bbberlin, filter = "amenity=cinema")
+
+# Send query to ohsome API and return sf by default
 ohsome_post(q)
+
+# Send query to ohsome API and return data.frame
+ohsome_post(q, returnclass = "data.frame")
+
+# Send query and return unparsed response
+ohsome_post(q, parse = FALSE)
+}
+
 }
 \seealso{
-\url{https://docs.ohsome.org/ohsome-api/v1/}
+\href{https://docs.ohsome.org/ohsome-api/v1/}{ohsome API documentation}
 }

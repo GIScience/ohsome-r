@@ -10,73 +10,101 @@
 \alias{ohsome_boundary.bbox}
 \alias{ohsome_boundary.matrix}
 \alias{ohsome_boundary.list}
-\title{Create \code{ohsome_boundary} object}
+\title{Create an \code{ohsome_boundary} object}
 \usage{
-ohsome_boundary(x, ...)
+ohsome_boundary(boundary, ...)
 
-\method{ohsome_boundary}{ohsome_boundary}(x, ...)
+\method{ohsome_boundary}{ohsome_boundary}(boundary, ...)
 
-\method{ohsome_boundary}{character}(x, ...)
+\method{ohsome_boundary}{character}(boundary, ...)
 
-\method{ohsome_boundary}{sf}(x, digits = 6, ...)
+\method{ohsome_boundary}{sf}(boundary, digits = 6, ...)
 
-\method{ohsome_boundary}{sfc}(x, ...)
+\method{ohsome_boundary}{sfc}(boundary, ...)
 
-\method{ohsome_boundary}{sfg}(x, ...)
+\method{ohsome_boundary}{sfg}(boundary, ...)
 
-\method{ohsome_boundary}{bbox}(x, ...)
+\method{ohsome_boundary}{bbox}(boundary, ...)
 
-\method{ohsome_boundary}{matrix}(x, ...)
+\method{ohsome_boundary}{matrix}(boundary, ...)
 
-\method{ohsome_boundary}{list}(x, ...)
+\method{ohsome_boundary}{list}(boundary, ...)
 }
 \arguments{
-\item{x}{Bounding geometries that are passed to
-\code{\link{ohsome_boundary}}. Bounding geometries should be in WGS84 in the format lon-lat. For \code{sf} objects the geometries are transformed to WGS84 if the CRS of the object is known. The following classes are supported:
-\describe{
-\item{sf}{with (MULTI)POLYGON geometries}
-\item{sfc}{with (MULTI)POLYGON geometries}
-\item{sfg}{with (MULTI)POLYGON geometries and WGS 84 coordinates}
-\item{bbox}{created with \code{\link[sf]{st_bbox}}}
-\item{matrix}{created with
-\code{\link[sp]{bbox}} or
-\code{\link[osmdata]{getbb}}
-}
-\item{character}{a textual definition of bounding polygons, boxes or
+\item{boundary}{Bounding geometries specified by WGS84 coordinates in the
+order \verb{lon,lat}. The geometries of \code{sf} are transformed to WGS84 if the CRS
+of the object is known. The following classes are supported:
+\itemize{
+\item \code{sf} with (MULTI)POLYGON geometries
+\item \code{sfc} with (MULTI)POLYGON geometries
+\item \code{sfg} with (MULTI)POLYGON geometries and WGS 84 coordinates
+\item \code{bbox} created with \code{\link[sf:st_bbox]{sf::st_bbox()}} or \code{\link[tmaptools:bb]{tmaptools::bb()}}
+\item \code{matrix} created with \code{\link[sp:bbox]{sp::bbox()}} or \code{\link[osmdata:getbb]{osmdata::getbb()}}
+\item \code{character} providing textual definitions of bounding polygons, boxes or
 circles as allowed by the ohsome API (see
-\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{documentation})
+\href{https://docs.ohsome.org/ohsome-api/stable/boundaries.html}{ohsome API - Boundaries}
+):
+\itemize{
+\item bboxes: WGS84 coordinates in the following format:
+\code{"id1:lon1,lat1,lon2,lat2|id2:lon1,lat1,lon2,lat2|..."} OR
+\code{"lon1,lat1,lon2,lat2|lon1,lat1,lon2,lat2|..."}
+\item bcircles: WGS84 coordinates + radius in meter in the following
+format: \code{"id1:lon,lat,r|id2:lon,lat,r|..."} OR
+\code{"lon,lat,r|lon,lat,r|..."}
+\item bpolys: WGS84 coordinates given as a list of coordinate pairs (as for
+bboxes) or GeoJSON FeatureCollection. The first point has to be the same
+as the last point and MultiPolygons are only supported in GeoJSON.
 }
-\item{list}{a list of \code{bbox} objects, \code{matrix} or
-\code{character}. Bounding geometry types of all list elements must
-be the same. Does not work with GeoJSON FeatureCollections.
-}
+\item \code{list} of \code{bbox}, \code{matrix} or \code{character}. Bounding geometry types of all
+list elements must be the same. Does not work with GeoJSON
+FeatureCollections.
 }}
 
 \item{...}{Additional arguments other than \code{digits} are ignored.}
 
-\item{digits}{Number of decimal places of coordinates in the resulting
-GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).}
+\item{digits}{integer; number of decimal places of coordinates in the
+resulting GeoJSON when converting \code{sf} to GeoJSON (defaults to 6).}
 }
 \value{
-An \code{ohsome_boundary} object which contains the following elements: \code{boundary} which
-contains the boundary in geojson format and the \code{type} of the boundary (bpolys, bcircles, or bboxes).
+An \code{ohsome_boundary} object which contains the following elements:
+\itemize{
+\item \code{boundary}: the boundary in textual format
+\item \code{type} of the boundary (\code{bpolys}, \code{bcircles}, or \code{bboxes}).
+}
 }
 \description{
-Creates an \code{ohsome_boundary} object from input geometries of various
-classes. The \code{ohsome_boundary} object is used to set the \code{bpolys}, \code{bboxes} or
-\code{bcircles} parameters of an \code{ohsome_query} object.
+Creates an \code{ohsome_boundary} object from various classes of input geometries.
+The \code{ohsome_boundary} object is used to set the \code{bpolys}, \code{bboxes} or
+\code{bcircles} parameter of an \code{ohsome_query} object.
 }
 \examples{
-# define boundary by a circle (bcircle)
+# Defintion of a bounding circle (lon,lat,radius in meters)
 ohsome_boundary("8.6528,49.3683,1000") 
-# define boundary by two circles (named Circle 1 and Circle 2)
+
+# Definition of two named bounding circles
 ohsome_boundary("Circle 1:8.6528,49.3683,1000|Circle 2:8.7294,49.4376,1000")
-# use the shape of franconia from the mapview package as bpolys
+
+# Definition of two named bounding circles with a character vector
+ohsome_boundary(c("Circle 1:8.6528,49.3683,1000", "Circle 2:8.7294,49.4376,1000"))
+
+# Use franconia from the mapview package as bounding polygons
+\donttest{
 ohsome_boundary(mapview::franconia, digits = 4)
-# get administrative boundary for Berlin from OSM and use as bpolys
-ohsome_boundary(osmdata::getbb("Berlin"))
-# use the bounding box from franconia
+}
+ 
+# Use the bounding box of franconia
+\donttest{
 ohsome_boundary(sf::st_bbox(mapview::franconia))
-# use a list with two bounding boxes
+}
+
+# Get bounding box of the city of Berlin from OSM
+\dontrun{
+ohsome_boundary(osmdata::getbb("Berlin"))
+}
+ 
+# Use a list of two bounding boxes
+\dontrun{
 ohsome_boundary(list(osmdata::getbb("Berlin"), sf::st_bbox(mapview::franconia)))
+}
+
 }

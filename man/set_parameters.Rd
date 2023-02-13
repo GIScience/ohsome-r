@@ -12,60 +12,101 @@
 \usage{
 set_parameters(query, ...)
 
-set_time(query, time = NULL)
+set_time(query, time = query$body$time)
 
-set_filter(query, filter = NULL, filter2 = NULL)
+set_filter(query, filter = query$body$filter, filter2 = query$body$filter2)
 
-set_groupByKeys(query, groupByKeys = NULL)
+set_groupByKeys(query, groupByKeys = query$body$groupByKeys)
 
-set_groupByKey(query, groupByKey = NULL)
+set_groupByKey(query, groupByKey = query$body$groupByKey)
 
-set_groupByValues(query, groupByValues = NULL)
+set_groupByValues(query, groupByValues = query$body$groupByValues)
 
 set_properties(query, properties = NULL)
 }
 \arguments{
-\item{query}{An \code{ohsome_query} object}
+\item{query}{An \code{ohsome_query} object constructed with \code{\link[=ohsome_query]{ohsome_query()}} or
+any of its wrapper functions}
 
-\item{...}{named parameters (e.g. \code{time = "2020-01-01"})}
+\item{...}{Parameters of the request to the ohsome API endpoint.}
 
-\item{time}{time parameter of the query}
+\item{time}{character; \code{time} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/time.html}{Supported time formats}).}
 
-\item{filter}{filter parameter of the query}
+\item{filter}{character; \code{filter} parameter of the query (see
+\href{https://docs.ohsome.org/ohsome-api/v1/filter.html}{Filter})}
 
-\item{filter2}{filter2 parameter of a ratio query}
+\item{filter2}{character; \code{filter2} parameter of a ratio query}
 
-\item{groupByKeys}{groupByKeys parameter of a groupBy/key query}
+\item{groupByKeys}{character; \code{groupByKeys} parameter of a \code{groupBy/key} query}
 
-\item{groupByKey}{groupByKey parameter of a groupBy/tag query}
+\item{groupByKey}{character; \code{groupByKey} parameter of a \code{groupBy/tag} query}
 
-\item{groupByValues}{groupByValues parameter of a groupBy/tag query}
+\item{groupByValues}{character; \code{groupByValues} parameter of a \code{groupBy/tag}
+query}
 
-\item{properties}{properties parameter of an extraction query}
+\item{properties}{character; properties to be extracted with extraction
+queries:
+\itemize{
+\item \code{"tags"}, and/or
+\item \code{"metadata"} (i.e. \verb{@changesetId}, \verb{@lastEdit}, \verb{@osmType},
+\verb{@version}), and/or
+\item \code{"contributionTypes"} (i.e. \verb{@creation}, \verb{@tagChange}, \verb{@deletion}, and
+\verb{@geometryChange}; only for contributions extraction)
+}
+
+Multiple values can be provided as comma-separated character or as
+character vector. This defaults to \code{NULL} (removes \code{properties} parameter
+from the query body).}
 }
 \value{
-An \code{ohsome_query} object
+An \code{ohsome_query} object. The object can be sent to the ohsome API
+with \code{\link[=ohsome_post]{ohsome_post()}}. It consists of the following elements:
+\itemize{
+\item \code{url}: The URL of the endpoint.
+\item \code{encode}: The way the information is encoded and then posted to the
+ohsome API. Set as \code{"form"}.
+\item \code{body}: The parameters of the query such as \code{format}, \code{filter} or
+\code{bpolys}.
+}
 }
 \description{
-Set or modify parameters of an existing \code{ohsome_query} object
+Sets or modifies parameters of an existing \code{ohsome_query} object
 }
 \details{
-\code{set_parameters()} takes an \code{ohsome_query} object and an arbitrary
-number of named parameters as an input. It sets or modifies these parameters
-in the \code{ohsome_query} and returns the modified object. \code{set_time()},
-\code{set_filter()}, \code{set_groupByKey()}, \code{set_groupByKey()},
-\code{set_groupByValues()} and  \code{set_properties()} are wrapper functions
-to set specific parameters. By default, an unmodified \code{ohsome_query}
-object is returned.
+\code{set_parameters()} takes an \code{ohsome_query} object and an arbitrary number of
+named parameters as an input. It sets or modifies these parameters in the
+\code{ohsome_query} and returns the modified object. \code{set_time()}, \code{set_filter()},
+\code{set_groupByKeys()}, \code{set_groupByKey()}, \code{set_groupByValues()} and
+\code{set_properties()} are wrapper functions to set specific parameters. By
+default, an unmodified \code{ohsome_query} object is returned. In order to remove
+a parameter from the query object, you can set the respective argument
+explicitly to \code{NULL} (e.g. \code{set_filter(query, filter = NULL)}).
 }
 \examples{
-q <- ohsome_query("elements/count/ratio/groupBy/boundary")
+# Query ratio grouped by boundary
+q1 <- ohsome_query(
+     endpoint = "elements/count/ratio/groupBy/boundary",
+     boundary = "HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766"
+)
 
-q |>
-    set_boundary("HD:8.5992,49.3567,8.7499,49.4371|HN:9.1638,49.113,9.2672,49.1766") |>
-    set_time("2021") |>
+# Add time, filter and format parameters
+q1 |>
+    set_time("2021/2022/P3M") |>
     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
     set_parameters(format = "csv")
+
+# Query elements area grouped by tag
+q2 <- ohsome_query(
+    endpoint = "elements/area/groupBy/tag",
+    boundary = "HD:8.5992,49.3567,8.7499,49.4371"
+)
+
+# Add time, filter and groupByKey parameters
+q2 |>
+    set_time("2021/2022/P3M") |>
+    set_filter("building=*") |>
+    set_groupByKey("building:levels")
 
 }
 \seealso{

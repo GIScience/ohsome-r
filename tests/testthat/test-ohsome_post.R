@@ -46,3 +46,8 @@ with_mock_api({
 			expect_error(ohsome_post(q, validate = FALSE))
 		})
 })
+
+test_that("throws error on invalid queries by default (strict=TRUE)", {
+	q <- ohsome_query("foo")
+	expect_error(suppressWarnings(ohsome_post(q)))
+})

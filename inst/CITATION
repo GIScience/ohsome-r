@@ -1,0 +1,46 @@
+citEntry(
+	entry = "Misc",
+	title = "OSHDB - OpenStreetMap History Data Analysis (0.7.2)",
+	author = c(
+		person(given = "Martin", family = "Raifer"),
+		person(given = "Rafael", family = "Troilo"),
+		person(given = "Franz-Benjamin", family = "Mocnik"),
+		person(given = "Moritz", family = "Schott")
+	),
+	month = "Sep",
+	year = "2021",
+	publisher = "Zenodo",
+	version = "0.7.2",
+	doi = "10.5281/zenodo.5512545",
+	url = "https://doi.org/10.5281/zenodo.5512545",
+	header = "When using the OSHDB indirectly through ohsome for a publication, please cite it as:",
+	textVersion = "Raifer, Martin, Troilo, Rafael, Mocnik, Franz-Benjamin, & Schott, Moritz. (2021). OSHDB - OpenStreetMap History Data Analysis (0.7.2). Zenodo. https://doi.org/10.5281/zenodo.5512545"
+)
+
+citEntry(
+	entry = "Article",
+	title = "OSHDB: a framework for spatio-temporal analysis of OpenStreetMap history data",
+	author = c(
+		person(given = "Martin", family = "Raifer"),
+		person(given = "Rafael", family = "Troilo"),
+		person(given = "Fabian", family = "Kowatsch"),
+		person(given = "Michael", family = "Auer"),
+		person(given = "Lukas", family = "Loos"),
+		person(given = "Sabrina", family = "Marx"),
+		person(given = "Katharina", family = "Przybill"),
+		person(given = "Sascha", family = "Fendrich"),
+		person(given = "Franz-Benjamin", family = "Mocnik"),
+		person(given = "Alexander", family = "Zipf")
+	),
+	journal = "Open Geospatial Data, Software and Standards",
+	year = "2019",
+	month = "Apr",
+	day = "08",
+	volume = 4,
+	number = 1,
+	pages = 3,
+	doi = "10.1186/s40965-019-0061-3",
+	url = "https://doi.org/10.1186/s40965-019-0061-3",
+	header = "For scientific papers or similar publications around the analysis of OSM history data, please consider to additionally cite the technical paper describing the OSHDB:",
+	textVersion = "Raifer, Martin, Troilo, Rafael, Kowatsch, Auer, Michael, Loos, Lukas, Marx, Sabrina, Przybill, Katharina, Fendrich, Sascha, Mocnik, Franz-Benjamin, & Zipf, Alexander. (2019). OSHDB: a framework for spatio-temporal analysis of OpenStreetMap history data. Open geospatial data, softw. stand. 4, 3. https://doi.org/10.1186/s40965-019-0061-3"
+)
