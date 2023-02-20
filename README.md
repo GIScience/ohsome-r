@@ -8,7 +8,7 @@
 [![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](https://github.com/GIScience/ohsome-r/blob/main/LICENSE.md)
 [![status:
 active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
-![CRAN status](https://www.r-pkg.org/badges/version-ago/ohsome)
+<!--![CRAN status](https://www.r-pkg.org/badges/version-ago/ohsome)-->
 <!-- badges: end -->
 
 This ohsome R package grants access to the power of the
