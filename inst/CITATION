@@ -1,5 +1,5 @@
-citEntry(
-	entry = "Misc",
+bibentry(
+	bibtype = "Misc",
 	title = "OSHDB - OpenStreetMap History Data Analysis (0.7.2)",
 	author = c(
 		person(given = "Martin", family = "Raifer"),
@@ -13,12 +13,11 @@ citEntry(
 	version = "0.7.2",
 	doi = "10.5281/zenodo.5512545",
 	url = "https://doi.org/10.5281/zenodo.5512545",
-	header = "When using the OSHDB indirectly through ohsome for a publication, please cite it as:",
-	textVersion = "Raifer, Martin, Troilo, Rafael, Mocnik, Franz-Benjamin, & Schott, Moritz. (2021). OSHDB - OpenStreetMap History Data Analysis (0.7.2). Zenodo. https://doi.org/10.5281/zenodo.5512545"
+	header = "When using the OSHDB indirectly through ohsome for a publication, please cite it as:"
 )
 
-citEntry(
-	entry = "Article",
+bibentry(
+	bibtype = "Article",
 	title = "OSHDB: a framework for spatio-temporal analysis of OpenStreetMap history data",
 	author = c(
 		person(given = "Martin", family = "Raifer"),
@@ -41,6 +40,5 @@ citEntry(
 	pages = 3,
 	doi = "10.1186/s40965-019-0061-3",
 	url = "https://doi.org/10.1186/s40965-019-0061-3",
-	header = "For scientific papers or similar publications around the analysis of OSM history data, please consider to additionally cite the technical paper describing the OSHDB:",
-	textVersion = "Raifer, Martin, Troilo, Rafael, Kowatsch, Auer, Michael, Loos, Lukas, Marx, Sabrina, Przybill, Katharina, Fendrich, Sascha, Mocnik, Franz-Benjamin, & Zipf, Alexander. (2019). OSHDB: a framework for spatio-temporal analysis of OpenStreetMap history data. Open geospatial data, softw. stand. 4, 3. https://doi.org/10.1186/s40965-019-0061-3"
+	header = "For scientific papers or similar publications around the analysis of OSM history data, please consider to additionally cite the technical paper describing the OSHDB:"
 )

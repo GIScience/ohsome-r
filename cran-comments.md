@@ -1,3 +1,10 @@
+## Resubmission
+
+This is a resubmission. This patch contains the following changes:
+
+- The package CITATION file calls `bibentry()` instead of old-style `citEntry()`
+
+
 ## Test environments
 - R-hub windows-x86_64-devel (r-devel)
 - R-hub ubuntu-gcc-release (r-release)

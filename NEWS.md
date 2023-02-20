@@ -1,3 +1,8 @@
+# ohsome 0.2.1
+
+* Package CITATION file calls `bibentry()` instead of old-style `citEntry()`.
+
+
 # ohsome 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.
