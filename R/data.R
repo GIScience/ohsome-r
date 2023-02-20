@@ -34,7 +34,7 @@ NULL
 #'     underlying OSHDB data 
 #'     * `replicationSequenceNumber`: numeric; precise state of the OSM data
 #'     contained in the underlying OSHDB, expressed as the id of the last 
-#'     applied (hourly) diff file from [Planet OSM](planet.openstreetmap.org)
+#'     applied (hourly) diff file from [Planet OSM](https://planet.openstreetmap.org)
 NULL
 
 #' @docType data

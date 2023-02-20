@@ -21,7 +21,7 @@
 #'     underlying OSHDB
 #'     * `replicationSequenceNumber`: numeric; precise state of the OSM data
 #'     contained in the underlying OSHDB, expressed as the id of the last 
-#'     applied (hourly) diff file from [Planet OSM](planet.openstreetmap.org)
+#'     applied (hourly) diff file from [Planet OSM](https://planet.openstreetmap.org)
 #' @seealso [ohsome API Endpoints -- Metadata](https://docs.ohsome.org/ohsome-api/v1/endpoints.html#metadata)
 #' @export
 #' @examples
