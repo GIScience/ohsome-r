@@ -3,6 +3,8 @@
 This is a resubmission. This patch contains the following changes:
 
 - The package CITATION file calls `bibentry()` instead of old-style `citEntry()`
+- Fixed incomplete file URIs in `man/ohsome_get_metadata.Rd`, 
+`man/ohsome_metadata.Rd` and `README.md`.
 
 
 ## Test environments
