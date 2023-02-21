@@ -1,3 +1,10 @@
+# ohsome 0.2.1
+
+* Package CITATION file calls `bibentry()` instead of old-style `citEntry()`.
+* Fixed incomplete file URIs in docs.
+* Fixed missing `strict = FALSE` in query example in `README`.
+
+
 # ohsome 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.

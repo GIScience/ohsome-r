@@ -13,7 +13,7 @@ OSHDB
 OSM
 OpenStreetMap
 POSIXct
-Schweinfurt
+URIs
 WGS
 bboxes
 bcircles
@@ -31,8 +31,6 @@ nominatimlite
 rgeoboundaries
 rnaturalearth
 sfc
-spatialExtent
-temporalExtent
 tidyr
 timeframe
 timespan

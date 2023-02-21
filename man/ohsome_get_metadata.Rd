@@ -27,7 +27,7 @@ underlying OSHDB
 underlying OSHDB
 \item \code{replicationSequenceNumber}: numeric; precise state of the OSM data
 contained in the underlying OSHDB, expressed as the id of the last
-applied (hourly) diff file from \href{planet.openstreetmap.org}{Planet OSM}
+applied (hourly) diff file from \href{https://planet.openstreetmap.org}{Planet OSM}
 }
 }
 }

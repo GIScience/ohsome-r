@@ -5,10 +5,10 @@
 
 <!-- badges: start -->
 
-[![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](LICENSE.md)
+[![LICENSE](https://img.shields.io/github/license/GIScience/ohsome-r)](https://github.com/GIScience/ohsome-r/blob/main/LICENSE.md)
 [![status:
 active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
-![CRAN status](https://www.r-pkg.org/badges/version-ago/ohsome)
+<!--![CRAN status](https://www.r-pkg.org/badges/version-ago/ohsome)-->
 <!-- badges: end -->
 
 This ohsome R package grants access to the power of the
@@ -53,7 +53,7 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.8.0
-#> Temporal extent: 2007-10-08T00:00:00Z to 2023-01-16T10:00Z
+#> Temporal extent: 2007-10-08T00:00:00Z to 2023-02-13T21:00Z
 ```
 
 The metadata is stored in `ohsome_metadata`. You can print it to the
@@ -99,15 +99,17 @@ The resulting `ohsome_query` object can be sent to the ohsome API with
 response. In this case, this is a simple `data.frame` of only one row.
 
 ``` r
-ohsome_post(q)
+ohsome_post(q, strict = FALSE)
+#> Warning: The time parameter is not defined and defaults to the latest available timestamp within the underlying OSHDB.
+#> You can use set_time() to set the time parameter.
 #>             timestamp value
-#> 1 2023-01-16 10:00:00   152
+#> 1 2023-02-13 21:00:00   153
 ```
 
 The `ohsome_query` object was created without an explicit `time`
 parameter. When using functions to create element aggregation queries,
 `time` defaults to the most recent available timestamp in the underlying
-OSHDB.
+OSHDB.[^1]
 
 Defining the `time` parameter unlocks the full power of ohsome API by
 giving access to the OSM history. It requires one or more
@@ -121,7 +123,7 @@ ohsome_elements_count(franconia, filter = "craft=brewery", time = "2010/2020/P1M
 ```
 
 Alternatively, we can update the existing `ohsome_query` object `q` with
-the `set_time()` function, pipe [^1] the modified query directly into
+the `set_time()` function, pipe [^2] the modified query directly into
 `ohsome_post()` and make a quick visualization with `ggplot2`:
 
 ``` r
@@ -149,7 +151,7 @@ of an API request. In this case, we could append `groupBy/boundary` to
 the existing query to the `elements/count` endpoint. The endpoint path
 can either be given as a single string (`/groupBy/boundary`) or as a
 character vector:
-`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [^2].
+`set_endpoint(q, c("groupBy", "boundary"), append = TRUE)` [^3].
 
 More comfortable, however, is the use of either the grouping argument
 with an elements aggregation function (e.g. 
@@ -599,7 +601,11 @@ information provided through `citation("ohsome")`.
 
 ------------------------------------------------------------------------
 
-[^1]: Instead of the new R native pipe `|>` you may choose to use
+[^1]: `ohsome_post` fails on queries created with an undefined `time`
+    parameter unless strict query validation is disabled with
+    `strict = FALSE`.
+
+[^2]: Instead of the new R native pipe `|>` you may choose to use
     `magrittr`’s `%>%`.
 
-[^2]: The order of the elements in the character vector is critical!
+[^3]: The order of the elements in the character vector is critical!
