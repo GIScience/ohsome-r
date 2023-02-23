@@ -1,3 +1,5 @@
+# ohsome (development version)
+
 # ohsome 0.2.1
 
 * Package CITATION file calls `bibentry()` instead of old-style `citEntry()`.

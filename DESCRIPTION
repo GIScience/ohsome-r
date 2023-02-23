@@ -1,6 +1,6 @@
 Package: ohsome
 Title: An 'ohsome API' Client
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: c(
     person("Heidelberg Institute for Geoinformation Technology (HeiGIT) gGmbH", role = "cph"),
     person("Oliver", "Fritz", , "oliver.fritz@heigit.org", role = c("aut", "cre"),
