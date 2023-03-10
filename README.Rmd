@@ -310,7 +310,7 @@ Consequently, we filter for features that have had tags changed and visualize
 their locations:
 
 ```{r contribution_extraction}
-nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
+nominatimlite::geo_lite_sf("Berlin Neukoelln", points_only = FALSE) |>
 	ohsome_contributions_centroid() |>
 	set_filter("amenity=*") |>
 	set_time("2020-03,2020-04") |>
