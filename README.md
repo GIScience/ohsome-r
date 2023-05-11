@@ -56,7 +56,7 @@ OSHDB:
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
 #> ohsome API version: 1.8.0
-#> Temporal extent: 2007-10-08T00:00:00Z to 2023-02-13T21:00Z
+#> Temporal extent: 2007-10-08T00:00:00Z to 2023-03-05T21:00Z
 ```
 
 The metadata is stored in `ohsome_metadata`. You can print it to the
@@ -106,7 +106,7 @@ ohsome_post(q, strict = FALSE)
 #> Warning: The time parameter is not defined and defaults to the latest available timestamp within the underlying OSHDB.
 #> You can use set_time() to set the time parameter.
 #>             timestamp value
-#> 1 2023-02-13 21:00:00   153
+#> 1 2023-03-05 21:00:00   153
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -344,7 +344,7 @@ March 2020. Consequently, we filter for features that have had tags
 changed and visualize their locations:
 
 ``` r
-nominatimlite::geo_lite_sf("Berlin Neukölln", points_only = FALSE) |>
+nominatimlite::geo_lite_sf("Berlin Neukoelln", points_only = FALSE) |>
     ohsome_contributions_centroid() |>
     set_filter("amenity=*") |>
     set_time("2020-03,2020-04") |>
