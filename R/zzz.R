@@ -13,18 +13,18 @@
 			envir = parent.env(environment())
 		)
 		},
-		error = function(e) {
-			packageStartupMessage(
-				"Could not retrieve metadata from ohsome API.",
-				"\nPlease check your internet connection and try to run ",
-				"ohsome_get_metadata()"
-			)
-		}
+		error = function(e) return(TRUE)
 	)
 }
 
 .onAttach <- function(libname, pkgname) {
 	if(exists("ohsome_metadata", where = parent.env(environment()))) {
 		packageStartupMessage(create_metadata_message(ohsome_metadata))
+	} else {
+		packageStartupMessage(
+			"Could not retrieve metadata from ohsome API.",
+			"\nPlease check your internet connection and try to run ",
+			"ohsome_get_metadata()"
+		)
 	}
 }
