@@ -468,8 +468,7 @@ building_levels <- franconia |>
 dim(building_levels)
 ```
 
-The query results in a confusing data.frame with `r ncol(building_levels)` 
-columns and `r nrow(building_levels)` rows. This happens because there is a 
+The query results in a confusing data.frame. This happens because there is a 
 building count column for each combination of boundary polygon and number of 
 levels, while the two requested timestamps are in the rows. Fortunately, there 
 is the 
