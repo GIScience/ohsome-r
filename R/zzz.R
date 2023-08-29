@@ -14,11 +14,10 @@
 		)
 		},
 		error = function(e) {
-			message(
+			packageStartupMessage(
 				"Could not retrieve metadata from ohsome API.",
 				"\nPlease check your internet connection and try to run ",
-				"ohsome_get_metadata()",
-				call. = FALSE
+				"ohsome_get_metadata()"
 			)
 		}
 	)
