@@ -1,5 +1,8 @@
 # ohsome (development version)
 
+* On load, the package issues an informative message instead of a warning upon 
+an error status code from the ohsome API.
+
 # ohsome 0.2.1
 
 * Package CITATION file calls `bibentry()` instead of old-style `citEntry()`.

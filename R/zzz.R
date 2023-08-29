@@ -14,7 +14,7 @@
 		)
 		},
 		error = function(e) {
-			warning(
+			message(
 				"Could not retrieve metadata from ohsome API.",
 				"\nPlease check your internet connection and try to run ",
 				"ohsome_get_metadata()",
