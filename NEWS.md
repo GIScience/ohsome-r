@@ -1,7 +1,10 @@
 # ohsome (development version)
 
-* On load, the package issues an informative message instead of a warning upon 
-an error status code from the ohsome API.
+* On attach, the package now issues an informative startup message instead of a
+warning if it could not retrieve metadata information from the ohsome API.
+* Vignette code chunks do not evaluate on CRAN to avoid errors when internet
+resources are temporally unavailable
+* Fixed tests to use suggested packages conditionally
 
 # ohsome 0.2.1
 
