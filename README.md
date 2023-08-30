@@ -55,8 +55,8 @@ OSHDB:
 ``` r
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.8.0
-#> Temporal extent: 2007-10-08T00:00:00Z to 2023-03-05T21:00Z
+#> ohsome API version: 1.9.1
+#> Temporal extent: 2007-10-08T00:00:00Z to 2023-08-10T20:00Z
 ```
 
 The metadata is stored in `ohsome_metadata`. You can print it to the
@@ -106,7 +106,7 @@ ohsome_post(q, strict = FALSE)
 #> Warning: The time parameter is not defined and defaults to the latest available timestamp within the underlying OSHDB.
 #> You can use set_time() to set the time parameter.
 #>             timestamp value
-#> 1 2023-03-05 21:00:00   153
+#> 1 2023-08-10 20:00:00   180
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -436,18 +436,18 @@ osmdata::getbb("Kigali") |>
     ohsome_elements_length(time = "2018/2018-12/P1M", filter = "route=bus") |>
     ohsome_post()
 #>     timestamp     value
-#> 1  2018-01-01  11968.48
-#> 2  2018-02-01  11968.48
-#> 3  2018-03-01  11968.48
-#> 4  2018-04-01  82141.18
-#> 5  2018-05-01 175560.02
-#> 6  2018-06-01 226777.53
-#> 7  2018-07-01 278507.33
-#> 8  2018-08-01 310316.53
-#> 9  2018-09-01 373798.30
-#> 10 2018-10-01 387968.51
-#> 11 2018-11-01 401921.03
-#> 12 2018-12-01 413469.93
+#> 1  2018-01-01  28251.24
+#> 2  2018-02-01  28251.24
+#> 3  2018-03-01  29103.11
+#> 4  2018-04-01 186645.71
+#> 5  2018-05-01 378185.54
+#> 6  2018-06-01 473065.23
+#> 7  2018-07-01 615801.98
+#> 8  2018-08-01 648385.19
+#> 9  2018-09-01 753618.88
+#> 10 2018-10-01 771239.17
+#> 11 2018-11-01 847337.73
+#> 12 2018-12-01 858886.63
 ```
 
 3.  You can pass any `character` object with text in the
@@ -591,10 +591,10 @@ building_levels |>
 #>  5 2015-01-01 00:00:00 DE241 building.levels.4   745
 #>  6 2015-01-01 00:00:00 DE241 building.levels.5    96
 #>  7 2015-01-01 00:00:00 DE241 building.levels.6    38
-#>  8 2015-01-01 00:00:00 DE241 building.levels.0     0
-#>  9 2015-01-01 00:00:00 DE241 building.levels.9     7
+#>  8 2015-01-01 00:00:00 DE241 building.levels.9     7
+#>  9 2015-01-01 00:00:00 DE241 building.levels.0     0
 #> 10 2015-01-01 00:00:00 DE241 building.levels.7    32
-#> # … with 3,986 more rows
+#> # ℹ 3,986 more rows
 ```
 
 ## How to cite this package
