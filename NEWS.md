@@ -1,5 +1,11 @@
 # ohsome (development version)
 
+* On attach, the package now issues an informative startup message instead of a
+warning if it could not retrieve metadata information from the ohsome API.
+* Vignette code chunks do not evaluate on CRAN to avoid errors when internet
+resources are temporally unavailable
+* Fixed tests to use suggested packages conditionally
+
 # ohsome 0.2.1
 
 * Package CITATION file calls `bibentry()` instead of old-style `citEntry()`.

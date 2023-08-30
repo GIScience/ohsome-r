@@ -67,17 +67,27 @@ test_that("throws error on sf with point geometries only", {
 })
 
 test_that("issues warning for sf boundaries that contain polygon and other geoms", {
+	
+	skip_if_not_installed("dplyr")
+	
 	mixed <- dplyr::bind_rows(franconia, breweries)
 	expect_warning(ohsome_boundary(mixed))
 })
 
 test_that("creates ohsome_boundary object from list of bboxes of various classes", {
-
+	
+	skip_if_not_installed("osmdata")
+	
 	bboxes1 <- c(
 		"8.5992,49.3567,8.7499,49.4371",
 		"9.1638,49.113,9.2672,49.1766"
 	)
-	bboxes2 <- osmdata::getbb("Berlin")
+	# output of dput(osmdata::getbb("Berlin"))
+	bboxes2 <- structure(
+		c(13.088345, 52.3382448, 13.7611609, 52.6755087),
+		dim = c(2L, 2L),
+		dimnames = list(c("x", "y"), c("min", "max"))
+	)
 	bboxes3 <- sf::st_bbox(breweries)
 
 	b <- ohsome_boundary(list(bboxes1, bboxes2, bboxes3))
