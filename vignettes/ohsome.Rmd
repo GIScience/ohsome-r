@@ -9,6 +9,7 @@ vignette: >
 
 ```{r, include = FALSE}
 NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+httr::set_config(httr::config(http_version = 1))
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
