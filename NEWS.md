@@ -1,3 +1,5 @@
+# ohsome (development version)
+
 # ohsome 0.2.2
 
 * On attach, the package now issues an informative startup message instead of a
