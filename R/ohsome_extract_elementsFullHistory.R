@@ -22,7 +22,7 @@
 #' ohsome_elementsFullHistory_geometry(
 #'     boundary = "8.67542,49.40347,1000",
 #'     time = "2012,2022", 
-#'     filter = "building=* and geometry:polygon",
+#'     filter = "building=* and building!=no and geometry:polygon",
 #'     clipGeometry = FALSE
 #' )
 

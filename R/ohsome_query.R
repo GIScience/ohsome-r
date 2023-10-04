@@ -42,7 +42,7 @@
 #'     "elements/geometry", 
 #'     bboxes = "8.6,49.36,8.75,49.44", 
 #'     time = "2022-01-01",
-#'     filter = "building=*"
+#'     filter = "building=* and building!=no and geometry:polygon"
 #' )
 #' 
 #' # Extract building geometries using a boundary object:
@@ -50,7 +50,7 @@
 #'     "elements/geometry", 
 #'     boundary = "8.6,49.36,8.75,49.44", 
 #'     time = "2022-01-01",
-#'     filter = "building=*"
+#'     filter = "building=* and building!=no and geometry:polygon"
 #' )
 #' 
 ohsome_query <- function(

@@ -1,5 +1,7 @@
 # ohsome (development version)
 
+* Uses consistent ohsome filter for building features throughout documentation
+
 # ohsome 0.2.2
 
 * On attach, the package now issues an informative startup message instead of a

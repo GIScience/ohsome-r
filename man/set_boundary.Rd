@@ -64,7 +64,7 @@ be defined as one or more polygons, bounding boxes or bounding circles.
 # Query without boundary definition
 q <- ohsome_query(
     "elements/count/groupBy/boundary", 
-    filter = "building=*",
+    filter = "building=* and building!=no and geometry:polygon",
     time = "2022-01-01"
 )
 

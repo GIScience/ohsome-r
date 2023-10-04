@@ -203,7 +203,7 @@ hd_station_500m <- ohsome_boundary("8.67542,49.40347,500")
 
 ohsome_elements_geometry(
 	boundary = hd_station_500m, 
-	filter = "building=* and type:way", 
+	filter = "building=* and building!=no and geometry:polygon",
 	time = "2021-12-01",
 	properties = "tags", 
 	clipGeometry = FALSE
@@ -236,7 +236,7 @@ hd_station_1km <- ohsome_boundary("8.67542,49.40347,1000")
 
 ohsome_elements_geometry(
 	boundary = hd_station_1km, 
-	filter = "building=* and type:way", 
+	filter = "building=* and building!=no and geometry:polygon",
 	time = "2021-12-01",
 	properties = "tags", 
 	clipGeometry = FALSE
@@ -314,7 +314,7 @@ the Nepal earthquake 2015:
 ```{r nepal}
 ohsome_users_count(
 	boundary = "82.3055,6.7576,87.4663,28.7025",
-	filter = "building=* and geometry:polygon",
+	filter = "building=* and building!=no and geometry:polygon",
 	time = "2015-03-01/2015-08-01/P1M"
 ) |>
 	ohsome_post()
@@ -398,11 +398,13 @@ in any possible way:
 ```{r set_parameters}
 q <- ohsome_elements_count("8.5992,49.3567,8.7499,49.4371")
 
+building_filter <- "building=* and building!=no and geometry:polygon"
+
 q |>
 	set_endpoint("ratio", append = TRUE) |>
 	set_parameters(
-		filter = "building=*", 
-		filter2 = "building=* and building:levels=*",
+		filter = building_filter,
+		filter2 = paste(building_filter, "and building:levels=*"),
 		time = "2010/2020/P2Y"
 	) |>
 	ohsome_post()
@@ -461,7 +463,7 @@ response format:
 building_levels <- franconia |>
 	mutate(id  = NUTS_ID) |>
 	ohsome_elements_count(grouping = c("boundary", "tag"), format = "csv") |>
-	set_filter("building=* and geometry:polygon") |>
+	set_filter("building=* and building!=no and geometry:polygon") |>
 	set_time("2015/2020") |>
 	set_groupByKey("building:levels") |>
 	ohsome_post()

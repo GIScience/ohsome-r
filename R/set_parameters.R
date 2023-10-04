@@ -44,9 +44,14 @@
 #' )
 #'
 #' # Add time, filter and format parameters
+#' building_filter <- "building=* and building!=no and geometry:polygon"
+#'
 #' q1 |>
 #'     set_time("2021/2022/P3M") |>
-#'     set_filter("building=*", filter2 = "building=* and building:levels=3") |>
+#'     set_filter(
+#'         building_filter,
+#'         filter2 = paste(building_filter, "and building:levels=3")
+#'     ) |>
 #'     set_parameters(format = "csv")
 #'
 #' # Query elements area grouped by tag
@@ -58,7 +63,7 @@
 #' # Add time, filter and groupByKey parameters
 #' q2 |>
 #'     set_time("2021/2022/P3M") |>
-#'     set_filter("building=*") |>
+#'     set_filter("building=* and building!=no and geometry:polygon") |>
 #'     set_groupByKey("building:levels")
 #'
 set_parameters <- function(query, ...) {

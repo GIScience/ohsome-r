@@ -42,7 +42,7 @@ target="blank">GitHub</a>:
 
 ``` r
 install.packages("ohsome")
-remotes::install_github("GIScience/ohsome-r", ref = "main")
+remotes::install_github("GIScience/ohsome-r", ref = "dev-0.2.2.9000")
 ```
 
 ## Getting started
@@ -55,8 +55,8 @@ OSHDB:
 ``` r
 library(ohsome)
 #> Data: © OpenStreetMap contributors https://ohsome.org/copyrights
-#> ohsome API version: 1.9.1
-#> Temporal extent: 2007-10-08T00:00:00Z to 2023-08-10T20:00Z
+#> ohsome API version: 1.10.1
+#> Temporal extent: 2007-10-08T00:00:00Z to 2023-09-24T20:00Z
 ```
 
 The metadata is stored in `ohsome_metadata`. You can print it to the
@@ -106,7 +106,7 @@ ohsome_post(q, strict = FALSE)
 #> Warning: The time parameter is not defined and defaults to the latest available timestamp within the underlying OSHDB.
 #> You can use set_time() to set the time parameter.
 #>             timestamp value
-#> 1 2023-08-10 20:00:00   180
+#> 1 2023-09-24 20:00:00   182
 ```
 
 The `ohsome_query` object was created without an explicit `time`
@@ -236,7 +236,7 @@ hd_station_1km <- ohsome_boundary("8.67542,49.40347,1000")
 
 ohsome_elements_geometry(
     boundary = hd_station_1km, 
-    filter = "building=* and type:way", 
+    filter = "building=* and building!=no and geometry:polygon",
     time = "2021-12-01",
     properties = "tags", 
     clipGeometry = FALSE
@@ -275,7 +275,7 @@ end <- "2023-01-01"
 ohsome_elementsFullHistory_geometry(
     boundary = hd_station_1km,
     time = c(start, end),
-    filter = "building=* and geometry:polygon", 
+    filter = "building=* and building!=no and geometry:polygon",
     clipGeometry = FALSE,
     properties = "metadata"
 ) |> 
@@ -370,7 +370,7 @@ after the Nepal earthquake 2015:
 ``` r
 ohsome_users_count(
     boundary = "82.3055,6.7576,87.4663,28.7025",
-    filter = "building=* and geometry:polygon",
+    filter = "building=* and building!=no and geometry:polygon",
     time = "2015-03-01/2015-08-01/P1M"
 ) |>
     ohsome_post()
@@ -439,15 +439,15 @@ osmdata::getbb("Kigali") |>
 #> 1  2018-01-01  28251.24
 #> 2  2018-02-01  28251.24
 #> 3  2018-03-01  29103.11
-#> 4  2018-04-01 186645.71
-#> 5  2018-05-01 378185.54
-#> 6  2018-06-01 473065.23
-#> 7  2018-07-01 615801.98
-#> 8  2018-08-01 648385.19
-#> 9  2018-09-01 753618.88
-#> 10 2018-10-01 771239.17
-#> 11 2018-11-01 847337.73
-#> 12 2018-12-01 858886.63
+#> 4  2018-04-01 187174.31
+#> 5  2018-05-01 378714.14
+#> 6  2018-06-01 473593.82
+#> 7  2018-07-01 616330.57
+#> 8  2018-08-01 648913.79
+#> 9  2018-09-01 754147.47
+#> 10 2018-10-01 771767.76
+#> 11 2018-11-01 848842.98
+#> 12 2018-12-01 860391.88
 ```
 
 3.  You can pass any `character` object with text in the
@@ -487,21 +487,23 @@ the parameters of a query in any possible way:
 ``` r
 q <- ohsome_elements_count("8.5992,49.3567,8.7499,49.4371")
 
+building_filter <- "building=* and building!=no and geometry:polygon"
+
 q |>
     set_endpoint("ratio", append = TRUE) |>
     set_parameters(
-        filter = "building=*", 
-        filter2 = "building=* and building:levels=*",
+        filter = building_filter,
+        filter2 = paste(building_filter, "and building:levels=*"),
         time = "2010/2020/P2Y"
     ) |>
     ohsome_post()
 #>    timestamp value value2    ratio
-#> 1 2010-01-01   554      3 0.005415
-#> 2 2012-01-01 10600      7 0.000660
-#> 3 2014-01-01 21005     77 0.003666
-#> 4 2016-01-01 25849    798 0.030872
-#> 5 2018-01-01 29397   1223 0.041603
-#> 6 2020-01-01 31495   1456 0.046230
+#> 1 2010-01-01   529      3 0.005671
+#> 2 2012-01-01 10558      6 0.000568
+#> 3 2014-01-01 20962     76 0.003626
+#> 4 2016-01-01 25770    739 0.028677
+#> 5 2018-01-01 29364   1217 0.041445
+#> 6 2020-01-01 31470   1451 0.046107
 ```
 
 ### Grouping
@@ -559,7 +561,7 @@ explicitly requested as the response format:
 building_levels <- franconia |>
     mutate(id  = NUTS_ID) |>
     ohsome_elements_count(grouping = c("boundary", "tag"), format = "csv") |>
-    set_filter("building=* and geometry:polygon") |>
+    set_filter("building=* and building!=no and geometry:polygon") |>
     set_time("2015/2020") |>
     set_groupByKey("building:levels") |>
     ohsome_post()
